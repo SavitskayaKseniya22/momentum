@@ -31,12 +31,108 @@ body {
   padding: 20px;
 }
 
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 30px;
+}
+
+.customPlayer {
+
+  width: 300px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.534);
+  display: flex;
+  padding: 0 15px;
+  font-size: 12px;
+  align-items: center;
+  justify-content: space-between;
+  color: black;
+
+
+
+}
+
+.customPlayer input[type=range] {
+  appearance: none;
+  background-color: transparent;
+}
+
+.durationAudio {
+  width: 100px;
+
+}
+
+.volumeAudio {
+  width: 60px;
+
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  border-radius: 10px/100%;
+  height: 7px;
+  background-color: black;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  background: #ecf0f1;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  margin-top: -4px;
+  border: none;
+
+}
+
+input[type=range]::-moz-range-track {
+  border-radius: 10px/100%;
+  height: 5px;
+  background-color: black;
+}
+
+input[type=range]::-moz-range-thumb {
+  background: #ecf0f1;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+input[type="range"]::-moz-range-progress {
+  background-color: white;
+  height: 5px;
+  border-radius: 10px/100%;
+}
+
+
+
+
+
+.changeVolumeAudio {
+  width: 15px;
+  height: 25px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.changeVolumeAudio svg {
+  fill: white;
+}
+
 .player-controls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 120px;
-  margin-bottom: 28px;
+
 }
 
 .play-list {

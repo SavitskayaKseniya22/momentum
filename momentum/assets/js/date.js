@@ -82,17 +82,16 @@ function printGreetings(node, period) {
         node.innerText = "Good night, ";
     }
 }
-
+let greetings = document.querySelector(".greeting")
+printGreetings(greetings, getPeriod())
 
 
 //time
 let time = document.querySelector(".time");
-let greetings = document.querySelector(".greeting")
+
 
 function printTime(node) {
     let objDate = getDateObj()
-    //greetings вставка
-    printGreetings(greetings, getPeriod())
 
     if (String(objDate.seconds).length == 1) {
         objDate.seconds = "0" + objDate.seconds
@@ -106,8 +105,6 @@ function printTime(node) {
 
     node.innerText = objDate.hours + ":" + objDate.minutes + ":" + objDate.seconds
 }
-
-
 
 function showTime() {
     printTime(time);
@@ -216,16 +213,6 @@ function changeBG() {
 
 
     })
-
-
-
-
-
-
-
-
-
-
 
 
 }
