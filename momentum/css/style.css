@@ -251,7 +251,13 @@ input[type="range"]::-moz-range-progress {
 }
 
 .weather-error {
+
   margin-top: -10px;
+  color: #C5B358;
+}
+
+.hidden {
+  display: none;
 }
 
 .description-container {
