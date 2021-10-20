@@ -36,6 +36,8 @@ body {
   flex-direction: column;
   align-items: center;
   row-gap: 30px;
+  position: relative;
+  z-index: 999999;
 }
 
 .customPlayer {
@@ -123,8 +125,26 @@ input[type="range"]::-moz-range-progress {
 
 }
 
-.changeVolumeAudio svg {
+.svgOn {
   fill: white;
+}
+
+.svgOff {
+  fill: black;
+}
+
+.buttonList {
+  background: url("../assets/svg/play.svg"), transparent;
+  background-size: contain;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+.item-active .buttonList.buttonActive {
+  background: url("../assets/svg/pause.svg"), transparent;
+  background-size: contain;
 }
 
 .player-controls {
@@ -140,6 +160,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .play-item {
+
   position: relative;
   padding: 5px;
   padding-left: 20px;
@@ -147,6 +168,10 @@ input[type="range"]::-moz-range-progress {
   opacity: .8;
   cursor: pointer;
   transition: .3s;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+
 }
 
 .play-item:hover {
