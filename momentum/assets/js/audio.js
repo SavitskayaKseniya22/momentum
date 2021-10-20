@@ -49,7 +49,7 @@ for (let item of playList) {
         audio.src = item.src;
         playProgressTotal.innerText = item.duration
         setActive(li)
-        playPause()
+        //playPause()
         buttonLi.classList.add("buttonActive")
 
     })
@@ -121,8 +121,9 @@ playPrev.addEventListener("click", function () {
     audio.src = playList[i].src;
     playProgressTotal.innerText = playList[i].duration
     setActive(playListContainerLi[i])
-    audio.pause();
-    play.classList.remove("pause")
+    audio.play()
+    play.classList.add("pause")
+
 })
 
 
@@ -134,13 +135,15 @@ playNext.addEventListener("click", function () {
     audio.src = playList[i].src;
     playProgressTotal.innerText = playList[i].duration
     setActive(playListContainerLi[i])
-    audio.pause();
-    play.classList.remove("pause")
+    audio.play()
+    play.classList.add("pause")
+
+
 })
 let event = new Event("click")
 audio.addEventListener("ended", function () {
     playNext.dispatchEvent(event)
-    playPause()
+
 })
 
 
