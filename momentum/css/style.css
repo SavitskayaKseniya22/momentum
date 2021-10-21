@@ -4,6 +4,14 @@
   /* Путь к файлу со шрифтом */
 }
 
+li {
+  list-style-type: none;
+}
+
+label {
+  cursor: pointer;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -326,6 +334,7 @@ input[type="range"]::-moz-range-progress {
   font-family: 'Arial-MT';
   font-size: 100px;
   letter-spacing: -4px;
+
 }
 
 .date {
@@ -400,6 +409,11 @@ input[type="range"]::-moz-range-progress {
   flex-direction: column;
   row-gap: 30px;
 
+
+}
+
+.settings input {
+  cursor: pointer;
 }
 
 .toggleSettings {
@@ -412,10 +426,34 @@ input[type="range"]::-moz-range-progress {
 }
 
 .settingsPopup {
-  border-radius: 30px;
-  width: 250px;
-  height: 250px;
+  border-radius: 20px;
+  padding: 30px;
   background-color: rgba(255, 255, 255, 0.466);
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+
+}
+
+h4 {
+  margin-bottom: -10px;
+}
+
+.visibility li {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.invis {
+  opacity: 0;
+  transition: .5s ease-in-out;
+
+}
+
+.transition-opacity {
+  transition: .5s ease-in-out;
 }
 
 @media (max-width: 768px) {

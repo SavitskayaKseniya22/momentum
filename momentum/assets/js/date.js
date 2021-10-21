@@ -30,7 +30,7 @@ printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
 
 
 let userName = document.querySelector(".name")
-myStorage = window.localStorage;
+
 if (!myStorage.userName) {
     myStorage.setItem('userName', '');
 }

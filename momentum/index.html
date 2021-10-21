@@ -16,7 +16,7 @@
 
 <body>
   <header class="header">
-    <div class="player">
+    <div class="player transition-opacity">
       <audio></audio>
       <div class="activeTrackTitle"></div>
       <div class="customPlayer">
@@ -42,7 +42,7 @@
 
       </ul>
     </div>
-    <div class="weather">
+    <div class="weather transition-opacity">
 
       <input type="text" class="city" />
       <i class="weather-icon owf"></i>
@@ -60,23 +60,97 @@
       <button class="slide-prev slider-icon"></button>
       <button class="slide-next slider-icon"></button>
     </div>
-    <time class="time"></time>
-    <date class="date"></date>
-    <div class="greeting-container">
+    <time class="time transition-opacity"></time>
+    <date class="date transition-opacity"></date>
+    <div class="greeting-container transition-opacity">
       <span class="greeting"></span>
       <input type="text" class="name" placeholder="[Enter name]" />
     </div>
   </main>
   <footer class="footer">
     <div class="settings">
-      <div class="settingsPopup"></div>
+
+      <div class="settingsPopup">
+        <h3>Settings</h3>
+        <h4>Visibility:</h4>
+        <ul class="visibility">
+          <li class="timeBlock">
+            <label for="time">
+              Time</label>
+            <input type="checkbox" id="time">
+
+
+          </li>
+          <li class="dateBlock">
+            <label for="date">
+              Date </label>
+            <input type="checkbox" id="date">
+
+          </li>
+
+          <li class="greetingBlock">
+            <label for="greeting-container">
+              Greeting</label>
+            <input type="checkbox" id="greeting-container">
+
+          </li>
+
+          <li class="quoteBlock">
+            <label for="quote-container">
+              Quote</label>
+            <input type="checkbox" id="quote-container">
+
+          </li>
+
+          <li class="weatherBlock">
+            <label for="weather">
+              Weather</label>
+            <input type="checkbox" id="weather">
+
+          </li>
+
+          <li class="audioBlock">
+            <label for="player">
+              Audio</label>
+            <input type="checkbox" id="player">
+
+          </li>
+
+          <li class="todolistBlock">
+            <label for="todolist">
+              Todolist</label>
+            <input type="checkbox" id="todolist">
+
+          </li>
+        </ul>
+
+        <h4>Photo source:</h4>
+        <div class="bgSource">
+
+          <label for="github">Github</label>
+          <input type="radio" name="bgSource" id="github" ckecked>
+          <label for="unsplash">Unsplash</label>
+          <input type="radio" name="bgSource" id="unsplash">
+          <label for="flickr">Flickr</label>
+          <input type="radio" name="bgSource" id="flickr">
+        </div>
+
+        <h4>Language:</h4>
+        <div class="language">
+
+          <label for="en">En</label>
+          <input type="radio" name="language" id="en" ckecked>
+          <label for="ru">Ru</label>
+          <input type="radio" name="language" id="ru">
+        </div>
+      </div>
       <button class="toggleSettings">
         <img src="assets/svg/settings.svg" alt="">
       </button>
 
     </div>
     <button class="change-quote"></button>
-    <div>
+    <div class="quote-container transition-opacity">
       <div class="quote"></div>
       <div class="author"></div>
     </div>
