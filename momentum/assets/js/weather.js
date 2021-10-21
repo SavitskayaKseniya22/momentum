@@ -22,8 +22,8 @@ async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=en&appid=3cfc2bf3738bb671a43ba8071181895a&units=metric`;
     const res = await fetch(url);
     const data = await res.json();
-    console.log(data)
-    console.log(data.cod)
+    //console.log(data)
+    //console.log(data.cod)
     if (data.cod == "404" || data.cod == "400") {
         weatherError.classList.remove("hidden")
         weatherIcon.className = ""

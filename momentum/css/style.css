@@ -376,6 +376,7 @@ input[type="range"]::-moz-range-progress {
   height: 30vh;
   min-height: 160px;
   padding: 20px;
+  position: relative;
 }
 
 .change-quote {
@@ -389,6 +390,32 @@ input[type="range"]::-moz-range-progress {
 
 .author {
   min-height: 20px;
+}
+
+.settings {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+
+}
+
+.toggleSettings {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+}
+
+.settingsPopup {
+  border-radius: 30px;
+  width: 250px;
+  height: 250px;
+  background-color: rgba(255, 255, 255, 0.466);
 }
 
 @media (max-width: 768px) {
