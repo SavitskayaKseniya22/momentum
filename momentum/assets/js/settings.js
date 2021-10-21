@@ -61,6 +61,10 @@ for (const item of languages) {
         myStorage.language = item.id
         //alert(myStorage.language)
         translateQuote()
+        getWeather(city)
+        translateCity()
+        printGreetings(greetings, getPeriod())
+        printPlaceholder()
     })
 }
 //источник фото

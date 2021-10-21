@@ -38,6 +38,7 @@ userName.value = myStorage.userName
 userName.oninput = function () {
     myStorage.userName = userName.value
 };
+printPlaceholder()
 
 function getDateObj() {
     let obj = {}
@@ -54,21 +55,75 @@ function getPeriod() {
 
     let objDate = getDateObj()
 
-    if (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-        return "Morning"
-    } else
-    if (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-        return "Afternoon"
-    } else
-    if (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-        return "Evening"
-    } else {
-        return "Night"
+    switch (objDate) {
+        case objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59:
+            return "morning"
+        case objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59:
+            return "afternoon"
+        case objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59:
+            return "evening"
+        default:
+            return "night"
     }
 
+
+    /*
+        if (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+            return "Morning"
+        } else
+        if (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+            return "Afternoon"
+        } else
+        if (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+            return "Evening"
+        } else {
+            return "Night"
+        }*/
 }
 
 function printGreetings(node, period) {
+    switch (period) {
+        case "morning":
+            if (myStorage.language == "en") {
+                node.innerText = "Good morning, ";
+            } else {
+                node.innerText = "Доброе утро, ";
+            }
+            break
+        case "afternoon":
+            if (myStorage.language == "en") {
+                node.innerText = "Good afternoon, ";
+            } else {
+                node.innerText = "Добрый день, ";
+            }
+            break
+        case "evening":
+            if (myStorage.language == "en") {
+                node.innerText = "Good evening, ";
+            } else {
+                node.innerText = "Добрый вечер, ";
+            }
+            break
+        default:
+            if (myStorage.language == "en") {
+                node.innerText = "Good night, ";
+            } else {
+                node.innerText = "Доброй ночи, ";
+            }
+            break
+    }
+}
+
+function printPlaceholder() {
+
+
+    if (myStorage.language == "en") {
+        userName.placeholder = "[Enter name]"
+    } else {
+        userName.placeholder = "[Введите имя]";
+    }
+}
+/*
     if (period == "Morning") {
         node.innerText = "Good morning, ";
     }
@@ -81,7 +136,7 @@ function printGreetings(node, period) {
     if (period == "Night") {
         node.innerText = "Good night, ";
     }
-}
+*/
 let greetings = document.querySelector(".greeting")
 printGreetings(greetings, getPeriod())
 
@@ -120,74 +175,41 @@ let slideNext = document.querySelector(".slide-next")
 
 
 function changeBG() {
-    let period = getPeriod()
-    let array = random(20)
 
+    let array = random(20)
+    let period = getPeriod()
     const img = new Image();
     img.src;
-    switch (period) {
-        case "Morning":
-            if (String(array[0]).length == 1) {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/morning/0" + array[0] + ".jpg"
+    if (String(array[0]).length == 1) {
+        img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
 
-            } else {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/morning/" + array[0] + ".jpg"
-            }
-
-            break
-
-        case "Afternoon":
-            if (String(array[0]).length == 1) {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/afternoon/0" + array[0] + ".jpg"
-
-            } else {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/afternoon/" + array[0] + ".jpg"
-            }
-
-            break
-        case "Evening":
-            if (String(array[0]).length == 1) {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/evening/0" + array[0] + ".jpg"
-
-            } else {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/evening/" + array[0] + ".jpg"
-            }
-            break
-
-        case "Night":
-            if (String(array[0]).length == 1) {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/night/0" + array[0] + ".jpg"
-
-            } else {
-                img.src = "https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/night/" + array[0] + ".jpg"
-            }
-            break
-
+    } else {
+        img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
     }
+
     img.onload = () => {
-        document.body.style.background = "url(" + img.src + ") center/cover, rgba(0, 0, 0, 0.5)";
+        document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`;
     };
 
 
 
     slidePrev.addEventListener("click", function () {
         let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
-
         let substr = img.src.slice(0, img.src.length - 6)
         let changeSrc;
         if (String(numSrc - 1).length == 1) {
             if (numSrc - 1 == 0) {
-                changeSrc = substr + "20" + ".jpg";
+                changeSrc = `${substr}20.jpg`;
             } else {
-                changeSrc = substr + "0" + (numSrc - 1) + ".jpg";
+                changeSrc = `${substr}0${numSrc - 1}.jpg`;
             }
         } else {
-            changeSrc = substr + (numSrc - 1) + ".jpg";
+            changeSrc = `${substr + (numSrc - 1)}.jpg`;
         }
         img.src = changeSrc;
 
         img.onload = () => {
-            document.body.style.background = "url(" + changeSrc + ") center/cover, rgba(0, 0, 0, 0.5)"
+            document.body.style.background = `url(${changeSrc}) center/cover, rgba(0, 0, 0, 0.5)`
         };
 
     })
@@ -197,18 +219,18 @@ function changeBG() {
         let substr = img.src.slice(0, img.src.length - 6)
         let changeSrc;
         if (String(Number(numSrc) + 1).length == 1) {
-            changeSrc = substr + "0" + (Number(numSrc) + 1) + ".jpg";
+            changeSrc = `${substr}0${Number(numSrc) + 1}.jpg`;
         } else {
             if (Number(numSrc) + 1 == 21) {
-                changeSrc = substr + "01" + ".jpg";
+                changeSrc = `${substr}01.jpg`;
             } else {
-                changeSrc = substr + (Number(numSrc) + 1) + ".jpg";
+                changeSrc = `${substr + (Number(numSrc) + 1)}.jpg`;
             }
 
         }
         img.src = changeSrc;
         img.onload = () => {
-            document.body.style.background = "url(" + changeSrc + ") center/cover, rgba(0, 0, 0, 0.5)"
+            document.body.style.background = `url(${changeSrc}) center/cover, rgba(0, 0, 0, 0.5)`
         };
 
 
