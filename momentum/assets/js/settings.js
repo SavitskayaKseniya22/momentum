@@ -1,6 +1,11 @@
+let toggleSettings = document.querySelector(".toggleSettings")
+let settingsPopup = document.querySelector(".settingsPopup")
+
+toggleSettings.addEventListener("click", function () {
+    settingsPopup.classList.toggle("invis")
+})
+
 myStorage = window.localStorage;
-
-
 
 if (!myStorage.language) {
     myStorage.setItem('language', "en");
@@ -54,7 +59,8 @@ let languages = document.querySelectorAll(".language input[name='language']")
 for (const item of languages) {
     item.addEventListener("change", function () {
         myStorage.language = item.id
-        alert(myStorage.language)
+        //alert(myStorage.language)
+        translateQuote()
     })
 }
 //источник фото
