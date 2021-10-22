@@ -64,7 +64,8 @@ for (const item of languages) {
         getWeather(city)
         translateCity()
         printGreetings(greetings, getPeriod())
-        printPlaceholder()
+        printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
+        translateSettings()
     })
 }
 //источник фото
@@ -75,3 +76,37 @@ for (const item of bgSources) {
         alert(myStorage.photoSource)
     })
 }
+
+
+
+function translateSettings() {
+    let objTranslate = {
+        labelsEng: ["Time", "Date", "Greeting", "Quote", "Weather", "Audio", "Todolist"],
+        labelsRu: ["Время", "Дата", "Приветствие", "Цитата", "Погода", "Аудиоплеер", "Список дел"],
+        titleSmallEng: ["Visibility:", "Photo source:", "Language:"],
+        titleSmallRu: ["Видимость:", "Источник фотографий:", "Язык:"],
+        titleBigEng: ["Settings"],
+        titleBigRu: ["Настройки"]
+    }
+    let labelsVisibility = document.querySelectorAll(".visibility label")
+    let titlesSettings = document.querySelectorAll("h4")
+    let titleMainSettings = document.querySelectorAll("h3")
+
+    function translateItems(collection, en, ru) {
+        for (let i = 0; i < collection.length; i++) {
+            if (myStorage.language == "en") {
+                collection[i].innerText = en[i]
+            } else if (myStorage.language == "ru") {
+                collection[i].innerText = ru[i]
+            }
+
+        }
+    }
+
+    translateItems(labelsVisibility, objTranslate.labelsEng, objTranslate.labelsRu)
+    translateItems(titlesSettings, objTranslate.titleSmallEng, objTranslate.titleSmallRu)
+    translateItems(titleMainSettings, objTranslate.titleBigEng, objTranslate.titleBigRu)
+}
+
+
+translateSettings()

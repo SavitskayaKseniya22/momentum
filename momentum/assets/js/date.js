@@ -3,18 +3,29 @@ let date = document.querySelector(".date");
 
 
 function getDayWeek(date) {
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    let weekDay = days[date.getDay()]
+    let daysArray;
+    if (myStorage.language == "en") {
+        daysArray = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    } else {
+        daysArray = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
+    }
+    let weekDay = daysArray[date.getDay()]
     return weekDay
 }
 
 
 function getDate(date) {
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    let month = months[getDateObj().nowDate.getMonth()]
+    let month;
     let day = date.getDate()
-    return month + " " + day
-
+    let rusMonths = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря']
+    let engMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    if (myStorage.language == "en") {
+        month = engMonths[getDateObj().nowDate.getMonth()]
+        return month + " " + day
+    } else {
+        month = rusMonths[getDateObj().nowDate.getMonth()]
+        return `${day} ${month}`
+    }
 }
 
 function printDate(node, date, weekDay) {
@@ -38,7 +49,7 @@ userName.value = myStorage.userName
 userName.oninput = function () {
     myStorage.userName = userName.value
 };
-printPlaceholder()
+
 
 function getDateObj() {
     let obj = {}
@@ -112,10 +123,10 @@ function printGreetings(node, period) {
             }
             break
     }
+    printPlaceholder()
 }
 
 function printPlaceholder() {
-
 
     if (myStorage.language == "en") {
         userName.placeholder = "[Enter name]"

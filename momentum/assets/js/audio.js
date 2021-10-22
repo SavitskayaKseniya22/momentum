@@ -65,9 +65,9 @@ let audio = document.querySelector("audio")
 let playProgressTotal = document.querySelector(".playProgressTotal")
 let playProgress = document.querySelector(".playProgress")
 let durationAudio = document.querySelector(".durationAudio")
-let i = 0;
-audio.src = playList[i].src // трек по-умолчанию
-playProgressTotal.innerText = playList[i].duration
+let trackNumber = 0;
+audio.src = playList[trackNumber].src // трек по-умолчанию
+playProgressTotal.innerText = playList[trackNumber].duration
 durationAudio.value = audio.currentTime;
 activeTrackTitle.innerText = playList[0].title
 playListContainerLi[0].classList.add("item-active")
@@ -82,7 +82,7 @@ playListContainerLi[0].classList.add("item-active")
 
 
 audio.addEventListener('loadedmetadata', (event) => {
-    audio.duration = playList[i].duration
+    audio.duration = playList[trackNumber].duration
     durationAudio.max = audio.duration;
 });
 
@@ -94,12 +94,12 @@ audio.addEventListener("timeupdate", function () {
     } else if (String(Math.floor(audio.currentTime)).length == 2 && Math.floor(audio.currentTime) / 60 < 1) {
         playProgress.innerText = "00:" + Math.floor(audio.currentTime)
     } else {
-        let m = Math.floor(Math.floor(audio.currentTime) / 60);
-        let s = Math.floor(Math.floor(audio.currentTime) % 60);
-        if (String(s).length == 1) {
-            playProgress.innerText = "0" + m + ":0" + s
+        let min = Math.floor(Math.floor(audio.currentTime) / 60);
+        let sec = Math.floor(Math.floor(audio.currentTime) % 60);
+        if (String(sec).length == 1) {
+            playProgress.innerText = `0${min}:0${sec}`
         } else {
-            playProgress.innerText = "0" + m + ":" + s
+            playProgress.innerText = `0${min}:${sec}`
         }
 
     }
@@ -113,14 +113,19 @@ let playPrev = document.querySelector(".play-prev")
 let playNext = document.querySelector(".play-next")
 
 
+
+
+
+
 playPrev.addEventListener("click", function () {
-    i--;
-    if (i == -1) {
-        i = playList.length - 1
+
+    trackNumber--;
+    if (trackNumber == -1) {
+        trackNumber = playList.length - 1
     }
-    audio.src = playList[i].src;
-    playProgressTotal.innerText = playList[i].duration
-    setActive(playListContainerLi[i])
+    audio.src = playList[trackNumber].src;
+    playProgressTotal.innerText = playList[trackNumber].duration
+    setActive(playListContainerLi[trackNumber])
     audio.play()
     play.classList.add("pause")
 
@@ -128,18 +133,23 @@ playPrev.addEventListener("click", function () {
 
 
 playNext.addEventListener("click", function () {
-    i++;
-    if (i >= playList.length) {
-        i = 0
+    trackNumber++;
+    if (trackNumber >= playList.length) {
+        trackNumber = 0
     }
-    audio.src = playList[i].src;
-    playProgressTotal.innerText = playList[i].duration
-    setActive(playListContainerLi[i])
+    audio.src = playList[trackNumber].src;
+    playProgressTotal.innerText = playList[trackNumber].duration
+    setActive(playListContainerLi[trackNumber])
     audio.play()
     play.classList.add("pause")
 
 
+
+
 })
+
+
+
 let event = new Event("click")
 audio.addEventListener("ended", function () {
     playNext.dispatchEvent(event)
