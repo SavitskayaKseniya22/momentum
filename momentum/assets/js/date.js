@@ -170,15 +170,16 @@ let time = document.querySelector(".time");
 
 function makeLength(prop) {
     if (String(prop).length == 1) {
-        prop = `0${prop}`
+        return `0${String(prop)}`
     }
+    return prop
 }
 
 function printTime(node) {
     let objDate = getDateObj()
-    makeLength(objDate.seconds)
-    makeLength(objDate.minutes)
-    makeLength(objDate.hours)
+    objDate.seconds = makeLength(objDate.seconds)
+    objDate.minutes = makeLength(objDate.minutes)
+    objDate.hours = makeLength(objDate.hours)
 
     /*
     if (String(objDate.seconds).length == 1) {
@@ -210,9 +211,9 @@ function changeBG() {
     let array = random(20)
     let period = getPeriod()
     const img = new Image();
-    img.src;
-    makeLength(array[0])
-    img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
+
+    let temp = makeLength(array[0])
+    img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${temp}.jpg`
 
     /* if (String(array[0]).length == 1) {
          img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
@@ -231,6 +232,7 @@ function changeBG() {
         let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
         let substr = img.src.slice(0, img.src.length - 6)
         let changeSrc;
+
         if (String(numSrc - 1).length == 1) {
             if (numSrc - 1 == 0) {
                 changeSrc = `${substr}20.jpg`;
@@ -243,7 +245,7 @@ function changeBG() {
         img.src = changeSrc;
 
         img.onload = () => {
-            document.body.style.background = `url(${changeSrc}) center/cover, rgba(0, 0, 0, 0.5)`
+            document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`
         };
 
     })
@@ -252,6 +254,7 @@ function changeBG() {
         let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
         let substr = img.src.slice(0, img.src.length - 6)
         let changeSrc;
+
         if (String(Number(numSrc) + 1).length == 1) {
             changeSrc = `${substr}0${Number(numSrc) + 1}.jpg`;
         } else {
@@ -264,7 +267,7 @@ function changeBG() {
         }
         img.src = changeSrc;
         img.onload = () => {
-            document.body.style.background = `url(${changeSrc}) center/cover, rgba(0, 0, 0, 0.5)`
+            document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`
         };
 
 

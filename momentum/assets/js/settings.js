@@ -60,7 +60,7 @@ for (const item of languages) {
     item.addEventListener("change", function () {
         myStorage.language = item.id
         //alert(myStorage.language)
-        translateQuote()
+        getQuotes()
         getWeather(city)
         translateCity()
         printGreetings(greetings, getPeriod())
