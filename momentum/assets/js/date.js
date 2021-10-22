@@ -66,30 +66,37 @@ function getPeriod() {
 
     let objDate = getDateObj()
 
-    switch (objDate) {
-        case objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59:
-            return "morning"
-        case objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59:
-            return "afternoon"
-        case objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59:
-            return "evening"
-        default:
-            return "night"
-    }
-
-
     /*
-        if (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-            return "Morning"
-        } else
-        if (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-            return "Afternoon"
-        } else
-        if (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59) {
-            return "Evening"
-        } else {
-            return "Night"
-        }*/
+    let period;
+    switch (objDate.hours, objDate.minutes) {
+        case (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59):
+            period = "morning";
+            break;
+        case (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59):
+            period = "afternoon";
+            break;
+        case (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59):
+            period = "evening";
+            break;
+        case objDate.hours >= 24:
+            period = "night";
+    }
+    return period
+    */
+
+
+
+    if (objDate.hours >= 6 && objDate.hours <= 11 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+        return "morning"
+    } else
+    if (objDate.hours >= 12 && objDate.hours <= 17 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+        return "afternoon"
+    } else
+    if (objDate.hours >= 18 && objDate.hours <= 23 && objDate.minutes >= 0 && objDate.minutes <= 59) {
+        return "evening"
+    } else {
+        return "night"
+    }
 }
 
 function printGreetings(node, period) {
@@ -115,7 +122,7 @@ function printGreetings(node, period) {
                 node.innerText = "Добрый вечер, ";
             }
             break
-        default:
+        case "night":
             if (myStorage.language == "en") {
                 node.innerText = "Good night, ";
             } else {
@@ -156,9 +163,24 @@ printGreetings(greetings, getPeriod())
 let time = document.querySelector(".time");
 
 
+
+
+
+
+
+function makeLength(prop) {
+    if (String(prop).length == 1) {
+        prop = `0${prop}`
+    }
+}
+
 function printTime(node) {
     let objDate = getDateObj()
+    makeLength(objDate.seconds)
+    makeLength(objDate.minutes)
+    makeLength(objDate.hours)
 
+    /*
     if (String(objDate.seconds).length == 1) {
         objDate.seconds = "0" + objDate.seconds
     }
@@ -167,9 +189,9 @@ function printTime(node) {
     }
     if (String(objDate.hours).length == 1) {
         objDate.hours = "0" + objDate.hours
-    }
+    }*/
 
-    node.innerText = objDate.hours + ":" + objDate.minutes + ":" + objDate.seconds
+    node.innerText = `${objDate.hours}:${objDate.minutes}:${objDate.seconds}`
 }
 
 function showTime() {
@@ -177,8 +199,6 @@ function showTime() {
     setTimeout(showTime, 1000);
 }
 showTime();
-
-
 
 //bg
 let slidePrev = document.querySelector(".slide-prev")
@@ -191,12 +211,15 @@ function changeBG() {
     let period = getPeriod()
     const img = new Image();
     img.src;
-    if (String(array[0]).length == 1) {
-        img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
+    makeLength(array[0])
+    img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
 
-    } else {
-        img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
-    }
+    /* if (String(array[0]).length == 1) {
+         img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
+
+     } else {
+         img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
+     }*/
 
     img.onload = () => {
         document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`;
