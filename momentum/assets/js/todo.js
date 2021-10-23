@@ -4,6 +4,10 @@ let list = document.querySelector(".todolist ol");
 todoText.addEventListener('keyup', function (event) {
     if (event.code == 'Enter') {
         checklist()
+
+        if (!myStorage.todoContainer) {
+            myStorage.setItem('todoContainer', list.innerHTML);
+        }
     }
 })
 
@@ -63,5 +67,16 @@ function checklist() {
             }
         })
     }
+
+}
+translateTODO()
+
+function translateTODO() {
+    let objTranslate = {
+        en: "What is your plans for today?",
+        ru: "Какие планы на сегодня?"
+    }
+    let titleTODO = document.querySelector(".todolist h2")
+    titleTODO.innerText = objTranslate[myStorage.language]
 
 }

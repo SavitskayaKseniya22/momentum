@@ -25,6 +25,10 @@ if (!myStorage.blocks) {
 let visibilityBlocksAll = document.querySelectorAll(".visibility input")
 
 window.addEventListener("load", function () {
+    if (myStorage.todoContainer) {
+        list.innerHTML = myStorage.todoContainer
+    }
+
 
     let arrayBlocks = myStorage.blocks.split(",")
     for (const elem of visibilityBlocksAll) {
@@ -68,6 +72,7 @@ for (const item of languages) {
         printGreetings(greetings, getPeriod())
         printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
         translateSettings()
+        translateTODO()
     })
 }
 
