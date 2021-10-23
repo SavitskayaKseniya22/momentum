@@ -3,16 +3,23 @@ let list = document.querySelector(".todolist ol");
 
 todoText.addEventListener('keyup', function (event) {
     if (event.code == 'Enter') {
-        checklist()
+        checklist(todoText.value)
+
 
         if (!myStorage.todoContainer) {
-            myStorage.setItem('todoContainer', list.innerHTML);
+            myStorage.setItem('todoContainer', todoText.value);
+        } else {
+            if (todoText.value) {
+                myStorage.todoContainer = `${myStorage.todoContainer}, ${todoText.value}`
+            }
+
         }
+        todoText.value = "";
     }
 })
-
-function checklist() {
-    if (todoText.value) {
+//todoText.value
+function checklist(value) {
+    if (value) {
         let liInList = document.querySelectorAll(".todolist li");
         if (liInList.length > 1) {
             list.classList.add("scroll")
@@ -23,7 +30,7 @@ function checklist() {
         list.append(newListing);
 
         let newListingText = document.createElement('span');
-        newListingText.innerText = todoText.value;
+        newListingText.innerText = value;
         newListing.append(newListingText)
         newListing.addEventListener("dblclick", function (event) {
             if (event.target.tagName == "SPAN") {
@@ -55,13 +62,17 @@ function checklist() {
 
         })
 
-        todoText.value = '';
+
         let deleteButton = document.createElement('button');
         deleteButton.classList.add('deleteButton')
         newListing.append(deleteButton);
 
         deleteButton.addEventListener("click", function (event) {
             (event.target.closest('li')).remove()
+            let todoArray = myStorage.todoContainer.split(", ")
+            let a = todoArray.filter(word => word != event.target.previousSibling.innerText)
+            myStorage.todoContainer = a.join(", ")
+            liInList = document.querySelectorAll(".todolist li");
             if (liInList.length < 3) {
                 list.classList.remove("scroll")
             }

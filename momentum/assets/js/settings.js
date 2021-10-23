@@ -26,8 +26,12 @@ let visibilityBlocksAll = document.querySelectorAll(".visibility input")
 
 window.addEventListener("load", function () {
     if (myStorage.todoContainer) {
-        list.innerHTML = myStorage.todoContainer
+        let todoArray = myStorage.todoContainer.split(", ")
+        for (const item of todoArray) {
+            checklist(item)
+        }
     }
+
 
 
     let arrayBlocks = myStorage.blocks.split(",")
