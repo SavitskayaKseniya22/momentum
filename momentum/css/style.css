@@ -4,6 +4,8 @@
   /* Путь к файлу со шрифтом */
 }
 
+
+
 li {
   list-style-type: none;
 }
@@ -52,7 +54,8 @@ body {
 
   width: 300px;
   height: 40px;
-  background-color: rgba(255, 255, 255, 0.534);
+  background-color: rgba(255, 255, 255, 0.200);
+  ;
   display: flex;
   padding: 0 15px;
   font-size: 12px;
@@ -305,6 +308,7 @@ input[type="range"]::-moz-range-progress {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   height: 40vh;
   min-height: 260px;
@@ -385,7 +389,7 @@ input[type="range"]::-moz-range-progress {
   height: 30vh;
   min-height: 160px;
   padding: 20px;
-  position: relative;
+
 }
 
 .change-quote {
@@ -426,9 +430,9 @@ input[type="range"]::-moz-range-progress {
 }
 
 .settingsPopup {
-  border-radius: 20px;
+
   padding: 30px;
-  background-color: rgba(255, 255, 255, 0.466);
+  background-color: rgba(255, 255, 255, 0.200);
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -458,6 +462,116 @@ h4 {
 .transition {
   transition: .3s ease-in-out;
 }
+
+
+
+
+
+
+
+
+
+.todolist {
+
+  width: 50%;
+  font-size: 20px;
+  padding: 50px;
+  box-sizing: border-box;
+
+  display: flex;
+  row-gap: 30px;
+  flex-shrink: 0;
+  flex-direction: column;
+
+}
+
+.todolist h2 {
+  color: rgba(255, 255, 255, 0.500);
+}
+
+
+.todolist ol {
+  width: 50%;
+
+  margin: auto;
+  height: 101px;
+  display: flex;
+  row-gap: 15px;
+  flex-direction: column;
+
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+
+
+
+
+#todoText {
+  border: none;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.200);
+  font-size: 20px;
+  padding: 15px;
+
+
+}
+
+.todolistItem {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.todolistItemRewrite {
+  background-color: rgba(255, 255, 255, 0.200);
+  border: none;
+  color: white;
+  font-size: 20px;
+}
+
+.deleteButton {
+  height: 20px;
+  width: 20px;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url("/momentum/assets/svg/close-cross.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+
+.todolistItemCheckbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+
+}
+
+
+
+.lineThrough {
+  text-decoration: line-through;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (max-width: 768px) {
   .time {
