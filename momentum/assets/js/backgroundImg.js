@@ -12,16 +12,8 @@ const img = new Image();
 function changeBGGithub() {
     let array = random(20)
     let period = getPeriod()
-
     let temp = makeLength(array[0])
     img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${temp}.jpg`
-
-    /* if (String(array[0]).length == 1) {
-         img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
-
-     } else {
-         img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
-     }*/
 
     assignBG(img, img.src)
 
@@ -30,18 +22,6 @@ function changeBGGithub() {
     let changeSrc;
 
     slidePrev.addEventListener("click", function () {
-
-        /*
-                if (String(numSrc - 1).length == 1) {
-                    if (numSrc - 1 == 0) {
-                        changeSrc = `${substr}20.jpg`;
-                    } else {
-                        changeSrc = `${substr}0${numSrc - 1}.jpg`;
-                    }
-                } else {
-                    changeSrc = `${substr + (numSrc - 1)}.jpg`;
-                }
-        */
         if (myStorage.photoSource == "github") {
             if (numSrc - 1 == 0) {
                 changeSrc = `${substr}20.jpg`;
@@ -53,22 +33,10 @@ function changeBGGithub() {
             img.src = changeSrc;
             assignBG(img, img.src)
         }
-
-
     })
 
     slideNext.addEventListener("click", function () {
-        /*
-                if (String(Number(numSrc) + 1).length == 1) {
-                    changeSrc = `${substr}0${Number(numSrc) + 1}.jpg`;
-                } else {
-                    if (Number(numSrc) + 1 == 21) {
-                        changeSrc = `${substr}01.jpg`;
-                    } else {
-                        changeSrc = `${substr + (Number(numSrc) + 1)}.jpg`;
-                    }
 
-                }*/
         if (myStorage.photoSource == "github") {
             if (Number(numSrc) + 1 == 21) {
                 changeSrc = `${substr}01.jpg`;
@@ -79,76 +47,78 @@ function changeBGGithub() {
             img.src = changeSrc;
             assignBG(img, img.src)
         }
-
     })
-
 }
 
-function changeBGUnsplash() {
-    async function getLinkToImage() {
-        const url = 'https://api.unsplash.com/photos/random?orientation=landscape&query=nature&client_id=mT4PCODkUPTvfvB2AxjNReUVpj98E-vPd9o9xC1EzDE';
-        const res = await fetch(url);
-        const data = await res.json();
-        img.src = data.urls.regular
 
-        assignBG(img, img.src)
+let tag = document.querySelector("#tag");
 
+function getTag() {
+    return tag.value
+}
+tag.addEventListener("change", function () {
+    changeBG()
+})
+
+
+
+
+
+
+async function changeBGUnsplash() {
+    let searchTag = getTag()
+    if (!searchTag) {
+        searchTag = getPeriod()
     }
-    getLinkToImage()
-
-    slidePrev.addEventListener("click", function () {
-        if (myStorage.photoSource == "unsplash") {
-            getLinkToImage()
-        }
-    })
-    slideNext.addEventListener("click", function () {
-        if (myStorage.photoSource == "unsplash") {
-            getLinkToImage()
-        }
-    })
-
-
+    let url = `https://api.unsplash.com/photos/random?orientation=landscape&query=${searchTag}&client_id=mT4PCODkUPTvfvB2AxjNReUVpj98E-vPd9o9xC1EzDE`;
+    const res = await fetch(url);
+    const data = await res.json();
+    img.src = data.urls.regular
+    assignBG(img, img.src)
 }
 
-function changeBGFlickr() {
-    async function getLinkToImage() {
-        let arr = random(99)
-        const url = 'https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=067d2cd731eb9c311ce2550fd0764aa8&tags=nature&extras=url_l&format=json&nojsoncallback=1';
-        const res = await fetch(url);
-        const data = await res.json();
-        img.src = data.photos.photo[arr[0]].url_l
-        assignBG(img, img.src)
 
-
-
+async function changeBGFlickr() {
+    let searchTag = getTag()
+    let array = random(99);
+    if (!searchTag) {
+        searchTag = getPeriod()
     }
-    getLinkToImage()
+    let url = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=067d2cd731eb9c311ce2550fd0764aa8&tags=${searchTag}&extras=url_l&format=json&nojsoncallback=1`;
+    const res = await fetch(url);
+    const data = await res.json();
 
-    slidePrev.addEventListener("click", function () {
-        if (myStorage.photoSource == "flickr") {
-            getLinkToImage()
-        }
-
-    })
-    slideNext.addEventListener("click", function () {
-        if (myStorage.photoSource == "flickr") {
-            getLinkToImage()
-        }
-    })
-
-
+    if (data.photos.photo[array[0]].url_l) {
+        img.src = data.photos.photo[array[0]].url_l
+    } else {
+        changeBGFlickr()
+    }
+    assignBG(img, img.src)
 }
+
+
+slidePrev.addEventListener("click", function () {
+    if (myStorage.photoSource == "flickr" || myStorage.photoSource == "unsplash") {
+        changeBG()
+    }
+})
+
+slideNext.addEventListener("click", function () {
+    if (myStorage.photoSource == "flickr" || myStorage.photoSource == "unsplash") {
+        changeBG()
+    }
+})
 
 
 
 
 function changeBG() {
-    if (myStorage.photoSource == "github") {
-        changeBGGithub()
+    if (myStorage.photoSource == "flickr") {
+        changeBGFlickr()
     } else if (myStorage.photoSource == "unsplash") {
         changeBGUnsplash()
     } else {
-        changeBGFlickr()
+        changeBGGithub()
     }
 }
 changeBG()
