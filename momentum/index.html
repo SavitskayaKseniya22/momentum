@@ -16,7 +16,7 @@
 
 <body>
   <header class="header">
-    <div class="player transition-opacity">
+    <div class="player transition">
       <audio></audio>
       <div class="activeTrackTitle"></div>
       <div class="customPlayer">
@@ -42,7 +42,7 @@
 
       </ul>
     </div>
-    <div class="weather transition-opacity">
+    <div class="weather transition">
 
       <input type="text" class="city" />
       <i class="weather-icon owf"></i>
@@ -60,9 +60,9 @@
       <button class="slide-prev slider-icon"></button>
       <button class="slide-next slider-icon"></button>
     </div>
-    <time class="time transition-opacity"></time>
-    <date class="date transition-opacity"></date>
-    <div class="greeting-container transition-opacity">
+    <time class="time transition"></time>
+    <date class="date transition"></date>
+    <div class="greeting-container transition">
       <span class="greeting"></span>
       <input type="text" class="name" />
     </div>
@@ -71,7 +71,7 @@
   <footer class="footer">
     <div class="settings">
 
-      <div class="settingsPopup transition-opacity invis">
+      <div class="settingsPopup transition invis">
         <h3>Settings</h3>
         <h4>Visibility:</h4>
         <ul class="visibility">
@@ -135,6 +135,8 @@
           <label for="flickr">Flickr</label>
           <input type="radio" name="bgSource" id="flickr">
         </div>
+        <h4>Tag:</h4>
+        <input type="text">
 
         <h4>Language:</h4>
         <div class="language">
@@ -145,19 +147,20 @@
           <input type="radio" name="language" id="ru">
         </div>
       </div>
-      <button class="toggleSettings">
+      <button class="toggleSettings transition">
         <img src="assets/svg/settings.svg" alt="">
       </button>
 
     </div>
     <button class="change-quote"></button>
-    <div class="quote-container transition-opacity">
+    <div class="quote-container transition">
       <div class="quote"></div>
       <div class="author"></div>
     </div>
   </footer>
   <script src="assets/js/settings.js"></script>
   <script src="assets/js/date.js"></script>
+  <script src="assets/js/backgroundImg.js"></script>
   <script src="assets/js/audio.js"></script>
   <script src="assets/js/weather.js"></script>
   <script src="assets/js/quotes.js"></script>

@@ -435,6 +435,11 @@ input[type="range"]::-moz-range-progress {
 
 }
 
+.scaleBlock {
+  transform: scale(0.7);
+
+}
+
 h4 {
   margin-bottom: -10px;
 }
@@ -448,11 +453,9 @@ h4 {
 
 .invis {
   opacity: 0;
-  transition: .5s ease-in-out;
-
 }
 
-.transition-opacity {
+.transition {
   transition: .3s ease-in-out;
 }
 

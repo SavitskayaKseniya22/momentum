@@ -21,7 +21,7 @@ function getDate(date) {
     let engMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     if (myStorage.language == "en") {
         month = engMonths[getDateObj().nowDate.getMonth()]
-        return month + " " + day
+        return `${month} ${day}`
     } else {
         month = rusMonths[getDateObj().nowDate.getMonth()]
         return `${day} ${month}`
@@ -100,6 +100,43 @@ function getPeriod() {
 }
 
 function printGreetings(node, period) {
+    let objPeriod = {
+        morning: {
+            en: "Good morning, ",
+            ru: "Доброе утро, "
+        },
+        afternoon: {
+            en: "Good afternoon, ",
+            ru: "Добрый день, "
+        },
+        evening: {
+            en: "Good evening, ",
+            ru: "Добрый вечер, "
+        },
+        night: {
+            en: "Good night, ",
+            ru: "Доброй ночи, "
+        },
+
+    }
+    node.innerText = objPeriod[period][myStorage.language]
+
+    /*
+switch (period) {
+        case "morning":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+        case "afternoon":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+        case "evening":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+        case "night":
+            node.innerText = objPeriod[period][myStorage.language]
+            break
+    }
+
     switch (period) {
         case "morning":
             if (myStorage.language == "en") {
@@ -129,17 +166,22 @@ function printGreetings(node, period) {
                 node.innerText = "Доброй ночи, ";
             }
             break
-    }
+    }*/
     printPlaceholder()
 }
 
 function printPlaceholder() {
-
-    if (myStorage.language == "en") {
-        userName.placeholder = "[Enter name]"
-    } else {
-        userName.placeholder = "[Введите имя]";
+    let objPlaceholder = {
+        en: "[Enter name]",
+        ru: "[Введите имя]"
     }
+    userName.placeholder = objPlaceholder[myStorage.language]
+    /* if (myStorage.language == "en") {
+         userName.placeholder = "[Enter name]"
+     } else {
+         userName.placeholder = "[Введите имя]";
+     }
+     */
 }
 /*
     if (period == "Morning") {
@@ -161,11 +203,6 @@ printGreetings(greetings, getPeriod())
 
 //time
 let time = document.querySelector(".time");
-
-
-
-
-
 
 
 function makeLength(prop) {
@@ -201,80 +238,7 @@ function showTime() {
 }
 showTime();
 
-//bg
-let slidePrev = document.querySelector(".slide-prev")
-let slideNext = document.querySelector(".slide-next")
 
-
-function changeBG() {
-
-    let array = random(20)
-    let period = getPeriod()
-    const img = new Image();
-
-    let temp = makeLength(array[0])
-    img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${temp}.jpg`
-
-    /* if (String(array[0]).length == 1) {
-         img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/0${array[0]}.jpg`
-
-     } else {
-         img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${array[0]}.jpg`
-     }*/
-
-    img.onload = () => {
-        document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`;
-    };
-
-
-
-    slidePrev.addEventListener("click", function () {
-        let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
-        let substr = img.src.slice(0, img.src.length - 6)
-        let changeSrc;
-
-        if (String(numSrc - 1).length == 1) {
-            if (numSrc - 1 == 0) {
-                changeSrc = `${substr}20.jpg`;
-            } else {
-                changeSrc = `${substr}0${numSrc - 1}.jpg`;
-            }
-        } else {
-            changeSrc = `${substr + (numSrc - 1)}.jpg`;
-        }
-        img.src = changeSrc;
-
-        img.onload = () => {
-            document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`
-        };
-
-    })
-
-    slideNext.addEventListener("click", function () {
-        let numSrc = img.src[img.src.length - 6] + img.src[img.src.length - 5];
-        let substr = img.src.slice(0, img.src.length - 6)
-        let changeSrc;
-
-        if (String(Number(numSrc) + 1).length == 1) {
-            changeSrc = `${substr}0${Number(numSrc) + 1}.jpg`;
-        } else {
-            if (Number(numSrc) + 1 == 21) {
-                changeSrc = `${substr}01.jpg`;
-            } else {
-                changeSrc = `${substr + (Number(numSrc) + 1)}.jpg`;
-            }
-
-        }
-        img.src = changeSrc;
-        img.onload = () => {
-            document.body.style.background = `url(${img.src}) center/cover, rgba(0, 0, 0, 0.5)`
-        };
-
-
-    })
-
-
-}
 
 function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -295,4 +259,3 @@ function random(max) {
     return arr
 
 }
-changeBG()

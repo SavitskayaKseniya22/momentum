@@ -3,6 +3,8 @@ let settingsPopup = document.querySelector(".settingsPopup")
 
 toggleSettings.addEventListener("click", function () {
     settingsPopup.classList.toggle("invis")
+    toggleSettings.classList.toggle("scaleBlock")
+
 })
 
 myStorage = window.localStorage;
@@ -68,12 +70,13 @@ for (const item of languages) {
         translateSettings()
     })
 }
+
 //источник фото
 let bgSources = document.querySelectorAll(".bgSource input[name='bgSource']")
 for (const item of bgSources) {
     item.addEventListener("change", function () {
         myStorage.photoSource = item.id
-        alert(myStorage.photoSource)
+        changeBG()
     })
 }
 
@@ -81,31 +84,34 @@ for (const item of bgSources) {
 
 function translateSettings() {
     let objTranslate = {
-        labelsEng: ["Time", "Date", "Greeting", "Quote", "Weather", "Audio", "Todolist"],
-        labelsRu: ["Время", "Дата", "Приветствие", "Цитата", "Погода", "Аудиоплеер", "Список дел"],
-        titleSmallEng: ["Visibility:", "Photo source:", "Language:"],
-        titleSmallRu: ["Видимость:", "Источник фотографий:", "Язык:"],
-        titleBigEng: ["Settings"],
-        titleBigRu: ["Настройки"]
+        labels: {
+            en: ["Time", "Date", "Greeting", "Quote", "Weather", "Audio", "Todolist"],
+            ru: ["Время", "Дата", "Приветствие", "Цитата", "Погода", "Аудиоплеер", "Список дел"]
+
+        },
+        titleSmall: {
+            en: ["Visibility:", "Photo source:", "Tag:", "Language:"],
+            ru: ["Видимость:", "Источник фотографий:", "Тег:", "Язык:"]
+
+        },
+        titleBig: {
+            en: ["Settings"],
+            ru: ["Настройки"]
+
+        }
     }
     let labelsVisibility = document.querySelectorAll(".visibility label")
     let titlesSettings = document.querySelectorAll("h4")
     let titleMainSettings = document.querySelectorAll("h3")
 
-    function translateItems(collection, en, ru) {
+    function translateItems(collection, prop) {
         for (let i = 0; i < collection.length; i++) {
-            if (myStorage.language == "en") {
-                collection[i].innerText = en[i]
-            } else if (myStorage.language == "ru") {
-                collection[i].innerText = ru[i]
-            }
-
+            collection[i].innerText = prop[myStorage.language][i]
         }
     }
-
-    translateItems(labelsVisibility, objTranslate.labelsEng, objTranslate.labelsRu)
-    translateItems(titlesSettings, objTranslate.titleSmallEng, objTranslate.titleSmallRu)
-    translateItems(titleMainSettings, objTranslate.titleBigEng, objTranslate.titleBigRu)
+    translateItems(labelsVisibility, objTranslate.labels)
+    translateItems(titlesSettings, objTranslate.titleSmall)
+    translateItems(titleMainSettings, objTranslate.titleBig)
 }
 
 
