@@ -1,6 +1,6 @@
 let todoText = document.querySelector('#todoText');
 let list = document.querySelector(".todolist ol");
-
+let openListButton = document.querySelector(".openListButton")
 todoText.addEventListener('keyup', function (event) {
     if (event.code == 'Enter') {
         checklist(todoText.value)
@@ -23,11 +23,13 @@ function checklist(value) {
         let liInList = document.querySelectorAll(".todolist li");
         if (liInList.length > 1) {
             list.classList.add("scroll")
+            //list.classList.add("openList")
+            //openListButton.classList.add("openListButtonToTop")
         }
 
         let newListing = document.createElement('li');
         newListing.classList.add("todolistItem")
-        list.append(newListing);
+        list.prepend(newListing);
 
         let newListingText = document.createElement('span');
         newListingText.innerText = value;
@@ -75,6 +77,8 @@ function checklist(value) {
             liInList = document.querySelectorAll(".todolist li");
             if (liInList.length < 3) {
                 list.classList.remove("scroll")
+                //  list.classList.remove("openList")
+                // openListButton.classList.remove("openListButtonToTop")
             }
         })
     }
@@ -91,3 +95,8 @@ function translateTODO() {
     titleTODO.innerText = objTranslate[myStorage.language]
 
 }
+openListButton.addEventListener("click", function () {
+    list.classList.toggle("openList")
+    openListButton.classList.toggle("openListButtonToTop")
+
+})

@@ -27,37 +27,51 @@ let activeTrackTitle = document.querySelector(".activeTrackTitle")
 
 
 
-function setActive(elem) {
-
-    for (let itemInner of playListContainerLi) {
-        itemInner.classList.remove("item-active");
-    }
-    elem.classList.add("item-active")
-    activeTrackTitle.innerText = elem.innerText
-
-}
-for (let item of playList) {
-    let li = document.createElement('li');
-    li.classList.add("play-item")
-    li.innerText = item.title;
-    li.classList.remove("item-active")
-
-    let buttonLi = document.createElement('button');
-    buttonLi.classList.add("buttonList")
-    buttonLi.addEventListener("click", function () {
-
+function setActive(elem, item) {
+    if (item) {
         audio.src = item.src;
         playProgressTotal.innerText = item.duration
-        setActive(li)
-        //playPause()
-        buttonLi.classList.add("buttonActive")
+    }
 
-    })
-    li.prepend(buttonLi)
-
-    playListContainer.append(li)
+    for (let i of playListItems) {
+        if (i != elem) {
+            i.classList.remove("item-active");
+        } else {
+            i.classList.add("item-active")
+            activeTrackTitle.innerText = i.innerText
+        }
+    }
 }
-let playListContainerLi = document.querySelectorAll(".play-list li")
+
+function printPlaylist(container) {
+    for (let item of playList) {
+        let li = document.createElement('li');
+        li.classList.add("play-item")
+        li.innerText = item.title;
+        li.classList.remove("item-active")
+
+        let itemPlaylistButton = document.createElement('button');
+        itemPlaylistButton.classList.add("buttonList")
+
+        li.prepend(itemPlaylistButton)
+        container.append(li)
+
+
+
+
+        itemPlaylistButton.addEventListener("click", function () {
+            setActive(li, item)
+            itemPlaylistButton.classList.add("buttonActive")
+
+
+        })
+    }
+}
+printPlaylist(playListContainer)
+
+
+
+let playListItems = document.querySelectorAll(".play-list li")
 
 
 //изменение трека по нажатию кнопок
@@ -70,7 +84,7 @@ audio.src = playList[trackNumber].src // трек по-умолчанию
 playProgressTotal.innerText = playList[trackNumber].duration
 durationAudio.value = audio.currentTime;
 activeTrackTitle.innerText = playList[0].title
-playListContainerLi[0].classList.add("item-active")
+playListItems[0].classList.add("item-active")
 
 
 
@@ -105,9 +119,11 @@ audio.addEventListener("timeupdate", function () {
     }
 
 })
+
 durationAudio.addEventListener("input", function () {
     audio.currentTime = durationAudio.value
 })
+
 
 let playPrev = document.querySelector(".play-prev")
 let playNext = document.querySelector(".play-next")
@@ -118,14 +134,11 @@ let playNext = document.querySelector(".play-next")
 
 
 playPrev.addEventListener("click", function () {
-
     trackNumber--;
     if (trackNumber == -1) {
         trackNumber = playList.length - 1
     }
-    audio.src = playList[trackNumber].src;
-    playProgressTotal.innerText = playList[trackNumber].duration
-    setActive(playListContainerLi[trackNumber])
+    setActive(playListItems[trackNumber], playList[trackNumber])
     audio.play()
     play.classList.add("pause")
 
@@ -137,15 +150,9 @@ playNext.addEventListener("click", function () {
     if (trackNumber >= playList.length) {
         trackNumber = 0
     }
-    audio.src = playList[trackNumber].src;
-    playProgressTotal.innerText = playList[trackNumber].duration
-    setActive(playListContainerLi[trackNumber])
+    setActive(playListItems[trackNumber], playList[trackNumber])
     audio.play()
     play.classList.add("pause")
-
-
-
-
 })
 
 
@@ -169,6 +176,7 @@ function toggleClass(node, className) {
 function playPause() {
     if (audio.paused) {
         audio.play();
+
         toggleClass(play, "pause")
 
     } else {
@@ -177,6 +185,22 @@ function playPause() {
     }
 }
 play.addEventListener("click", playPause)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //аудио громкость
