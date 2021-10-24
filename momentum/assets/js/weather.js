@@ -5,19 +5,23 @@ const temperature = document.querySelector('.temperature');
 const weatherDescription = document.querySelector('.weather-description');
 const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
-
-
-
-let city = document.querySelector(".city")
-myStorage = window.localStorage;
-
-if (!myStorage.city) {
-    myStorage.setItem('city', 'Minsk');
-}
-city.value = myStorage.city
 let weatherError = document.querySelector(".weather-error")
+let city = document.querySelector(".city")
 
-getWeather(city)
+
+
+
+
+function printWeather(input) {
+    checkMakeStorageProp(myStorage, "city", "Minsk")
+    input.value = myStorage.city
+    getWeather(input)
+}
+
+printWeather(city)
+
+
+
 async function getWeather(city) {
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${myStorage.language}&appid=3cfc2bf3738bb671a43ba8071181895a&units=metric`;
     const res = await fetch(url);
@@ -53,11 +57,18 @@ city.addEventListener("change", function () {
 })
 
 function translateCity() {
+    let objTranslate = {
+        en: "Minsk",
+        ru: "Минск"
+    }
+    myStorage.city = objTranslate[myStorage.language]
+    city.value = objTranslate[myStorage.language]
+    /*
     if (myStorage.city == 'Minsk') {
         myStorage.city = 'Минск';
         city.value = 'Минск'
     } else if (myStorage.city == 'Минск') {
         myStorage.city = 'Minsk';
         city.value = 'Minsk'
-    }
+    }*/
 }

@@ -1,14 +1,32 @@
 let toggleSettings = document.querySelector(".toggleSettings")
 let settingsPopup = document.querySelector(".settingsPopup")
 
-toggleSettings.addEventListener("click", function () {
-    settingsPopup.classList.toggle("invis")
-    toggleSettings.classList.toggle("scaleBlock")
 
+toggleSettings.addEventListener("click", function () {
+    popBlock(settingsPopup, toggleSettings)
 })
+
+function popBlock(block, trigger) { //раскрывает блок по нажатию на кнопку и уменьшает ее размер
+    block.classList.toggle("invis")
+    trigger.classList.toggle("scaleBlock")
+}
+
 
 myStorage = window.localStorage;
 
+function checkMakeStorageProp(storageName, propName, propValue) { //проверка существования свойства и его создание с дефолтными величинами если свойства нет
+    if (!storageName[propName]) {
+        storageName.setItem(propName, propValue);
+        return true
+    }
+    return false
+}
+
+checkMakeStorageProp(myStorage, "language", "en")
+checkMakeStorageProp(myStorage, "photoSource", "github")
+checkMakeStorageProp(myStorage, "blocks", ['time', 'date', 'greeting-container', 'quote-container', 'weather', 'player', 'todolist'])
+
+/*
 if (!myStorage.language) {
     myStorage.setItem('language', "en");
 }
@@ -18,24 +36,24 @@ if (!myStorage.photoSource) {
 if (!myStorage.blocks) {
     myStorage.setItem('blocks', ['time', 'date', 'greeting-container', 'quote-container', 'weather', 'player', 'todolist']);
 }
-
+*/
 
 
 //видимость
 let visibilityBlocksAll = document.querySelectorAll(".visibility input")
 
+
+
 window.addEventListener("load", function () {
-    if (myStorage.todoContainer) {
-        let todoArray = myStorage.todoContainer.split(", ")
-        for (const item of todoArray) {
-            checklist(item)
-        }
-    }
+    restoreTodoStorage()
+    restoreVisibilityStorage(visibilityBlocksAll, myStorage)
 
+})
 
+function restoreVisibilityStorage(collection, storage) { //востанавливаем сохраненную видимость блоков
 
-    let arrayBlocks = myStorage.blocks.split(",")
-    for (const elem of visibilityBlocksAll) {
+    let arrayBlocks = storage.blocks.split(",")
+    for (const elem of collection) {
         let deleteItem = document.getElementsByClassName(elem.id) //делаем все элементы невидимыми
         deleteItem[0].classList.add("invis")
         let str = (deleteItem[0].className).split(" ")[0]
@@ -47,47 +65,57 @@ window.addEventListener("load", function () {
         let invisBlockTitle = document.getElementById(item) //делаем нажатыми все сохраненные чекбоксы
         invisBlockTitle.checked = "true";
     }
-})
-
-for (const item of visibilityBlocksAll) {
-    item.addEventListener("change", function () {
-        let deleteItem = document.getElementsByClassName(item.id)
-        deleteItem[0].classList.toggle("invis")
-        let visibibleBlocks = document.querySelectorAll(".visibility input:checked")
-        let arrayBlocks = [];
-        for (const elem of visibibleBlocks) {
-            arrayBlocks.push(elem.id)
-        }
-        myStorage.blocks = arrayBlocks
-
-    })
 }
 
+function updateVisibilityStorage(collection, storage) {
+    for (const item of collection) {
+
+        item.addEventListener("change", function () {
+            let deleteItem = document.getElementsByClassName(item.id)
+            deleteItem[0].classList.toggle("invis")
+            let visibibleBlocks = document.querySelectorAll(".visibility input:checked")
+            let arrayBlocks = [];
+            for (const elem of visibibleBlocks) {
+                arrayBlocks.push(elem.id)
+            }
+            storage.blocks = arrayBlocks
+        })
+    }
+}
+updateVisibilityStorage(visibilityBlocksAll, myStorage)
 
 //язык
 let languages = document.querySelectorAll(".language input[name='language']")
-for (const item of languages) {
-    item.addEventListener("change", function () {
-        myStorage.language = item.id
-        //alert(myStorage.language)
-        getQuotes()
-        getWeather(city)
-        translateCity()
-        printGreetings(greetings, getPeriod())
-        printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
-        translateSettings()
-        translateTODO()
-    })
+
+function translateAll(collection, storage) {
+    for (const item of collection) {
+        item.addEventListener("change", function () {
+            storage.language = item.id
+            getQuotes()
+            getWeather(city)
+            translateCity()
+            printGreetings(greetings, getPeriod())
+            printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
+            translateSettings()
+            translateTODO()
+        })
+    }
 }
+
+translateAll(languages, myStorage)
 
 //источник фото
 let bgSources = document.querySelectorAll(".bgSource input[name='bgSource']")
-for (const item of bgSources) {
-    item.addEventListener("change", function () {
-        myStorage.photoSource = item.id
-        changeBG()
-    })
+
+function updateBG(collection, storage) {
+    for (const item of collection) {
+        item.addEventListener("change", function () {
+            storage.photoSource = item.id
+            changeBG()
+        })
+    }
 }
+updateBG(bgSources, myStorage)
 
 
 

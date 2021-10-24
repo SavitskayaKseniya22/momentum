@@ -1,25 +1,27 @@
 let todoText = document.querySelector('#todoText');
 let list = document.querySelector(".todolist ol");
 let openListButton = document.querySelector(".openListButton")
-todoText.addEventListener('keyup', function (event) {
-    if (event.code == 'Enter') {
-        checklist(todoText.value)
 
+function printChecklistItem(input) {
+    input.addEventListener('keyup', function (event) {
+        if (event.code == 'Enter' && input.value) {
+            makeChecklistItem(input.value)
 
-        if (!myStorage.todoContainer) {
-            myStorage.setItem('todoContainer', todoText.value);
-        } else {
-            if (todoText.value) {
-                myStorage.todoContainer = `${myStorage.todoContainer}, ${todoText.value}`
+            if (!myStorage.todoContainer) {
+                myStorage.setItem('todoContainer', input.value);
+            } else {
+                myStorage.todoContainer = `${myStorage.todoContainer}, ${input.value}`
+                input.value = "";
             }
-
         }
-        todoText.value = "";
-    }
-})
-//todoText.value
-function checklist(value) {
-    if (value) {
+    })
+
+}
+printChecklistItem(todoText)
+
+
+function makeChecklistItem(inputValue) {
+    if (inputValue) {
         let liInList = document.querySelectorAll(".todolist li");
         if (liInList.length > 1) {
             list.classList.add("scroll")
@@ -32,7 +34,7 @@ function checklist(value) {
         list.prepend(newListing);
 
         let newListingText = document.createElement('span');
-        newListingText.innerText = value;
+        newListingText.innerText = inputValue;
         newListing.append(newListingText)
         newListing.addEventListener("dblclick", function (event) {
             if (event.target.tagName == "SPAN") {
@@ -100,3 +102,12 @@ openListButton.addEventListener("click", function () {
     openListButton.classList.toggle("openListButtonToTop")
 
 })
+
+function restoreTodoStorage() { //восстанавливаем из хранилища заметки
+    if (myStorage.todoContainer) {
+        let todoArray = myStorage.todoContainer.split(", ")
+        for (const item of todoArray) {
+            makeChecklistItem(item)
+        }
+    }
+}
