@@ -32,6 +32,7 @@ body {
   background-blend-mode: multiply;
   transition: 1s ease-in-out;
 
+
 }
 
 .header {
@@ -427,6 +428,35 @@ input[type="range"]::-moz-range-progress {
   min-height: 160px;
   padding: 20px;
 
+
+
+}
+
+.descriptionCourse {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  background-color: rgba(255, 255, 255, 0.200);
+  color: white;
+  padding: 15px;
+  column-gap: 30px;
+  font-size: 12px;
+  font-weight: bold;
+  align-items: center;
+
+
+}
+
+.descriptionCourse a {
+  color: white;
+  text-decoration: none;
+
+}
+
+.nameCourse a img {
+  width: 55px;
+  height: 30px;
 }
 
 .change-quote {
@@ -445,7 +475,7 @@ input[type="range"]::-moz-range-progress {
 .settings {
   position: absolute;
   left: 20px;
-  bottom: 30px;
+  bottom: 20px;
   display: flex;
   flex-direction: column;
   row-gap: 30px;
@@ -458,7 +488,7 @@ input[type="range"]::-moz-range-progress {
 }
 
 .toggleSettings {
-  width: 100%;
+
   width: 30px;
   height: 30px;
   background-color: transparent;
@@ -680,6 +710,9 @@ input.tag {
 
 
 @media (max-width: 1919px) {
+  .descriptionCourse {
+    visibility: hidden;
+  }
 
   .player {
     row-gap: 20px;
