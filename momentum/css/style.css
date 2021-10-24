@@ -29,6 +29,7 @@ body {
   text-align: center;
   background-blend-mode: multiply;
   transition: 1s ease-in-out;
+
 }
 
 .header {
@@ -168,6 +169,7 @@ input[type="range"]::-moz-range-progress {
 .buttonList {
   background: url("../assets/svg/play.svg"), transparent;
   background-size: contain;
+  background-repeat: no-repeat;
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -177,6 +179,7 @@ input[type="range"]::-moz-range-progress {
 .item-active .buttonList.buttonActive {
   background: url("../assets/svg/pause.svg"), transparent;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .player-controls {
@@ -190,6 +193,7 @@ input[type="range"]::-moz-range-progress {
 
 .play-list {
   text-align: left;
+
 }
 
 .play-item {
@@ -344,6 +348,7 @@ input[type="range"]::-moz-range-progress {
   top: 50%;
   margin-top: -16px;
   cursor: pointer;
+
 }
 
 .slide-prev {
@@ -515,6 +520,8 @@ input.tag {
 
 .invis {
   opacity: 0;
+  z-index: 0;
+
 }
 
 .transition {
@@ -664,6 +671,38 @@ input.tag {
 
 
 
+@media (max-width: 1919px) {
+
+  .player {
+    row-gap: 20px;
+    width: 30%;
+    padding-top: 15px;
+  }
+
+  .customPlayer {
+    padding: 15px;
+    font-size: 12px;
+    row-gap: 20px;
+
+  }
+
+  .player-icon {
+    background-size: contain;
+  }
+
+  .changeVolumeAudio {
+    width: 20px;
+    height: 20px;
+
+
+  }
+
+  .player-controls {
+    padding: 0 10px;
+
+  }
+
+}
 
 
 
@@ -672,7 +711,123 @@ input.tag {
 
 
 
-@media (max-width: 768px) {
+
+@media (max-width: 1024px) {
+  .settings {
+    width: 10%;
+    bottom: 0;
+    transition: 1s;
+    padding: 20px;
+    left: 0;
+  }
+
+  .settings.activeSettings {
+    width: 100%;
+
+  }
+
+  .settingsPopup {
+    background-color: black;
+    position: relative;
+    left: -100vw;
+
+  }
+
+  .settingsPopup.activePopup {
+    left: 0vw;
+    z-index: 99999999999;
+  }
+
+  .tag {
+    width: 100%;
+  }
+
+
+
+
+
+
+
+
+
+  .openListButton {
+    visibility: hidden;
+  }
+
+  .todolist ol {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 350px;
+    width: 20%;
+  }
+
+  .player {
+    row-gap: 20px;
+    width: 50%;
+    padding-top: 15px;
+    font-size: smaller;
+  }
+
+  .customPlayer {
+    padding: 15px;
+    font-size: 12px;
+    row-gap: 20px;
+
+  }
+
+  .changeVolumeAudio {
+    width: 20px;
+    height: 20px;
+
+
+  }
+
+  .player-controls {
+    padding: 0 10px;
+
+  }
+
+  .play-list {
+
+    align-self: flex-start;
+  }
+
+
+
+
+
+  .time {
+    min-height: 80px;
+    font-size: 72px;
+  }
+
+  .greeting-container {
+    min-height: 40px;
+    font-size: 32px;
+  }
+
+  .greeting {
+    padding: 5px;
+  }
+
+  .name {
+    font-size: 32px;
+    padding: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+
+
+  .customPlayer {
+    font-size: 10px;
+
+  }
+
+
+
+
   .time {
     min-height: 80px;
     font-size: 72px;

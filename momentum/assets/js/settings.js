@@ -1,14 +1,19 @@
 let toggleSettings = document.querySelector(".toggleSettings")
+let settings = document.querySelector(".settings")
 let settingsPopup = document.querySelector(".settingsPopup")
 
 
 toggleSettings.addEventListener("click", function () {
     popBlock(settingsPopup, toggleSettings)
+
 })
 
 function popBlock(block, trigger) { //раскрывает блок по нажатию на кнопку и уменьшает ее размер
     block.classList.toggle("invis")
+    block.classList.toggle("activePopup")
+    settings.classList.toggle("activeSettings")
     trigger.classList.toggle("scaleBlock")
+
 }
 
 

@@ -59,9 +59,17 @@ function printPlaylist(container) {
 
 
 
-        itemPlaylistButton.addEventListener("click", function () {
-            setActive(li, item)
-            itemPlaylistButton.classList.add("buttonActive")
+        itemPlaylistButton.addEventListener("click", function (event) {
+            if (event.target.classList.contains("buttonActive")) {
+                itemPlaylistButton.classList.remove("buttonActive")
+                playPause()
+            } else {
+                setActive(li, item)
+                itemPlaylistButton.classList.add("buttonActive")
+                playPause()
+            }
+
+
 
 
         })
@@ -142,6 +150,9 @@ playPrev.addEventListener("click", function () {
     audio.play()
     play.classList.add("pause")
 
+    chooseActiveButton()
+
+
 })
 
 
@@ -153,6 +164,11 @@ playNext.addEventListener("click", function () {
     setActive(playListItems[trackNumber], playList[trackNumber])
     audio.play()
     play.classList.add("pause")
+
+
+
+    chooseActiveButton()
+
 })
 
 
@@ -163,7 +179,14 @@ audio.addEventListener("ended", function () {
 
 })
 
-
+function chooseActiveButton() {
+    let activeItems = document.querySelectorAll(".buttonActive")
+    for (const item of activeItems) {
+        item.classList.remove("buttonActive")
+    }
+    let activeItem = document.querySelector(".item-active button")
+    activeItem.classList.add("buttonActive")
+}
 
 
 //рабочие кнопки
@@ -176,12 +199,19 @@ function toggleClass(node, className) {
 function playPause() {
     if (audio.paused) {
         audio.play();
+        play.classList.add("pause")
 
-        toggleClass(play, "pause")
+        chooseActiveButton()
 
     } else {
         audio.pause();
-        toggleClass(play, "pause")
+        play.classList.remove("pause")
+        let activeItems = document.querySelectorAll(".buttonActive")
+        for (const item of activeItems) {
+            item.classList.remove("buttonActive")
+        }
+
+
     }
 }
 play.addEventListener("click", playPause)

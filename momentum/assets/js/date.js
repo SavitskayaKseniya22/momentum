@@ -41,11 +41,13 @@ printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
 
 
 let userName = document.querySelector(".name")
+checkMakeStorageProp(myStorage, "userName", "")
 
-if (!myStorage.userName) {
-    myStorage.setItem('userName', '');
+function restoreUsername(input) {
+    input.value = myStorage.userName
 }
-userName.value = myStorage.userName
+
+
 userName.oninput = function () {
     myStorage.userName = userName.value
 };
@@ -168,6 +170,7 @@ switch (period) {
             break
     }*/
     printPlaceholder()
+    restoreUsername(userName)
 }
 
 function printPlaceholder() {
