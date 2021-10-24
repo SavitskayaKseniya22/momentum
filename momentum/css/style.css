@@ -4,7 +4,9 @@
   /* Путь к файлу со шрифтом */
 }
 
-
+input[type="range"] {
+  cursor: pointer;
+}
 
 li {
   list-style-type: none;
@@ -287,12 +289,18 @@ input[type="range"]::-moz-range-progress {
   width: 180px;
   min-height: 180px;
   text-align: left;
+  position: relative;
 }
 
 .weather-error {
-
-  margin-top: -10px;
+  width: 180px;
+  position: absolute;
+  right: 200px;
+  top: 0;
   color: #C5B358;
+  padding: 10px;
+
+
 }
 
 .hidden {

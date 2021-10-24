@@ -17,12 +17,14 @@ function changeBGGithub() {
 
     assignBG(img, img.src)
 
-    let numSrc = img.src.slice(-6, -4)
-    let substr = img.src.slice(0, -6)
-    let changeSrc;
+
 
     slidePrev.addEventListener("click", function () {
+        let numSrc = img.src.slice(-6, -4)
+        let substr = img.src.slice(0, -6)
+        let changeSrc;
         if (myStorage.photoSource == "github") {
+
             if (numSrc - 1 == 0) {
                 changeSrc = `${substr}20.jpg`;
             } else {
@@ -36,7 +38,9 @@ function changeBGGithub() {
     })
 
     slideNext.addEventListener("click", function () {
-
+        let numSrc = img.src.slice(-6, -4)
+        let substr = img.src.slice(0, -6)
+        let changeSrc;
         if (myStorage.photoSource == "github") {
             if (Number(numSrc) + 1 == 21) {
                 changeSrc = `${substr}01.jpg`;
