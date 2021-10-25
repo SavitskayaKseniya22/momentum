@@ -56,6 +56,7 @@ window.addEventListener("load", function () {
      restoreChoosenBGSourse()*/
     restoreChoosenRadio(myStorage.language)
     restoreChoosenRadio(myStorage.photoSource)
+    restoreTagName()
 
 })
 

@@ -58,19 +58,35 @@ function changeBGGithub() {
 let tag = document.querySelector("#tag");
 
 function getTag() {
-    return tag.value
+    if (tag.value) {
+        return tag.value
+    }
+
 }
 tag.addEventListener("change", function () {
-    changeBG()
+    if (tag.value) {
+        checkMakeStorageProp(myStorage, "tagName", tag.value)
+        myStorage.tagName = tag.value
+        changeBG()
+    }
+
+
 })
 
 
 
 
+function restoreTagName() {
+    if (myStorage.tagName) {
+        tag.value = myStorage.tagName
+    }
+
+}
 
 
 async function changeBGUnsplash() {
     let searchTag = getTag()
+
     if (!searchTag) {
         searchTag = getPeriod()
     }
@@ -84,6 +100,7 @@ async function changeBGUnsplash() {
 
 async function changeBGFlickr() {
     let searchTag = getTag()
+
     let array = random(99);
     if (!searchTag) {
         searchTag = getPeriod()
