@@ -52,6 +52,10 @@ let visibilityBlocksAll = document.querySelectorAll(".visibility input")
 window.addEventListener("load", function () {
     restoreTodoStorage()
     restoreVisibilityStorage(visibilityBlocksAll, myStorage)
+    /* restoreChoosenLanguage()
+     restoreChoosenBGSourse()*/
+    restoreChoosenRadio(myStorage.language)
+    restoreChoosenRadio(myStorage.photoSource)
 
 })
 
@@ -165,3 +169,20 @@ function translateSettings() {
 
 
 translateSettings()
+/*
+function restoreChoosenLanguage() {
+    let choosenLanguage = document.getElementById(myStorage.language)
+    choosenLanguage.checked = "checked"
+}
+
+function restoreChoosenBGSourse() {
+    let choosenPhotoSource = document.getElementById(myStorage.photoSource)
+    choosenPhotoSource.checked = "checked"
+}
+*/
+function restoreChoosenRadio(prop) {
+    let choosenTemp = document.getElementById(prop)
+    choosenTemp.checked = "checked"
+}
+restoreChoosenRadio(myStorage.language)
+restoreChoosenRadio(myStorage.photoSource)
