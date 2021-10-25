@@ -1,22 +1,26 @@
 const playList = [{
         title: 'Aqua Caelestis',
         src: 'assets/sounds/Aqua Caelestis.mp3',
-        duration: '00:40'
+        duration: '00:40',
+        trackNumberOrder: 0
     },
     {
         title: 'River Flows In You',
         src: 'assets/sounds/River Flows In You.mp3',
-        duration: '01:37'
+        duration: '01:37',
+        trackNumberOrder: 1
     },
     {
         title: 'Ennio Morricone',
         src: 'assets/sounds/Ennio Morricone.mp3',
-        duration: '01:37'
+        duration: '01:37',
+        trackNumberOrder: 2
     },
     {
         title: 'Summer Wind',
         src: 'assets/sounds/Summer Wind.mp3',
-        duration: '01:50'
+        duration: '01:50',
+        trackNumberOrder: 3
     }
 ]
 //добавление плейлиста на страницу
@@ -60,6 +64,7 @@ function printPlaylist(container) {
 
 
         itemPlaylistButton.addEventListener("click", function (event) {
+            trackNumber = item.trackNumberOrder
             if (event.target.classList.contains("buttonActive")) {
                 itemPlaylistButton.classList.remove("buttonActive")
                 playPause()
@@ -88,8 +93,8 @@ let playProgressTotal = document.querySelector(".playProgressTotal")
 let playProgress = document.querySelector(".playProgress")
 let durationAudio = document.querySelector(".durationAudio")
 let trackNumber = 0;
-audio.src = playList[trackNumber].src // трек по-умолчанию
-playProgressTotal.innerText = playList[trackNumber].duration
+audio.src = playList[0].src // трек по-умолчанию
+playProgressTotal.innerText = playList[0].duration
 durationAudio.value = audio.currentTime;
 activeTrackTitle.innerText = playList[0].title
 playListItems[0].classList.add("item-active")
@@ -158,6 +163,7 @@ playPrev.addEventListener("click", function () {
 
 playNext.addEventListener("click", function () {
     trackNumber++;
+
     if (trackNumber >= playList.length) {
         trackNumber = 0
     }

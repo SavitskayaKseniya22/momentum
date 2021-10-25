@@ -6,28 +6,43 @@ function printChecklistItem(input) {
     input.addEventListener('keyup', function (event) {
         if (event.code == 'Enter' && input.value) {
             makeChecklistItem(input.value)
-
             if (!myStorage.todoContainer) {
                 myStorage.setItem('todoContainer', input.value);
             } else {
                 myStorage.todoContainer = `${myStorage.todoContainer}, ${input.value}`
-                input.value = "";
+
             }
+            input.value = "";
         }
     })
 
 }
 printChecklistItem(todoText)
 
+function addScroll(min, max, collection, container) {
+    if (collection.length > min && !(container.classList.contains("openList"))) {
+        container.classList.add("scroll")
+
+    } else if (collection.length >= max && (container.classList.contains("openList"))) {
+        container.classList.add("scroll")
+    }
+}
+
+
+function removeScroll(min, max, collection, container) {
+    if (collection.length < min && !(container.classList.contains("openList"))) {
+        container.classList.remove("scroll")
+
+    } else if (collection.length < max && (container.classList.contains("openList"))) {
+        container.classList.remove("scroll")
+    }
+
+}
 
 function makeChecklistItem(inputValue) {
     if (inputValue) {
         let liInList = document.querySelectorAll(".todolist li");
-        if (liInList.length > 1) {
-            list.classList.add("scroll")
-            //list.classList.add("openList")
-            //openListButton.classList.add("openListButtonToTop")
-        }
+        addScroll(1, 5, liInList, list)
 
         let newListing = document.createElement('li');
         newListing.classList.add("todolistItem")
@@ -77,11 +92,8 @@ function makeChecklistItem(inputValue) {
             let a = todoArray.filter(word => word != event.target.previousSibling.innerText)
             myStorage.todoContainer = a.join(", ")
             liInList = document.querySelectorAll(".todolist li");
-            if (liInList.length < 3) {
-                list.classList.remove("scroll")
-                //  list.classList.remove("openList")
-                // openListButton.classList.remove("openListButtonToTop")
-            }
+            removeScroll(2, 6, liInList, list)
+
         })
     }
 
@@ -100,6 +112,11 @@ function translateTODO() {
 openListButton.addEventListener("click", function () {
     list.classList.toggle("openList")
     openListButton.classList.toggle("openListButtonToTop")
+
+
+    let liInList = document.querySelectorAll(".todolist li");
+    addScroll(1, 5, liInList, list)
+    removeScroll(1, 6, liInList, list)
 
 })
 

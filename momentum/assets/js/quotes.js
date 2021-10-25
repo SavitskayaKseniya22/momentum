@@ -4,7 +4,7 @@ let changeQuote = document.querySelector(".change-quote")
 let quoteNumber;
 
 function getRandomeQ(arr) {
-    quoteNumber = random(arr.length)[0]
+    quoteNumber = random(arr.length - 1)[0]
 }
 async function getQuotes(func) {
     let url = `assets/json/${myStorage.language}Quotes.json`
