@@ -80,6 +80,7 @@ function restoreTagName() {
     if (myStorage.tagName) {
         tag.value = myStorage.tagName
     }
+    changeBG()
 
 }
 
@@ -142,4 +143,3 @@ function changeBG() {
         changeBGGithub()
     }
 }
-changeBG()
