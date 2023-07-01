@@ -13,7 +13,7 @@ function changeBGGithub() {
     let array = random(20)
     let period = getPeriod()
     let temp = makeLength(array[0])
-    img.src = `https://raw.githubusercontent.com/SavitskayaKseniya22/stage1-tasks/assets/images/${period}/${temp}.jpg`
+    img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${period}/${temp}.jpg`
 
     assignBG(img, img.src)
 
