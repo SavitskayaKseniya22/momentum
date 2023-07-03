@@ -63,6 +63,7 @@ function getTag() {
     }
 
 }
+
 tag.addEventListener("change", function () {
     if (tag.value) {
         checkMakeStorageProp(myStorage, "tagName", tag.value)
