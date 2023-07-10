@@ -1,0 +1,16 @@
+.quote {
+  width: 60%;
+}
+
+.quote__content {
+  min-height: 32px;
+}
+
+.quote__author {
+  min-height: 20px;
+}
+
+.quote__reload {
+  width: 32px;
+  height: 32px;
+}/*# sourceMappingURL=quote.css.map */

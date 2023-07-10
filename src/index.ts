@@ -4,6 +4,7 @@ import ChangeBackgroundButtons from './modules/background/changeBackgroundButton
 import ActualDate from './modules/date/actualDate/ActualDate';
 import { Greetings } from './modules/date/greetings/Greetings';
 import Footer from './modules/footer/footer';
+import { Quote } from './modules/quote/quote';
 import Settings from './modules/settings/Settings';
 //import "./assets/js/weather"
 //import "./assets/js/quotes"
@@ -16,6 +17,7 @@ class App {
   changeBackgroundButtons: ChangeBackgroundButtons;
   greetings: Greetings;
   actualDate: ActualDate;
+  quote: Quote;
 
   constructor() {
     this.footer = new Footer();
@@ -23,6 +25,7 @@ class App {
     this.settings = new Settings();
     this.greetings = new Greetings();
     this.actualDate = new ActualDate();
+    this.quote = new Quote();
   }
 
   addListener() {
@@ -43,6 +46,7 @@ class App {
       body.insertAdjacentHTML('beforeend', this.actualDate.content());
       body.insertAdjacentHTML('beforeend', this.greetings.content());
       body.insertAdjacentHTML('beforeend', this.settings.content());
+      body.insertAdjacentHTML('beforeend', this.quote.content());
       body.insertAdjacentHTML('beforeend', this.footer.content());
     }
 

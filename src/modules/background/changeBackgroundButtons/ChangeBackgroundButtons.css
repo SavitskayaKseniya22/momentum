@@ -16,12 +16,4 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-}
-
-.slider__icons_prev {
-  background-image: url("../../../assets/svg/slider-prev.svg");
-}
-
-.slider__icons_next {
-  background-image: url("../../../assets/svg/slider-next.svg");
 }/*# sourceMappingURL=ChangeBackgroundButtons.css.map */

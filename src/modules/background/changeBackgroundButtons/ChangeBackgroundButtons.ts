@@ -75,9 +75,9 @@ class ChangeBackgroundButtons {
     document.addEventListener('click', async (event) => {
       if (event.target && event.target instanceof HTMLElement) {
         if (event.target.closest('.slider__icons_icon')) {
-          if (event.target.classList.contains('slider__icons_prev')) {
+          if (event.target.closest('.slider__icons_prev')) {
             this.readUpdateWritePictureOrder('decrease');
-          } else if (event.target.classList.contains('slider__icons_next')) {
+          } else if (event.target.closest('.slider__icons_next')) {
             this.readUpdateWritePictureOrder('increase');
           }
           this.changeBackground();
@@ -118,8 +118,12 @@ class ChangeBackgroundButtons {
     return `
     <div class="slider__background"></div>
     <div class="slider__icons">
-      <button class="slider__icons_prev slider__icons_icon"></button>
-      <button class="slider__icons_next slider__icons_icon"></button>
+      <button class="slider__icons_prev slider__icons_icon">
+      <img src='../../../assets/svg/slider-prev.svg' alt="load previois image">
+      </button>
+      <button class="slider__icons_next slider__icons_icon">
+      <img src='../../../assets/svg/slider-next.svg' alt="load nex image">
+      </button>
     </div>`;
   }
 }

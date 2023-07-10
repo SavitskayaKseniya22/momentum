@@ -28,6 +28,21 @@ a {
   cursor: pointer;
 }
 
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.5s;
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  img {
+    width: 100%;
+  }
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
@@ -212,35 +227,16 @@ input[type='range']::-moz-range-progress {
 }
 
 .player-icon,
-.slider__icons_icon,
-.change-quote {
+.slider__icons_icon {
   width: 32px;
   height: 32px;
   background-size: 32px 32px;
   background-position: center center;
   background-repeat: no-repeat;
   background-color: transparent;
-  border: 0;
-  outline: 0;
-  opacity: 0.8;
-  cursor: pointer;
-  transition: 0.3s;
+
   position: relative;
   z-index: 999999;
-}
-
-.player-icon:hover,
-.slider__icons_icon:hover,
-.change-quote:hover {
-  opacity: 1;
-}
-
-.player-icon:active,
-.slider__icons_icon:active,
-.change-quote:active {
-  border: 0;
-  outline: 0;
-  transform: scale(1.1);
 }
 
 .play {
@@ -316,23 +312,6 @@ input[type='range']::-moz-range-progress {
   font-size: 20px;
   color: #fff;
   opacity: 0.6;
-}
-
-.change-quote {
-  margin-bottom: 30px;
-  background-image: url('./assets/svg/reload.svg');
-}
-
-.quote-container {
-  width: 60%;
-}
-
-.quote {
-  min-height: 32px;
-}
-
-.author {
-  min-height: 20px;
 }
 
 .todolist {
