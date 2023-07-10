@@ -1,0 +1,13 @@
+.date__time {
+  min-height: 124px;
+  margin-bottom: 10px;
+  font-family: "Arial-MT";
+  font-size: 100px;
+  letter-spacing: -4px;
+}
+
+.date__date {
+  min-height: 28px;
+  font-size: 24px;
+  margin-bottom: 20px;
+}/*# sourceMappingURL=ActualDate.css.map */

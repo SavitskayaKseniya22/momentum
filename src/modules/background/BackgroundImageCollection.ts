@@ -1,9 +1,9 @@
-import ActualDate from '../../assets/js/date';
 import {
   FlickrItemResponceTypes,
   FlickrResponceTypes,
   UnsplashItemResponceTypes,
 } from '../../interfaces';
+import ActualDate from '../date/actualDate/ActualDate';
 
 export class BackgroundImageCollection {
   constructor() {}

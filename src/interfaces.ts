@@ -1,3 +1,9 @@
+export interface ActualDateType {
+  now: Date;
+  dateString: string;
+  timeString: string;
+}
+
 export interface UnsplashItemResponceTypes {
   id: string;
   slug: string;

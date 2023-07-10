@@ -1,4 +1,3 @@
-import ActualDate from '../../assets/js/date';
 import './settings.scss';
 
 class Settings {
