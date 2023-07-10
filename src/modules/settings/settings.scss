@@ -1,0 +1,81 @@
+.settings {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  width: 25%;
+}
+
+.settings input {
+  cursor: pointer;
+}
+
+.toggleSettings {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+input.background-source__query {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 10px;
+  font-weight: bolder;
+  cursor: text;
+}
+
+.settingsPopup {
+  width: 100%;
+  padding: 30px 0;
+
+  display: flex;
+  row-gap: 20px;
+  flex-wrap: wrap;
+  column-gap: 2%;
+}
+
+.settingsPopup div {
+  width: 49%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  padding: 20px 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.settingsPopup h3 {
+  width: 100%;
+}
+
+.scaleBlock {
+  transform: scale(0.7);
+}
+
+.settingsPopup ul {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.settings li {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.invis {
+  opacity: 0;
+  z-index: 0;
+}
+
+.transition {
+  transition: 0.3s ease-in-out;
+}

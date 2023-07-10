@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="assets/favicon.ico" rel="shortcut icon" />
-
-    <title>momentum</title>
+    <title>Momentum</title>
   </head>
 
   <body>
@@ -68,106 +67,24 @@
       <div class="humidity"></div>
     </div>
 
-    <main class="main">
-      <div class="slider-icons">
-        <button class="slide-prev slider-icon"></button>
-        <button class="slide-next slider-icon"></button>
-      </div>
-      <time class="time transition"></time>
-      <date class="date transition"></date>
-      <div class="greeting-container transition">
-        <span class="greeting"></span>
-        <input type="text" class="name" />
-      </div>
+    <time class="time transition"></time>
+    <date class="date transition"></date>
+    <div class="greeting-container transition">
+      <span class="greeting"></span>
+      <input type="text" class="name" />
+    </div>
 
-      <div class="todolist">
-        <h2>What is your plans for today?</h2>
+    <div class="todolist">
+      <h2>What is your plans for today?</h2>
 
-        <input id="todoText" type="text" />
-        <button class="openListButton"></button>
+      <input
+        id="todoText"
+        onchange="((event)=>{console.log(event)})()"
+        type="text"
+      />
+      <button class="openListButton"></button>
 
-        <ol></ol>
-      </div>
-    </main>
-
-    <div class="settings">
-      <div class="settingsPopup transition invis">
-        <h3>Settings</h3>
-
-        <div>
-          <h4>Visibility:</h4>
-          <ul class="visibility">
-            <li class="timeBlock">
-              <label for="time">Time</label>
-              <input type="checkbox" id="time" />
-            </li>
-            <li class="dateBlock">
-              <label for="date">Date</label>
-              <input type="checkbox" id="date" />
-            </li>
-
-            <li class="greetingBlock">
-              <label for="greeting-container">Greeting</label>
-              <input type="checkbox" id="greeting-container" />
-            </li>
-
-            <li class="quoteBlock">
-              <label for="quote-container">Quote</label>
-              <input type="checkbox" id="quote-container" />
-            </li>
-
-            <li class="weatherBlock">
-              <label for="weather">Weather</label>
-              <input type="checkbox" id="weather" />
-            </li>
-
-            <li class="audioBlock">
-              <label for="player">Audio</label>
-              <input type="checkbox" id="player" />
-            </li>
-
-            <li class="todolistBlock">
-              <label for="todolist">Todolist</label>
-              <input type="checkbox" id="todolist" />
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h4>Photo source:</h4>
-          <ul class="bgSource">
-            <li>
-              <label for="github">Github</label>
-              <input type="radio" name="bgSource" id="github" checked />
-            </li>
-            <li>
-              <label for="unsplash">Unsplash</label>
-              <input type="radio" name="bgSource" id="unsplash" />
-            </li>
-            <li>
-              <label for="flickr">Flickr</label>
-              <input type="radio" name="bgSource" id="flickr" />
-            </li>
-          </ul>
-          <h4>Tag:</h4>
-          <input type="text" id="tag" class="tag" />
-
-          <h4>Language:</h4>
-          <ul class="language">
-            <li>
-              <label for="en">English</label>
-              <input type="radio" name="language" id="en" checked />
-            </li>
-            <li>
-              <label for="ru">Russian</label>
-              <input type="radio" name="language" id="ru" />
-            </li>
-          </ul>
-        </div>
-      </div>
-      <button class="toggleSettings transition">
-        <img src="assets/svg/settings.svg" alt="" />
-      </button>
+      <ol></ol>
     </div>
 
     <div class="quote-container transition">

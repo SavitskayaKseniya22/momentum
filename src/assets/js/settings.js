@@ -1,3 +1,8 @@
+
+
+
+
+
 let toggleSettings = document.querySelector(".toggleSettings")
 let settings = document.querySelector(".settings")
 let settingsPopup = document.querySelector(".settingsPopup")
@@ -31,17 +36,6 @@ checkMakeStorageProp(myStorage, "language", "en")
 checkMakeStorageProp(myStorage, "photoSource", "github")
 checkMakeStorageProp(myStorage, "blocks", ['time', 'date', 'greeting-container', 'quote-container', 'weather', 'player', 'todolist'])
 
-/*
-if (!myStorage.language) {
-    myStorage.setItem('language', "en");
-}
-if (!myStorage.photoSource) {
-    myStorage.setItem('photoSource', "github");
-}
-if (!myStorage.blocks) {
-    myStorage.setItem('blocks', ['time', 'date', 'greeting-container', 'quote-container', 'weather', 'player', 'todolist']);
-}
-*/
 
 
 //видимость
@@ -104,7 +98,7 @@ function translateAll(collection, storage) {
             getQuotes()
             getWeather(city)
             translateCity()
-            printGreetings(greetings, getPeriod())
+            printGreetings(greetings, getTimeOfDay())
             printDate(date, getDate(getDateObj().nowDate), getDayWeek(getDateObj().nowDate))
             translateSettings()
             translateTODO()
@@ -114,18 +108,7 @@ function translateAll(collection, storage) {
 
 translateAll(languages, myStorage)
 
-//источник фото
-let bgSources = document.querySelectorAll(".bgSource input[name='bgSource']")
 
-function updateBG(collection, storage) {
-    for (const item of collection) {
-        item.addEventListener("change", function () {
-            storage.photoSource = item.id
-            changeBG()
-        })
-    }
-}
-updateBG(bgSources, myStorage)
 
 
 

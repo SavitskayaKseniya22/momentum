@@ -1,8 +1,7 @@
-import logo from "../../assets/svg/rs_school_js.svg"
-import "./footer.scss"
+import logo from '../../assets/svg/rs_school_js.svg';
+import './footer.scss';
 
 class Footer {
-  
   content() {
     return `<footer class="footer">
       <a href="https://rs.school/js/" target="_blank">
@@ -12,8 +11,8 @@ class Footer {
         KSENIYA SAVITSKAYA
       </a>
       <span>© 2023</span>
-    </footer>`
+    </footer>`;
   }
 }
 
-export default Footer
+export default Footer;
