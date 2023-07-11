@@ -6,8 +6,7 @@ export class Greetings {
 
   readStore() {
     const storage = window.localStorage;
-    const greetingsName = storage.getItem('greetingsName');
-    return greetingsName;
+    return storage.getItem('greetingsName');
   }
 
   writeStore(greetingsName: string) {
