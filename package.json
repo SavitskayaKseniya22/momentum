@@ -20,6 +20,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "boxicons": "^2.1.4"
+    "boxicons": "^2.1.4",
+    "normalize.css": "^8.0.1"
   }
 }

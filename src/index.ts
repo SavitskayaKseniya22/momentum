@@ -8,7 +8,10 @@ import Settings from './modules/settings/Settings';
 import { TodoList } from './modules/todolist/TodoList';
 import { Weather } from './modules/weather/Weather';
 import 'boxicons';
+
+import 'normalize.css';
 import './style.scss';
+import { Player } from './modules/player/Player';
 
 class App {
   settings: Settings;
@@ -19,6 +22,7 @@ class App {
   quote: Quote;
   weather: Weather;
   todoList: TodoList;
+  player: Player;
 
   constructor() {
     this.footer = new Footer();
@@ -29,6 +33,7 @@ class App {
     this.quote = new Quote();
     this.weather = new Weather();
     this.todoList = new TodoList();
+    this.player = new Player();
   }
 
   addListener() {
@@ -37,6 +42,7 @@ class App {
     this.greetings.addListener();
     this.weather.addListener();
     this.todoList.addListener();
+    this.player.addListener();
   }
 
   render() {
@@ -47,6 +53,7 @@ class App {
         'beforeend',
         this.changeBackgroundButtons.content()
       );
+      body.insertAdjacentHTML('beforeend', this.player.content());
       body.insertAdjacentHTML('beforeend', this.todoList.content());
       body.insertAdjacentHTML('beforeend', this.weather.content());
       body.insertAdjacentHTML('beforeend', this.actualDate.content());
