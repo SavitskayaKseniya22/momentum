@@ -16,4 +16,8 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+}
+.slider__icons i {
+  font-size: 4rem;
+  color: white;
 }/*# sourceMappingURL=ChangeBackgroundButtons.css.map */

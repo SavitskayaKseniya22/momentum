@@ -22,7 +22,7 @@ class Settings {
   }
 
   content() {
-    return `<div class="settings">
+    return `<div class="settings hidden">
       <div class="settingsPopup transition">
         <h3>Settings</h3>
         <div>

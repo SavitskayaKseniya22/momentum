@@ -60,7 +60,7 @@ export class Quote {
   content() {
     return `<div class="quote">
           <button class="quote__reload">
-          <img src='../../assets/svg/reload.svg' alt="load new quote">
+          <i class='bx bx-refresh'></i>
           </button>
           <div class="quote__content"></div>
           <div class="quote__author"></div>

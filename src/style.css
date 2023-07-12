@@ -4,6 +4,10 @@
   src: url("./assets/fonts/Arial-MT.woff");
   /* Путь к файлу со шрифтом */
 }
+input {
+  border: none;
+}
+
 input[type=range] {
   cursor: pointer;
 }
@@ -34,6 +38,9 @@ button {
   cursor: pointer;
   opacity: 0.5;
   transition: 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 button:hover {
   opacity: 1;
@@ -41,6 +48,9 @@ button:hover {
 }
 button img {
   width: 100%;
+}
+button i {
+  font-size: 2rem;
 }
 
 body {
@@ -125,7 +135,6 @@ input[type=range]::-webkit-slider-thumb {
   width: 15px;
   height: 15px;
   margin-top: -4px;
-  border: none;
 }
 
 input[type=range]::-moz-range-track {
@@ -140,7 +149,6 @@ input[type=range]::-moz-range-thumb {
   height: 15px;
   border-radius: 50%;
   cursor: pointer;
-  border: none;
 }
 
 input[type=range]::-moz-range-progress {
@@ -152,7 +160,6 @@ input[type=range]::-moz-range-progress {
 .changeVolumeAudio {
   width: 25px;
   height: 25px;
-  border: none;
   background-color: transparent;
   cursor: pointer;
   display: flex;
@@ -175,7 +182,6 @@ input[type=range]::-moz-range-progress {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  border: none;
 }
 
 .item-active .buttonList.buttonActive {
@@ -257,116 +263,6 @@ input[type=range]::-moz-range-progress {
   background-image: url("./assets/svg/play-next.svg");
 }
 
-.todolist {
-  width: 100%;
-  font-size: 20px;
-  box-sizing: border-box;
-  display: flex;
-  row-gap: 30px;
-  flex-shrink: 0;
-  flex-direction: column;
-  position: relative;
-  margin-top: 50px;
-  align-items: center;
-}
-
-.todolist h2 {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.todolist ol {
-  width: 25%;
-  margin: auto;
-  height: 101px;
-  display: flex;
-  row-gap: 15px;
-  flex-direction: column;
-}
-
-.scroll {
-  overflow-y: scroll;
-}
-
-#todoText {
-  width: 40%;
-  border: none;
-  color: white;
-  background-color: rgba(255, 255, 255, 0.2);
-  font-size: 20px;
-  height: 60px;
-  padding: 0 15px;
-}
-
-.todolistItem {
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.todolistItemRewrite {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  font-size: 20px;
-}
-
-.deleteButton {
-  height: 20px;
-  width: 20px;
-  border: none;
-  cursor: pointer;
-  background-color: transparent;
-  background-image: url("./assets/svg/close-cross.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.todolistItemCheckbox {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-.lineThrough {
-  text-decoration: line-through;
-}
-
-.openListButton {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  right: calc(100vw - 75%);
-  top: 75px;
-  cursor: pointer;
-  border: none;
-  background-color: transparent;
-  background-image: url("./assets/svg/slider-next.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  transform: rotate(90deg);
-  opacity: 0.8;
-  transition: 0.3s;
-}
-
-.openListButtonToTop {
-  transform: rotate(-90deg);
-}
-
-.openListButton:hover {
-  opacity: 1;
-  transition: 0.3s;
-}
-
-.todolist ol.openList {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 280px;
-  width: 20%;
-}
-
 @media (max-width: 1919px) {
   .player {
     row-gap: 20px;
@@ -412,16 +308,6 @@ input[type=range]::-moz-range-progress {
   .background-source__query {
     width: 100%;
   }
-  .openListButton {
-    visibility: hidden;
-  }
-  .todolist ol {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 350px;
-    width: 20%;
-  }
   .player {
     row-gap: 20px;
     width: 50%;
@@ -447,15 +333,5 @@ input[type=range]::-moz-range-progress {
 @media (max-width: 480px) {
   .customPlayer {
     font-size: 10px;
-  }
-  .todolist {
-    font-size: 12px;
-  }
-  .todolist #todoText {
-    font-size: 14px;
-    height: 30px;
-  }
-  .todolist h2 {
-    font-size: 16px;
   }
 }/*# sourceMappingURL=style.css.map */

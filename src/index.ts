@@ -1,4 +1,3 @@
-//import "./assets/js/settings"
 import './modules/background/changeBackgroundButtons/ChangeBackgroundButtons';
 import ChangeBackgroundButtons from './modules/background/changeBackgroundButtons/ChangeBackgroundButtons';
 import ActualDate from './modules/date/actualDate/ActualDate';
@@ -6,10 +5,9 @@ import { Greetings } from './modules/date/greetings/Greetings';
 import Footer from './modules/footer/footer';
 import { Quote } from './modules/quote/quote';
 import Settings from './modules/settings/Settings';
+import { TodoList } from './modules/todolist/TodoList';
 import { Weather } from './modules/weather/Weather';
-//import "./assets/js/weather"
-//import "./assets/js/quotes"
-//import "./assets/js/todo"
+import 'boxicons';
 import './style.scss';
 
 class App {
@@ -20,6 +18,7 @@ class App {
   actualDate: ActualDate;
   quote: Quote;
   weather: Weather;
+  todoList: TodoList;
 
   constructor() {
     this.footer = new Footer();
@@ -29,6 +28,7 @@ class App {
     this.actualDate = new ActualDate();
     this.quote = new Quote();
     this.weather = new Weather();
+    this.todoList = new TodoList();
   }
 
   addListener() {
@@ -36,6 +36,7 @@ class App {
     this.changeBackgroundButtons.addListener();
     this.greetings.addListener();
     this.weather.addListener();
+    this.todoList.addListener();
   }
 
   render() {
@@ -46,6 +47,7 @@ class App {
         'beforeend',
         this.changeBackgroundButtons.content()
       );
+      body.insertAdjacentHTML('beforeend', this.todoList.content());
       body.insertAdjacentHTML('beforeend', this.weather.content());
       body.insertAdjacentHTML('beforeend', this.actualDate.content());
       body.insertAdjacentHTML('beforeend', this.greetings.content());
