@@ -1,28 +1,4 @@
-const playList = [{
-    title: 'Aqua Caelestis',
-    src: '../sounds/Aqua Caelestis.mp3',
-    duration: '00:40',
-    trackNumberOrder: 0
-},
-{
-    title: 'River Flows In You',
-    src: '../sounds/River Flows In You.mp3',
-    duration: '01:37',
-    trackNumberOrder: 1
-},
-{
-    title: 'Ennio Morricone',
-    src: '../sounds/Ennio Morricone.mp3',
-    duration: '01:37',
-    trackNumberOrder: 2
-},
-{
-    title: 'Summer Wind',
-    src: '../sounds/Summer Wind.mp3',
-    duration: '01:50',
-    trackNumberOrder: 3
-}
-]
+
 //добавление плейлиста на страницу
 let playListContainer = document.querySelector(".play-list")
 let activeTrackTitle = document.querySelector(".activeTrackTitle")
@@ -47,40 +23,7 @@ function setActive(elem, item) {
     }
 }
 
-function printPlaylist(container) {
-    for (let item of playList) {
-        let li = document.createElement('li');
-        li.classList.add("play-item")
-        li.innerText = item.title;
-        li.classList.remove("item-active")
 
-        let itemPlaylistButton = document.createElement('button');
-        itemPlaylistButton.classList.add("buttonList")
-
-        li.prepend(itemPlaylistButton)
-        container.append(li)
-
-
-
-
-        itemPlaylistButton.addEventListener("click", function (event) {
-            trackNumber = item.trackNumberOrder
-            if (event.target.classList.contains("buttonActive")) {
-                itemPlaylistButton.classList.remove("buttonActive")
-                playPause()
-            } else {
-                setActive(li, item)
-                itemPlaylistButton.classList.add("buttonActive")
-                playPause()
-            }
-
-
-
-
-        })
-    }
-}
-printPlaylist(playListContainer)
 
 
 

@@ -1,3 +1,8 @@
+export interface PlaylistItem {
+  title: string;
+  src: string;
+}
+
 export interface ActualDateType {
   now: Date;
   dateString: string;

@@ -2,9 +2,6 @@ import { BackgroundImageCollection } from '../BackgroundImageCollection';
 import { QueryTag } from '../QueryTag';
 import './ChangeBackgroundButtons.scss';
 
-export const MAX_NUMBER_OF_IMAGES_IN_PACK = 19;
-export const MIN_NUMBER_OF_IMAGES_IN_PACK = 0;
-
 class ChangeBackgroundButtons {
   constructor() {
     this.changeBackground();
@@ -44,6 +41,8 @@ class ChangeBackgroundButtons {
     type: 'increase' | 'decrease',
     currentValue: number
   ) {
+    const MAX_NUMBER_OF_IMAGES_IN_PACK = 19;
+    const MIN_NUMBER_OF_IMAGES_IN_PACK = 0;
     switch (type) {
       case 'increase':
         const nextValue = currentValue + 1;

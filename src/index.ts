@@ -12,6 +12,7 @@ import 'boxicons';
 import 'normalize.css';
 import './style.scss';
 import { Player } from './modules/player/Player';
+import playlist from './assets/json/playlist.json';
 
 class App {
   settings: Settings;
@@ -33,7 +34,7 @@ class App {
     this.quote = new Quote();
     this.weather = new Weather();
     this.todoList = new TodoList();
-    this.player = new Player();
+    this.player = new Player(playlist);
   }
 
   addListener() {
