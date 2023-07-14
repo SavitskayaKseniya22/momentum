@@ -80,6 +80,62 @@ export class Player {
       this.toggleMainPlayButtonView('pause');
       this.toggleTrackControlView('pause', this.order);
     });
+
+    this.audioElement?.addEventListener('ended', () => {
+      if (this.audioElement) {
+        const prevOrderValue = this.order;
+        this.updateOrder('increase');
+        this.changeActiveTrack(this.audioElement, prevOrderValue, this.order);
+      }
+    });
+
+    this.audioElement?.addEventListener('loadedmetadata', (event) => {
+      const durationTotal = document.querySelector('.duration__total');
+      if (this.audioElement && durationTotal) {
+        durationTotal.textContent = this.convertDuration(
+          this.audioElement.duration
+        );
+      }
+
+      const durationRange = document.querySelector(
+        '.duration__range'
+      ) as HTMLInputElement;
+      if (durationRange && this.audioElement) {
+        durationRange.max = String(Math.floor(this.audioElement.duration));
+      }
+    });
+    this.audioElement?.addEventListener('timeupdate', (event) => {
+      const durationProgress = document.querySelector('.duration__progress');
+      if (this.audioElement && durationProgress) {
+        durationProgress.textContent = this.convertDuration(
+          this.audioElement.currentTime
+        );
+      }
+
+      const durationRange = document.querySelector(
+        '.duration__range'
+      ) as HTMLInputElement;
+      if (durationRange && this.audioElement) {
+        durationRange.value = String(Math.floor(this.audioElement.currentTime));
+      }
+    });
+
+    document
+      .querySelector('.duration__range')
+      ?.addEventListener('input', (event) => {
+        if (this.audioElement)
+          this.audioElement.currentTime = Number(
+            (event.target as HTMLInputElement).value
+          );
+      });
+  }
+
+  convertDuration(value: number) {
+    const min = Math.floor(Math.floor(value) / 60);
+    const additionMin = min < 10 ? '0' : '';
+    const sec = Math.floor(Math.floor(value) % 60);
+    const additionSec = sec < 10 ? '0' : '';
+    return `${additionMin + min}:${additionSec + sec}`;
   }
 
   changeActiveTrack(
@@ -232,20 +288,20 @@ export class Player {
       <audio src="${
         this.playlist[this.order].src
       }" controls data-playing="false"></audio>
-      <div class="customPlayer">
-        <div class="durationBlock">
+      <div class="custom-player">
+        <div class="duration">
           <input
             type="range"
-            class="durationAudio"
+            class="duration__range"
             value="0"
             min="0"
             max="100"
             step="1"
           />
           <span>
-            <span class="playProgress">00:00</span>
+            <span class="duration__progress">00:00</span>
             /
-            <span class="playProgressTotal">00:00</span>
+            <span class="duration__total">00:00</span>
           </span>
         </div>
 

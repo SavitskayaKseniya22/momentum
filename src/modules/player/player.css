@@ -9,7 +9,7 @@
   padding-top: 20px;
 }
 
-.customPlayer {
+.custom-player {
   width: 100%;
   background-color: rgba(255, 255, 255, 0.2);
   display: flex;
@@ -22,7 +22,7 @@
   row-gap: 30px;
 }
 
-.durationBlock {
+.duration {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -36,14 +36,14 @@
   justify-content: space-between;
 }
 
-.customPlayer input[type=range] {
+.custom-player input[type=range] {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   background-color: transparent;
 }
 
-.durationAudio {
+.duration__range {
   width: 70%;
 }
 

@@ -34,11 +34,11 @@ let playListItems = document.querySelectorAll(".play-list li")
 let audio = document.querySelector("audio")
 let playProgressTotal = document.querySelector(".playProgressTotal")
 let playProgress = document.querySelector(".playProgress")
-let durationAudio = document.querySelector(".durationAudio")
+let duration__range = document.querySelector(".duration__range")
 let trackNumber = 0;
 audio.src = playList[0].src // трек по-умолчанию
 playProgressTotal.innerText = playList[0].duration
-durationAudio.value = audio.currentTime;
+duration__range.value = audio.currentTime;
 activeTrackTitle.innerText = playList[0].title
 playListItems[0].classList.add("item-active")
 
@@ -53,11 +53,11 @@ playListItems[0].classList.add("item-active")
 
 audio.addEventListener('loadedmetadata', (event) => {
     audio.duration = playList[trackNumber].duration
-    durationAudio.max = audio.duration;
+    duration__range.max = audio.duration;
 });
 
 audio.addEventListener("timeupdate", function () {
-    durationAudio.value = audio.currentTime;
+    duration__range.value = audio.currentTime;
 
     if (String(Math.floor(audio.currentTime)).length == 1) {
         playProgress.innerText = "00:0" + Math.floor(audio.currentTime)
@@ -76,8 +76,8 @@ audio.addEventListener("timeupdate", function () {
 
 })
 
-durationAudio.addEventListener("input", function () {
-    audio.currentTime = durationAudio.value
+duration__range.addEventListener("input", function () {
+    audio.currentTime = duration__range.value
 })
 
 
