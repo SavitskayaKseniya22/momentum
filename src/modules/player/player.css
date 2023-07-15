@@ -29,7 +29,7 @@
   align-items: center;
 }
 
-.volumeBlock {
+.volume {
   width: 50%;
   display: flex;
   align-items: center;
@@ -47,7 +47,7 @@
   width: 70%;
 }
 
-.volumeAudio {
+.volume__range {
   width: 70%;
 }
 
@@ -86,7 +86,7 @@ input[type=range]::-moz-range-progress {
   border-radius: 10px/100%;
 }
 
-.changeVolumeAudio {
+.volume__control {
   width: 25px;
   height: 25px;
   background-color: transparent;
@@ -124,9 +124,18 @@ input[type=range]::-moz-range-progress {
 .playlist-item .playlist-item__title {
   flex-grow: 1;
 }
-.playlist-item input[name=playlist-item] {
+
+input[name=playlist-item] {
   display: none;
 }
-.playlist-item input[name=playlist-item]:checked ~ .playlist-item__play-index {
+input[name=playlist-item]:checked ~ .playlist-item__play-index {
   color: #c5b358;
+}
+
+.volume__control {
+  font-size: 2rem;
+  color: #c5b358;
+}
+.volume__control[data-muted=true] {
+  color: black;
 }/*# sourceMappingURL=player.css.map */

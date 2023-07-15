@@ -24,6 +24,7 @@ export class Player {
         this.audioElement
       );
       this.track.connect(this.audioContext.destination);
+      this.audioElement.volume = 0.5;
     }
   }
 
@@ -67,6 +68,29 @@ export class Player {
           const prevOrderValue = this.order;
           this.updateOrder('decrease');
           this.changeActiveTrack(this.audioElement, prevOrderValue, this.order);
+        } else if (event.target.closest('.volume__control')) {
+          const volumeRange = document.querySelector(
+            '.volume__range'
+          ) as HTMLInputElement;
+          const volumeControl = document.querySelector(
+            '.volume__control'
+          ) as HTMLElement;
+          const isMuted = this.audioElement.muted;
+          if (this.audioElement.volume) {
+            if (isMuted) {
+              this.audioElement.muted = false;
+              volumeRange.value = String(this.audioElement.volume);
+              delete volumeControl.dataset.muted;
+            } else {
+              this.audioElement.muted = true;
+              volumeRange.value = '0';
+              volumeControl.dataset.muted = 'true';
+            }
+          } else {
+            this.audioElement.volume = 0.5;
+            volumeRange.value = '0.5';
+            delete volumeControl.dataset.muted;
+          }
         }
       }
     });
@@ -104,6 +128,7 @@ export class Player {
         durationRange.max = String(Math.floor(this.audioElement.duration));
       }
     });
+
     this.audioElement?.addEventListener('timeupdate', (event) => {
       const durationProgress = document.querySelector('.duration__progress');
       if (this.audioElement && durationProgress) {
@@ -111,7 +136,6 @@ export class Player {
           this.audioElement.currentTime
         );
       }
-
       const durationRange = document.querySelector(
         '.duration__range'
       ) as HTMLInputElement;
@@ -127,6 +151,24 @@ export class Player {
           this.audioElement.currentTime = Number(
             (event.target as HTMLInputElement).value
           );
+      });
+
+    document
+      .querySelector('.volume__range')
+      ?.addEventListener('input', (event) => {
+        if (this.audioElement) {
+          this.audioElement.volume = Number(
+            (event.target as HTMLInputElement).value
+          );
+          const volumeControl = document.querySelector(
+            '.volume__control'
+          ) as HTMLElement;
+          if (this.audioElement.volume) {
+            delete volumeControl.dataset.muted;
+          } else {
+            volumeControl.dataset.muted = 'true';
+          }
+        }
       });
   }
 
@@ -305,11 +347,17 @@ export class Player {
           </span>
         </div>
 
-        <div class="volumeBlock">
-          <button class="changeVolumeAudio">
-            <i class='bx bx-volume-full' ></i>
-          </button>
-          <input type="range" class="volumeAudio" min="0" max="1" step="0.1" />
+        <div class="volume">
+          
+
+       
+      <button class="volume__control">
+       <i class='bx bx-volume-full' ></i>
+      </button>
+
+
+
+          <input type="range" class="volume__range" min="0" max="1" step="0.1" />
         </div>
 
         <div class="player-controls">

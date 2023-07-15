@@ -11,9 +11,7 @@
 
 .custom-player {
   width: 100%;
-
   background-color: rgba(255, 255, 255, 0.2);
-
   display: flex;
   padding: 15px;
   font-size: 14px;
@@ -32,7 +30,7 @@
   align-items: center;
 }
 
-.volumeBlock {
+.volume {
   width: 50%;
   display: flex;
   align-items: center;
@@ -48,7 +46,7 @@
   width: 70%;
 }
 
-.volumeAudio {
+.volume__range {
   width: 70%;
 }
 
@@ -87,7 +85,7 @@ input[type='range']::-moz-range-progress {
   border-radius: 10px/100%;
 }
 
-.changeVolumeAudio {
+.volume__control {
   width: 25px;
   height: 25px;
   background-color: transparent;
@@ -124,11 +122,19 @@ input[type='range']::-moz-range-progress {
   .playlist-item__title {
     flex-grow: 1;
   }
+}
+input[name='playlist-item'] {
+  display: none;
 
-  input[name='playlist-item'] {
-    display: none;
-    &:checked ~ .playlist-item__play-index {
-      color: #c5b358;
-    }
+  &:checked ~ .playlist-item__play-index {
+    color: #c5b358;
+  }
+}
+
+.volume__control {
+  font-size: 2rem;
+  color: #c5b358;
+  &[data-muted='true'] {
+    color: black;
   }
 }
