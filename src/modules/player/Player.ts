@@ -1,20 +1,23 @@
 import { PlaylistItem } from '../../interfaces';
+import { DurationControl } from './DurationControl';
+import { PlayOrder } from './PlayOrder';
+import { VolumeControl } from './VolumeControl';
 import './player.scss';
 
 export class Player {
   audioContext: AudioContext;
   track: MediaElementAudioSourceNode | undefined;
   audioElement: HTMLAudioElement | null | undefined;
-  order: number;
-  maxOrder: number;
-  minOrder: number;
   playlist: PlaylistItem[];
+  volumeControl: VolumeControl;
+  durationControl: DurationControl;
+  order: PlayOrder;
   constructor(playlist: PlaylistItem[]) {
     this.audioContext = new AudioContext();
     this.playlist = playlist;
-    this.order = 0;
-    this.maxOrder = this.playlist.length - 1;
-    this.minOrder = 0;
+    this.order = new PlayOrder(playlist);
+    this.volumeControl = new VolumeControl();
+    this.durationControl = new DurationControl();
   }
 
   makeAudioContext() {
@@ -30,6 +33,8 @@ export class Player {
 
   addListener() {
     this.makeAudioContext();
+    this.volumeControl.addListener();
+    this.durationControl.addListener();
     document.addEventListener('click', (event) => {
       if (
         event.target &&
@@ -46,138 +51,61 @@ export class Player {
           if (parent) {
             const index = Number(parent.dataset.index);
             if (
-              this.order !== index ||
-              (this.order === index && this.audioElement.paused)
+              this.order.value !== index ||
+              (this.order.value === index && this.audioElement.paused)
             ) {
-              const prevOrderValue = this.order;
-              this.updateOrder('replace', index);
+              const prevOrderValue = this.order.value;
+              this.order.update('replace', index);
               this.changeActiveTrackBySelection(
                 this.audioElement,
                 prevOrderValue,
-                this.order
+                this.order.value
               );
             } else {
               this.pauseAudio(this.audioElement);
             }
           }
         } else if (event.target.closest('.play-next')) {
-          const prevOrderValue = this.order;
-          this.updateOrder('increase');
-          this.changeActiveTrack(this.audioElement, prevOrderValue, this.order);
+          const prevOrderValue = this.order.value;
+          this.order.update('increase');
+          this.changeActiveTrack(
+            this.audioElement,
+            prevOrderValue,
+            this.order.value
+          );
         } else if (event.target.closest('.play-prev')) {
-          const prevOrderValue = this.order;
-          this.updateOrder('decrease');
-          this.changeActiveTrack(this.audioElement, prevOrderValue, this.order);
-        } else if (event.target.closest('.volume__control')) {
-          const volumeRange = document.querySelector(
-            '.volume__range'
-          ) as HTMLInputElement;
-          const volumeControl = document.querySelector(
-            '.volume__control'
-          ) as HTMLElement;
-          const isMuted = this.audioElement.muted;
-          if (this.audioElement.volume) {
-            if (isMuted) {
-              this.audioElement.muted = false;
-              volumeRange.value = String(this.audioElement.volume);
-              delete volumeControl.dataset.muted;
-            } else {
-              this.audioElement.muted = true;
-              volumeRange.value = '0';
-              volumeControl.dataset.muted = 'true';
-            }
-          } else {
-            this.audioElement.volume = 0.5;
-            volumeRange.value = '0.5';
-            delete volumeControl.dataset.muted;
-          }
+          const prevOrderValue = this.order.value;
+          this.order.update('decrease');
+          this.changeActiveTrack(
+            this.audioElement,
+            prevOrderValue,
+            this.order.value
+          );
         }
       }
     });
 
     this.audioElement?.addEventListener('play', () => {
       this.toggleMainPlayButtonView('play');
-      this.toggleTrackControlView('play', this.order);
+      this.toggleTrackControlView('play', this.order.value);
     });
 
     this.audioElement?.addEventListener('pause', () => {
       this.toggleMainPlayButtonView('pause');
-      this.toggleTrackControlView('pause', this.order);
+      this.toggleTrackControlView('pause', this.order.value);
     });
 
     this.audioElement?.addEventListener('ended', () => {
       if (this.audioElement) {
-        const prevOrderValue = this.order;
-        this.updateOrder('increase');
-        this.changeActiveTrack(this.audioElement, prevOrderValue, this.order);
-      }
-    });
-
-    this.audioElement?.addEventListener('loadedmetadata', (event) => {
-      const durationTotal = document.querySelector('.duration__total');
-      if (this.audioElement && durationTotal) {
-        durationTotal.textContent = this.convertDuration(
-          this.audioElement.duration
+        const prevOrderValue = this.order.value;
+        this.order.update('increase');
+        this.changeActiveTrack(
+          this.audioElement,
+          prevOrderValue,
+          this.order.value
         );
       }
-
-      const durationRange = document.querySelector(
-        '.duration__range'
-      ) as HTMLInputElement;
-      if (durationRange && this.audioElement) {
-        durationRange.max = String(Math.floor(this.audioElement.duration));
-      }
     });
-
-    this.audioElement?.addEventListener('timeupdate', (event) => {
-      const durationProgress = document.querySelector('.duration__progress');
-      if (this.audioElement && durationProgress) {
-        durationProgress.textContent = this.convertDuration(
-          this.audioElement.currentTime
-        );
-      }
-      const durationRange = document.querySelector(
-        '.duration__range'
-      ) as HTMLInputElement;
-      if (durationRange && this.audioElement) {
-        durationRange.value = String(Math.floor(this.audioElement.currentTime));
-      }
-    });
-
-    document
-      .querySelector('.duration__range')
-      ?.addEventListener('input', (event) => {
-        if (this.audioElement)
-          this.audioElement.currentTime = Number(
-            (event.target as HTMLInputElement).value
-          );
-      });
-
-    document
-      .querySelector('.volume__range')
-      ?.addEventListener('input', (event) => {
-        if (this.audioElement) {
-          this.audioElement.volume = Number(
-            (event.target as HTMLInputElement).value
-          );
-          const volumeControl = document.querySelector(
-            '.volume__control'
-          ) as HTMLElement;
-          if (this.audioElement.volume) {
-            delete volumeControl.dataset.muted;
-          } else {
-            volumeControl.dataset.muted = 'true';
-          }
-        }
-      });
-  }
-
-  convertDuration(value: number) {
-    const min = Math.floor(Math.floor(value) / 60);
-    const additionMin = min < 10 ? '0' : '';
-    const sec = Math.floor(Math.floor(value) % 60);
-    const additionSec = sec < 10 ? '0' : '';
-    return `${additionMin + min}:${additionSec + sec}`;
   }
 
   changeActiveTrack(
@@ -219,44 +147,10 @@ export class Player {
 
   updateActiveTrackView() {
     const track = document.querySelector(
-      `.playlist-item[data-index="${this.order}"] input[name="playlist-item"]`
+      `.playlist-item[data-index="${this.order.value}"] input[name="playlist-item"]`
     ) as HTMLInputElement;
     if (track) {
       track.checked = true;
-    }
-  }
-
-  calculateNewOrder(
-    type: 'increase' | 'decrease',
-    currentValue: number,
-    maxValue: number,
-    minValue: number
-  ) {
-    switch (type) {
-      case 'increase':
-        const nextValue = currentValue + 1;
-        return nextValue <= maxValue ? nextValue : minValue;
-      case 'decrease':
-        const prevValue = currentValue - 1;
-        return prevValue >= minValue ? prevValue : maxValue;
-      default:
-        return currentValue;
-    }
-  }
-
-  updateOrder(
-    type: 'increase' | 'decrease' | 'replace',
-    orderForReplace?: number
-  ) {
-    if (type === 'replace' && orderForReplace !== undefined) {
-      this.order = orderForReplace;
-    } else {
-      this.order = this.calculateNewOrder(
-        type as 'increase' | 'decrease',
-        this.order,
-        this.maxOrder,
-        this.minOrder
-      );
     }
   }
 
@@ -328,7 +222,7 @@ export class Player {
   content() {
     return `<div class="player">
       <audio src="${
-        this.playlist[this.order].src
+        this.playlist[this.order.value].src
       }" controls data-playing="false"></audio>
       <div class="custom-player">
         <div class="duration">
@@ -348,17 +242,11 @@ export class Player {
         </div>
 
         <div class="volume">
-          
-
-       
-      <button class="volume__control">
-       <i class='bx bx-volume-full' ></i>
-      </button>
-
-
-
-          <input type="range" class="volume__range" min="0" max="1" step="0.1" />
-        </div>
+  <button class="volume__control">
+    <i class="bx bx-volume-full"></i>
+  </button>
+  <input type="range" class="volume__range" min="0" max="1" step="0.1" />
+</div>
 
         <div class="player-controls">
           <button class="play-prev player-icon">
