@@ -115,7 +115,7 @@ export class Weather {
   }
 
   content() {
-    return `<div class="weather">
+    return `<div class="weather"  data-id="weather-toggle">
       <input type="text" class="weather__query" placeholder="Enter city name" value="${this.initialQuery}" />
       <div class="weather__error"></div>
       <div class="weather__details">

@@ -146,7 +146,7 @@ export class TodoList {
   }
 
   content() {
-    return `<div class="todolist">
+    return `<div class="todolist"  data-id="todolist-toggle">
         <div class="todolist__controls">
         <input id="todoText" type="text" class="todolist__main-input" placeholder="What is your plans for today?" />
         <button class="todolist__toggle-button" title="toggle todo list" >

@@ -57,7 +57,7 @@
   width: 1.5rem;
 }
 
-font-size.todolist-item__content {
+.todolist-item__content {
   cursor: pointer;
 }
 

@@ -1,5 +1,8 @@
 .date {
   grid-area: 1 / 2 / 2 / 4;
+  & > * {
+    transition: 0.5s;
+  }
 }
 
 .date__time {

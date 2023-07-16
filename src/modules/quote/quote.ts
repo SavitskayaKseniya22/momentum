@@ -58,7 +58,7 @@ export class Quote {
   }
 
   content() {
-    return `<div class="quote">
+    return `<div class="quote" data-id="quote-toggle">
           <div class="quote__content"></div>
           <div class="quote__author"></div>
           <button class="quote__reload">

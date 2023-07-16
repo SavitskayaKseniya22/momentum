@@ -6,6 +6,9 @@
   position: relative;
   grid-area: 1/1/3/2;
 }
+.player.hidden {
+  display: none;
+}
 
 .custom-player {
   width: 100%;
@@ -58,7 +61,6 @@ input[type=range]::-webkit-slider-runnable-track {
 input[type=range]::-webkit-slider-thumb {
   background: #ecf0f1;
   border-radius: 50%;
-  cursor: pointer;
   width: 15px;
   height: 15px;
   margin-top: -4px;
@@ -75,23 +77,12 @@ input[type=range]::-moz-range-thumb {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  cursor: pointer;
 }
 
 input[type=range]::-moz-range-progress {
   background-color: white;
   height: 5px;
   border-radius: 10px/100%;
-}
-
-.volume__control {
-  width: 25px;
-  height: 25px;
-  background-color: transparent;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .player-controls {

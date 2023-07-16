@@ -3,13 +3,13 @@
 
 
 
-let toggleSettings = document.querySelector(".toggleSettings")
+let settings__toggle = document.querySelector(".settings__toggle")
 let settings = document.querySelector(".settings")
-let settingsPopup = document.querySelector(".settingsPopup")
+let settings__popup = document.querySelector(".settings__popup")
 
 
-toggleSettings.addEventListener("click", function () {
-    popBlock(settingsPopup, toggleSettings)
+settings__toggle.addEventListener("click", function () {
+    popBlock(settings__popup, settings__toggle)
 
 })
 

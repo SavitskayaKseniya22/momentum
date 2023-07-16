@@ -2,10 +2,32 @@ import './settings.scss';
 
 class Settings {
   storage: Storage;
+  inputs: string[];
   constructor() {
     this.storage = window.localStorage;
+    this.inputs = [
+      'time-toggle',
+      'date-toggle',
+      'greetings-toggle',
+      'quote-toggle',
+      'weather-toggle',
+      'player-toggle',
+      'todolist-toggle',
+    ];
   }
-  addListener() {}
+  addListener() {
+    document.addEventListener('click', async (event) => {
+      if (event.target && event.target instanceof HTMLElement) {
+        if (event.target.closest('.settings__toggle')) {
+          const popup = document.querySelector('.settings__popup');
+          popup?.classList.toggle('hidden');
+        }
+      }
+    });
+    this.inputs.forEach((id) => {
+      this.toggleBlockVisibility(id);
+    });
+  }
 
   checkTagInitialValue() {
     return this.storage.getItem('imageTag') || '';
@@ -18,77 +40,99 @@ class Settings {
 
   checkImageSourceForDisabledTag() {
     const source = this.storage.getItem('imageSource');
-    return source === 'github' ? 'disabled' : ''; //reactive
+    return source === 'github' ? 'disabled' : '';
+  }
+
+  toggleBlockVisibility(id: string) {
+    const checkbox = document.querySelector(`input[id='${id}']`);
+    checkbox?.addEventListener('change', () => {
+      const assotiatedBlock = document.querySelector(`[data-id='${id}']`);
+      const checked = (checkbox as HTMLInputElement).checked;
+      console.log(checkbox);
+      if (checked) {
+        console.log(1);
+        assotiatedBlock?.classList.remove('invisible');
+      } else {
+        console.log(2);
+        assotiatedBlock?.classList.add('invisible');
+      }
+    });
   }
 
   content() {
-    return `<div class="settings hidden">
-      <div class="settingsPopup transition">
-        <h3>Settings</h3>
-        <div>
+    return `<div class="settings">
+  <div class="settings__popup hidden">
+    <h3>Settings</h3>
+    <ul class="settings__popup-content">
+      <li class="popup-content__column">
+        <div class="settings__item">
           <h4>Visibility:</h4>
-          <ul class="visibility">
-            <li class="timeBlock">
+          <ul>
+            <li>
               <label for="time">Time</label>
-              <input type="checkbox" id="time" />
+              <input type="checkbox" id="time-toggle" checked />
             </li>
-            <li class="dateBlock">
+            <li>
               <label for="date">Date</label>
-              <input type="checkbox" id="date" />
+              <input type="checkbox" id="date-toggle" checked />
             </li>
-
-            <li class="greetingBlock">
-              <label for="greeting-container">Greeting</label>
-              <input type="checkbox" id="greeting-container" />
+            <li>
+              <label for="greetings">Greeting</label>
+              <input type="checkbox" id="greetings-toggle" checked />
             </li>
-
-            <li class="quoteBlock">
-              <label for="quote-container">Quote</label>
-              <input type="checkbox" id="quote-container" />
+            <li>
+              <label for="quote">Quote</label>
+              <input type="checkbox" id="quote-toggle" checked />
             </li>
-
-            <li class="weatherBlock">
+            <li>
               <label for="weather">Weather</label>
-              <input type="checkbox" id="weather" />
+              <input type="checkbox" id="weather-toggle" checked />
             </li>
-
-            <li class="audioBlock">
+            <li>
               <label for="player">Audio</label>
-              <input type="checkbox" id="player" />
+              <input type="checkbox" id="player-toggle" checked />
             </li>
-
-            <li class="todolistBlock">
+            <li>
               <label for="todolist">Todolist</label>
-              <input type="checkbox" id="todolist" />
+              <input type="checkbox" id="todolist-toggle" checked />
             </li>
           </ul>
         </div>
-
-        <div>
+      </li>
+      <li class="popup-content__column">
+        <div class="settings__item">
           <h4>Photo source:</h4>
           <ul class="background-source">
             <li>
               <label for="github">Github</label>
-              <input type="radio" name="background-source" class="background-source__option" id="github" ${this.checkImageSourceInitialValue(
-                'github'
-              )}  />
+              <input type="radio" name="background-source"
+              class="background-source__option" id="github"
+              ${this.checkImageSourceInitialValue('github')} />
             </li>
             <li>
               <label for="unsplash">Unsplash</label>
-              <input type="radio" name="background-source" class="background-source__option" id="unsplash" ${this.checkImageSourceInitialValue(
-                'unsplash'
-              )} />
+              <input type="radio" name="background-source"
+              class="background-source__option" id="unsplash"
+              ${this.checkImageSourceInitialValue('unsplash')} />
             </li>
             <li>
               <label for="flickr">Flickr</label>
-              <input type="radio" name="background-source" class="background-source__option" id="flickr" ${this.checkImageSourceInitialValue(
-                'flickr'
-              )} />
+              <input type="radio" name="background-source"
+              class="background-source__option" id="flickr"
+              ${this.checkImageSourceInitialValue('flickr')} />
             </li>
           </ul>
+        </div>
+        <div class="settings__item">
           <h4>Query:</h4>
-          <input type="text" id="search-query" class="background-source__query" ${this.checkImageSourceForDisabledTag()} value="${this.checkTagInitialValue()}"  />
-
+          <input
+            type="text"
+            id="search-query"
+            class="background-source__query"
+            value="${this.checkTagInitialValue()}"
+          />
+        </div>
+        <div class="settings__item">
           <h4>Language:</h4>
           <ul class="language">
             <li>
@@ -101,11 +145,13 @@ class Settings {
             </li>
           </ul>
         </div>
-      </div>
-      <button class="toggleSettings transition">
-        <img src="assets/svg/settings.svg" alt="" />
-      </button>
-    </div>`;
+      </li>
+    </ul>
+  </div>
+  <button class="settings__toggle" title="toggle settings">
+    <i class="bx bxs-cog"></i>
+  </button>
+</div>`;
   }
 }
 

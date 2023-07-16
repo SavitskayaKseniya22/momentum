@@ -214,7 +214,7 @@ export class Player {
   }
 
   content() {
-    return `<div class="player">
+    return `<div class="player"  data-id="player-toggle">
       <div class="custom-player">
         <div class="duration">
           <input

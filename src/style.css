@@ -6,6 +6,15 @@ input {
   border: none;
 }
 
+input[type=checkbox],
+input[type=radio] {
+  cursor: pointer;
+}
+
+input[type=text] {
+  cursor: text;
+}
+
 input[type=range] {
   cursor: pointer;
 }
@@ -75,8 +84,14 @@ main {
 }
 main > * {
   padding: 1rem;
+  opacity: 1;
+  transition: 0.5s;
 }
 
 .hidden {
   display: none;
+}
+
+.invisible {
+  opacity: 0;
 }/*# sourceMappingURL=style.css.map */

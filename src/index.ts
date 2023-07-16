@@ -29,7 +29,6 @@ class App {
 
   constructor() {
     this.footer = new Footer();
-
     this.changeBackgroundButtons = new ChangeBackgroundButtons();
     this.settings = new Settings();
     this.greetings = new Greetings();
@@ -51,7 +50,6 @@ class App {
 
   content() {
     return `
-   
     <main>
     ${this.changeBackgroundButtons.content()}
     ${this.player.content()}
@@ -60,21 +58,20 @@ class App {
     ${this.weather.content()}
     ${this.todoList.content()}
     ${this.quote.content()}
+    ${this.settings.content()}
     </main>
     ${this.footer.content()}
     `;
   }
 
-  render() {
-    const body = document.querySelector('body');
-
-    if (body) {
-      body.insertAdjacentHTML('afterbegin', this.content());
-      body.insertAdjacentHTML('beforeend', this.settings.content());
-    }
+  render(container: HTMLBodyElement) {
+    container.insertAdjacentHTML('afterbegin', this.content());
 
     return this;
   }
 }
 
-new App().render().addListener();
+const body = document.querySelector('body');
+if (body) {
+  new App().render(body).addListener();
+}
