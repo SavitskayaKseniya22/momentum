@@ -1,3 +1,4 @@
+import { TodoItem } from '../../interfaces';
 import './todoList.scss';
 
 export class TodoList {
@@ -36,6 +37,49 @@ export class TodoList {
         }
       }
     });
+
+    window.addEventListener('beforeunload', () => {
+      this.storeTodoList();
+    });
+
+    window.addEventListener('load', () => {
+      this.restoreTodoList();
+    });
+  }
+
+  restoreTodoList() {
+    const storage = window.localStorage;
+    const todolist = storage.getItem('todolist');
+    if (todolist) {
+      const parsedTodo: TodoItem[] = JSON.parse(todolist);
+      if (parsedTodo.length) {
+        parsedTodo.forEach((elem) => {
+          const { value, checked } = elem;
+          this.addTodoItem(value, checked);
+        });
+        this.toggleTodoView('on');
+      }
+    }
+  }
+
+  storeTodoList() {
+    const storage = window.localStorage;
+    const data: {
+      value: string;
+      checked: boolean;
+    }[] = [];
+    const items = document.querySelectorAll('.todolist-item');
+    if (items) {
+      items.forEach((elem) => {
+        const contentElement = elem.querySelector('.todolist-item__content');
+        const checkboxElement = elem.querySelector('.todolist-item__toggle');
+        const itemData: TodoItem = {} as TodoItem;
+        itemData.value = contentElement?.textContent as string;
+        itemData.checked = (checkboxElement as HTMLInputElement).checked;
+        data.push(itemData);
+      });
+      storage.setItem('todolist', JSON.stringify(data));
+    }
   }
 
   toggleEditMode(editor: Element, content: Element) {
@@ -66,12 +110,12 @@ export class TodoList {
     }
   }
 
-  addTodoItem(todoItemContent: string) {
+  addTodoItem(todoItemContent: string, checked?: boolean) {
     const todolist = document.querySelector('.todolist__content');
     if (todolist) {
       todolist.insertAdjacentHTML(
         'beforeend',
-        this.makeTodoItem(todoItemContent)
+        this.makeTodoItem(todoItemContent, checked)
       );
     }
   }
@@ -115,14 +159,14 @@ export class TodoList {
     }
   }
 
-  makeTodoItem(todoItemContent: string) {
+  makeTodoItem(todoItemContent: string, checked?: boolean) {
     return `
-
     <li class="todolist-item">
         <input
           type="checkbox"
           class="todolist-item__toggle"
           title="complete item"
+          ${checked ? 'checked' : ''}
         />
         <span class="todolist-item__content" title="click to edit">${todoItemContent}</span>
         <div class="todolist-item__editor todolist-item-editor hidden">
@@ -154,6 +198,7 @@ export class TodoList {
         </button>
         </div>
         <ol class="todolist__content hidden">
+
         </ol>
       </div>`;
   }

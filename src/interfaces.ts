@@ -3,6 +3,11 @@ export interface PlaylistItem {
   src: string;
 }
 
+export interface TodoItem {
+  value: string;
+  checked: boolean;
+}
+
 export interface ActualDateType {
   now: Date;
   dateString: string;
