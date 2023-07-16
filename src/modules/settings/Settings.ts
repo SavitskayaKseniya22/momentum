@@ -24,9 +24,59 @@ class Settings {
         }
       }
     });
-    this.inputs.forEach((id) => {
-      this.toggleBlockVisibility(id);
+
+    this.addLIstenerForVisibilityCheckboxes(this.inputs);
+
+    window.addEventListener('beforeunload', () => {
+      this.storeVisibilityCheckboxes();
     });
+
+    window.addEventListener('load', () => {
+      this.restoreVisibilityCheckboxes();
+    });
+  }
+
+  setCheckedInput(inputList: string[]) {
+    inputList.forEach((elem: string) => {
+      const input = document.querySelector(`#${elem}`);
+      if (input) {
+        input.setAttribute('checked', 'checked');
+      }
+    });
+  }
+
+  setCheckedBlock(inputList: string[]) {
+    const elementsWithId = document.querySelectorAll(`[data-id]`);
+    elementsWithId.forEach((elem) => {
+      const id = (elem as HTMLElement).dataset.id;
+      if (id && !inputList.includes(id)) {
+        elem.classList.add('invisible');
+      }
+    });
+  }
+
+  restoreVisibilityCheckboxes() {
+    const storage = window.localStorage;
+    const checkedInputs = storage.getItem('checkedInputs');
+    if (checkedInputs) {
+      const arrayOfInputs = JSON.parse(checkedInputs);
+      this.setCheckedInput(arrayOfInputs);
+      this.setCheckedBlock(arrayOfInputs);
+    } else {
+      this.setCheckedInput(this.inputs);
+      this.setCheckedBlock(this.inputs);
+    }
+  }
+
+  storeVisibilityCheckboxes() {
+    const storage = window.localStorage;
+    const checkedInputs: string[] = [];
+    document
+      .querySelectorAll('.settings__visibility input:checked')
+      .forEach((elem) => {
+        checkedInputs.push(elem.id);
+      });
+    storage.setItem('checkedInputs', JSON.stringify(checkedInputs));
   }
 
   checkTagInitialValue() {
@@ -43,19 +93,18 @@ class Settings {
     return source === 'github' ? 'disabled' : '';
   }
 
-  toggleBlockVisibility(id: string) {
-    const checkbox = document.querySelector(`input[id='${id}']`);
-    checkbox?.addEventListener('change', () => {
-      const assotiatedBlock = document.querySelector(`[data-id='${id}']`);
-      const checked = (checkbox as HTMLInputElement).checked;
-      console.log(checkbox);
-      if (checked) {
-        console.log(1);
-        assotiatedBlock?.classList.remove('invisible');
-      } else {
-        console.log(2);
-        assotiatedBlock?.classList.add('invisible');
-      }
+  addLIstenerForVisibilityCheckboxes(inputs: string[]) {
+    inputs.forEach((id) => {
+      const checkbox = document.querySelector(`input[id='${id}']`);
+      checkbox?.addEventListener('change', () => {
+        const assotiatedBlock = document.querySelector(`[data-id='${id}']`);
+        const checked = (checkbox as HTMLInputElement).checked;
+        if (checked) {
+          assotiatedBlock?.classList.remove('invisible');
+        } else {
+          assotiatedBlock?.classList.add('invisible');
+        }
+      });
     });
   }
 
@@ -67,34 +116,34 @@ class Settings {
       <li class="popup-content__column">
         <div class="settings__item">
           <h4>Visibility:</h4>
-          <ul>
+          <ul class="settings__visibility">
             <li>
               <label for="time">Time</label>
-              <input type="checkbox" id="time-toggle" checked />
+              <input type="checkbox" id="time-toggle" />
             </li>
             <li>
               <label for="date">Date</label>
-              <input type="checkbox" id="date-toggle" checked />
+              <input type="checkbox" id="date-toggle" />
             </li>
             <li>
               <label for="greetings">Greeting</label>
-              <input type="checkbox" id="greetings-toggle" checked />
+              <input type="checkbox" id="greetings-toggle" />
             </li>
             <li>
               <label for="quote">Quote</label>
-              <input type="checkbox" id="quote-toggle" checked />
+              <input type="checkbox" id="quote-toggle" />
             </li>
             <li>
               <label for="weather">Weather</label>
-              <input type="checkbox" id="weather-toggle" checked />
+              <input type="checkbox" id="weather-toggle" />
             </li>
             <li>
               <label for="player">Audio</label>
-              <input type="checkbox" id="player-toggle" checked />
+              <input type="checkbox" id="player-toggle" />
             </li>
             <li>
               <label for="todolist">Todolist</label>
-              <input type="checkbox" id="todolist-toggle" checked />
+              <input type="checkbox" id="todolist-toggle" />
             </li>
           </ul>
         </div>
