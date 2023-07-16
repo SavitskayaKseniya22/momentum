@@ -18,15 +18,18 @@ class App {
   settings: Settings;
   footer: Footer;
   changeBackgroundButtons: ChangeBackgroundButtons;
-  greetings: Greetings;
-  actualDate: ActualDate;
+
   quote: Quote;
   weather: Weather;
   todoList: TodoList;
   player: Player;
 
+  actualDate: ActualDate;
+  greetings: Greetings;
+
   constructor() {
     this.footer = new Footer();
+
     this.changeBackgroundButtons = new ChangeBackgroundButtons();
     this.settings = new Settings();
     this.greetings = new Greetings();
@@ -38,30 +41,36 @@ class App {
   }
 
   addListener() {
+    this.greetings.addListener();
     this.settings.addListener();
     this.changeBackgroundButtons.addListener();
-    this.greetings.addListener();
     this.weather.addListener();
     this.todoList.addListener();
     this.player.addListener();
   }
 
+  content() {
+    return `
+   
+    <main>
+    ${this.changeBackgroundButtons.content()}
+    ${this.player.content()}
+    ${this.actualDate.content()}
+    ${this.greetings.content()}
+    ${this.weather.content()}
+    ${this.todoList.content()}
+    ${this.quote.content()}
+    </main>
+    ${this.footer.content()}
+    `;
+  }
+
   render() {
     const body = document.querySelector('body');
+
     if (body) {
-      body.insertAdjacentHTML('afterbegin', '<main></main>');
-      body.insertAdjacentHTML(
-        'beforeend',
-        this.changeBackgroundButtons.content()
-      );
-      body.insertAdjacentHTML('beforeend', this.player.content());
-      body.insertAdjacentHTML('beforeend', this.todoList.content());
-      body.insertAdjacentHTML('beforeend', this.weather.content());
-      body.insertAdjacentHTML('beforeend', this.actualDate.content());
-      body.insertAdjacentHTML('beforeend', this.greetings.content());
+      body.insertAdjacentHTML('afterbegin', this.content());
       body.insertAdjacentHTML('beforeend', this.settings.content());
-      body.insertAdjacentHTML('beforeend', this.quote.content());
-      body.insertAdjacentHTML('beforeend', this.footer.content());
     }
 
     return this;

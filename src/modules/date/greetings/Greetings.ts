@@ -17,7 +17,7 @@ export class Greetings {
   addListener() {
     document
       .querySelector('.greetings__name')
-      ?.addEventListener('change', async (event: Event) => {
+      ?.addEventListener('input', async (event: Event) => {
         const { target } = event;
         if (target) {
           this.writeStore((target as HTMLInputElement).value);

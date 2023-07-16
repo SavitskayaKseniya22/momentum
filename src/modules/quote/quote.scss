@@ -1,11 +1,10 @@
 .quote {
-  width: 60%;
-}
-
-.quote__content {
-  min-height: 32px;
+  grid-area: 4 / 2 / 5 / 4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .quote__author {
-  min-height: 20px;
+  font-size: 0.8rem;
 }

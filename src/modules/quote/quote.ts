@@ -59,11 +59,11 @@ export class Quote {
 
   content() {
     return `<div class="quote">
+          <div class="quote__content"></div>
+          <div class="quote__author"></div>
           <button class="quote__reload">
           <i class='bx bx-refresh'></i>
           </button>
-          <div class="quote__content"></div>
-          <div class="quote__author"></div>
         </div>`;
   }
 }

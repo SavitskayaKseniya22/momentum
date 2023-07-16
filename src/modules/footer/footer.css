@@ -1,19 +1,11 @@
 .footer {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   gap: 0.5rem;
-  min-width: 320px;
 }
 .footer .footer__logo {
   width: 100px;
   height: 30px;
-}
-@media (min-width: 768px) {
-  .footer {
-    flex-direction: row;
-    padding: 1rem;
-  }
 }/*# sourceMappingURL=footer.css.map */
