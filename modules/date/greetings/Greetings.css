@@ -1,0 +1,31 @@
+.greetings {
+  font-size: 2.5rem;
+  grid-area: 2/2/3/4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.greetings__title {
+  text-align: right;
+  flex-grow: 2;
+}
+
+.greetings__name {
+  text-align: left;
+  color: #fff;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.greetings__name::-moz-placeholder {
+  color: #fff;
+  opacity: 0.6;
+}
+
+.greetings__name::placeholder {
+  color: #fff;
+  opacity: 0.6;
+}/*# sourceMappingURL=Greetings.css.map */

@@ -1,0 +1,10 @@
+.date {
+  grid-area: 1/2/2/4;
+}
+.date > * {
+  transition: 0.5s;
+}
+
+.date__time {
+  font-size: 3rem;
+}/*# sourceMappingURL=ActualDate.css.map */

@@ -1,0 +1,10 @@
+.quote {
+  grid-area: 4/2/5/4;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.quote__author {
+  font-size: 0.8rem;
+}/*# sourceMappingURL=quote.css.map */

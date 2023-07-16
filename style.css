@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "Arial-MT";
+  src: url("./assets/fonts/Arial-MT.woff");
+}
+input {
+  border: none;
+}
+
+input[type=checkbox],
+input[type=radio] {
+  cursor: pointer;
+}
+
+input[type=text] {
+  cursor: text;
+}
+
+input[type=range] {
+  cursor: pointer;
+}
+
+li {
+  list-style-type: none;
+}
+
+label {
+  cursor: pointer;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+button img {
+  width: 100%;
+}
+button i {
+  font-size: 2rem;
+  color: #fff;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+  font-size: 16px;
+  color: #fff;
+  text-align: center;
+  background-blend-mode: multiply;
+  transition: 1s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 0.5fr 0.25fr 1fr 0.25fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+}
+main > * {
+  padding: 1rem;
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.hidden {
+  display: none;
+}
+
+.invisible {
+  opacity: 0;
+}/*# sourceMappingURL=style.css.map */
