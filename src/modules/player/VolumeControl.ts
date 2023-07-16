@@ -1,14 +1,11 @@
 export class VolumeControl {
-  audioElement: HTMLAudioElement | null | undefined;
-  constructor() {}
+  audioElement: HTMLAudioElement;
+  constructor(audio: HTMLAudioElement) {
+    this.audioElement = audio;
+  }
   addListener() {
-    this.audioElement = document.querySelector('audio');
     document.addEventListener('click', (event) => {
-      if (
-        event.target &&
-        event.target instanceof HTMLElement &&
-        this.audioElement
-      ) {
+      if (event.target && event.target instanceof HTMLElement) {
         if (event.target.closest('.volume__control')) {
           this.toggleVolume(this.audioElement);
         }
@@ -18,18 +15,16 @@ export class VolumeControl {
     document
       .querySelector('.volume__range')
       ?.addEventListener('input', (event) => {
-        if (this.audioElement) {
-          this.audioElement.volume = Number(
-            (event.target as HTMLInputElement).value
-          );
-          const volumeControl = document.querySelector(
-            '.volume__control'
-          ) as HTMLElement;
-          if (this.audioElement.volume) {
-            delete volumeControl.dataset.muted;
-          } else {
-            volumeControl.dataset.muted = 'true';
-          }
+        this.audioElement.volume = Number(
+          (event.target as HTMLInputElement).value
+        );
+        const volumeControl = document.querySelector(
+          '.volume__control'
+        ) as HTMLElement;
+        if (this.audioElement.volume) {
+          delete volumeControl.dataset.muted;
+        } else {
+          volumeControl.dataset.muted = 'true';
         }
       });
   }

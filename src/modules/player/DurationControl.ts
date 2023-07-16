@@ -1,11 +1,12 @@
 export class DurationControl {
-  audioElement: HTMLAudioElement | null | undefined;
-  constructor() {}
+  audioElement: HTMLAudioElement;
+  constructor(audio: HTMLAudioElement) {
+    this.audioElement = audio;
+  }
   addListener() {
-    this.audioElement = document.querySelector('audio');
-    this.audioElement?.addEventListener('loadedmetadata', () => {
+    this.audioElement.addEventListener('loadedmetadata', () => {
       const durationTotal = document.querySelector('.duration__total');
-      if (this.audioElement && durationTotal) {
+      if (durationTotal) {
         durationTotal.textContent = this.convertDuration(
           this.audioElement.duration
         );
@@ -13,14 +14,14 @@ export class DurationControl {
       const durationRange = document.querySelector(
         '.duration__range'
       ) as HTMLInputElement;
-      if (durationRange && this.audioElement) {
+      if (durationRange) {
         durationRange.max = String(Math.floor(this.audioElement.duration));
       }
     });
 
-    this.audioElement?.addEventListener('timeupdate', () => {
+    this.audioElement.addEventListener('timeupdate', () => {
       const durationProgress = document.querySelector('.duration__progress');
-      if (this.audioElement && durationProgress) {
+      if (durationProgress) {
         durationProgress.textContent = this.convertDuration(
           this.audioElement.currentTime
         );
@@ -28,7 +29,7 @@ export class DurationControl {
       const durationRange = document.querySelector(
         '.duration__range'
       ) as HTMLInputElement;
-      if (durationRange && this.audioElement) {
+      if (durationRange) {
         durationRange.value = String(Math.floor(this.audioElement.currentTime));
       }
     });
@@ -36,10 +37,9 @@ export class DurationControl {
     document
       .querySelector('.duration__range')
       ?.addEventListener('input', (event) => {
-        if (this.audioElement)
-          this.audioElement.currentTime = Number(
-            (event.target as HTMLInputElement).value
-          );
+        this.audioElement.currentTime = Number(
+          (event.target as HTMLInputElement).value
+        );
       });
   }
 
