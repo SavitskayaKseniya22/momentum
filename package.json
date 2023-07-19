@@ -25,6 +25,10 @@
   },
   "dependencies": {
     "boxicons": "^2.1.4",
+    "i18next": "^23.2.11",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-http-backend": "^2.2.1",
+    "loc-i18next": "^0.1.5",
     "normalize.css": "^8.0.1"
   }
 }
