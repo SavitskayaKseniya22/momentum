@@ -6,7 +6,7 @@
   text-align: left;
   grid-area: 1/4/2/5;
   justify-self: right;
-  width: 50%;
+  width: 75%;
 }
 
 .weather__details {
