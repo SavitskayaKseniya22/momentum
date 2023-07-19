@@ -1,4 +1,5 @@
 import { PlaylistItem } from '../../interfaces';
+import { calculateNumber } from '../../utils';
 
 export class PlayOrder {
   value: number;
@@ -10,29 +11,11 @@ export class PlayOrder {
     this.minValue = 0;
   }
 
-  calculate(
-    type: 'increase' | 'decrease' | 'replace',
-    currentValue: number,
-    maxValue: number,
-    minValue: number
-  ) {
-    switch (type) {
-      case 'increase':
-        const nextValue = currentValue + 1;
-        return nextValue <= maxValue ? nextValue : minValue;
-      case 'decrease':
-        const prevValue = currentValue - 1;
-        return prevValue >= minValue ? prevValue : maxValue;
-      default:
-        return currentValue;
-    }
-  }
-
   update(type: 'increase' | 'decrease' | 'replace', orderForReplace?: number) {
     if (type === 'replace' && orderForReplace !== undefined) {
       this.value = orderForReplace;
     } else {
-      this.value = this.calculate(
+      this.value = calculateNumber(
         type,
         this.value,
         this.maxValue,

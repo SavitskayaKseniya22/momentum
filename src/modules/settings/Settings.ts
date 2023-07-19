@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { translateContent } from '../../i18n';
+import { checkLanguage, translateContent } from '../../i18n';
 import './settings.scss';
 
 class Settings {
@@ -35,8 +35,7 @@ class Settings {
 
     window.addEventListener('load', () => {
       this.restoreVisibilityCheckboxes();
-      const lang =
-        i18next.language || window.localStorage.getItem('i18nextLng') || 'en';
+      const lang = checkLanguage();
       const langInputChecked = document.querySelector(`input[id="${lang}"]`);
       langInputChecked?.setAttribute('checked', 'checked');
     });
