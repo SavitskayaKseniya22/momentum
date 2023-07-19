@@ -46,10 +46,10 @@
   },
   "greetings": {
     "placeholder": "[Enter name]",
-    "morning": "Good morning",
-    "afternoon": "Good afternoon",
-    "evening": "Good evening",
-    "night": "Good night"
+    "morning": "Good morning,",
+    "afternoon": "Good afternoon,",
+    "evening": "Good evening,",
+    "night": "Good night,"
   },
   "images": {
     "prev": "previous image",

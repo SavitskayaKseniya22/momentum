@@ -1,4 +1,3 @@
-import i18next from 'i18next';
 import { ActualDateType } from '../../interfaces';
 import './ActualDate.scss';
 import { checkLanguage } from '../../i18n';
