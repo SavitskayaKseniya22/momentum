@@ -2,16 +2,17 @@ import ActualDate from '../actualDate/ActualDate';
 import './Greetings.scss';
 
 class Greetings {
-  constructor() {}
+  name: string;
+  constructor() {
+    this.name = this.readStore() || '';
+  }
 
   readStore() {
-    const storage = window.localStorage;
-    return storage.getItem('greetingsName');
+    return window.localStorage.getItem('greetingsName');
   }
 
   writeStore(greetingsName: string) {
-    const storage = window.localStorage;
-    storage.setItem('greetingsName', greetingsName);
+    window.localStorage.setItem('greetingsName', greetingsName);
   }
 
   addListener() {
@@ -19,8 +20,8 @@ class Greetings {
       .querySelector('.greetings__name')
       ?.addEventListener('input', (event: Event) => {
         const { target } = event;
-        if (target) {
-          this.writeStore((target as HTMLInputElement).value);
+        if (target && target instanceof HTMLInputElement) {
+          this.writeStore(target.value);
         }
       });
   }
@@ -28,10 +29,8 @@ class Greetings {
   content() {
     const timeOfDay = ActualDate.getTimeOfDay();
     return `<div class="greetings" data-id="greetings-toggle">
-      <span class="greetings__title"><span data-i18n="greetings.${timeOfDay}">Good day</span>, </span>
-      <input type="text" placeholder="[Enter name]" data-i18n="[placeholder]greetings.placeholder" class="greetings__name" value="${
-        this.readStore() || ''
-      }"  />
+      <span class="greetings__title" data-i18n="greetings.${timeOfDay}">Good day, </span>
+      <input type="text" placeholder="[Enter name]" data-i18n="[placeholder]greetings.placeholder" class="greetings__name" value="${this.name}"  />
     </div>`;
   }
 }

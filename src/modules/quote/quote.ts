@@ -28,9 +28,8 @@ class Quote {
   }
 
   addListener() {
-    document.addEventListener('click', async (event) => {
+    document.addEventListener('click', (event) => {
       if (
-        event.target &&
         event.target instanceof HTMLElement &&
         event.target.closest('.quote__reload')
       ) {
