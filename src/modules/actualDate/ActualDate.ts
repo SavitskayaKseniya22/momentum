@@ -1,4 +1,5 @@
-import { ActualDateType } from '../../../interfaces';
+import i18next from 'i18next';
+import { ActualDateType } from '../../interfaces';
 import './ActualDate.scss';
 
 class ActualDate {
@@ -9,7 +10,10 @@ class ActualDate {
   static getActualDate() {
     const date: ActualDateType = {} as ActualDateType;
     date.now = new Date();
-    date.dateString = date.now.toLocaleDateString('en-US', {
+    const lang =
+      i18next.language || window.localStorage.getItem('i18nextLng') || 'en';
+    const locale = lang === 'en' ? 'en-US' : 'ru-RU';
+    date.dateString = date.now.toLocaleDateString(locale, {
       weekday: 'long',
       day: 'numeric',
       month: 'long',
