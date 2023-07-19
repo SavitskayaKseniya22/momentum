@@ -1,91 +1,47 @@
-import { BackgroundImageCollection } from '../BackgroundImageCollection';
-import { QueryTag } from '../QueryTag';
+import { calculateNumber } from '../../../utils';
+import { ImageCollection } from '../ImageCollection';
 import './ChangeBackgroundButtons.scss';
 
+const MAX_NUMBER_OF_IMAGES_IN_PACK = 19;
+const MIN_NUMBER_OF_IMAGES_IN_PACK = 0;
+
 class ChangeBackgroundButtons {
-  constructor() {
-    this.changeBackground();
-  }
+  constructor() {}
 
-  applyNewBackground(img: HTMLImageElement, src: string) {
-    img.onload = () => {
-      const backgroundContainer = document.querySelector('.slider__background');
-      if (backgroundContainer) {
-        (
-          backgroundContainer as HTMLElement
-        ).style.background = `url(${src}) center/cover, rgba(0, 0, 0, 0.5)`;
-      }
-    };
-  }
-
-  async changeBackground() {
-    const { imageList, imageSource } =
-      await BackgroundImageCollection.checkImageDataExistence();
-    const pictureOrder =
-      BackgroundImageCollection.readStore().pictureOrder || 0;
+  async changeBackground(isItFirstLoad?: boolean) {
+    const { imageList, imageSource, pictureOrder } =
+      await ImageCollection.checkImageDataExistence(isItFirstLoad);
 
     const img = new Image();
-    if (imageList && imageList[pictureOrder]) {
-      const url = BackgroundImageCollection.getItemUrl(
+    if (imageList[pictureOrder]) {
+      const url = ImageCollection.getItemUrl(
         imageList[pictureOrder],
         imageSource
       );
-      if (url) {
-        img.src = url;
-        this.applyNewBackground(img, img.src);
-      }
+      img.src = url;
+      this.applyNewBackground(img, img.src);
     }
-  }
-
-  updatePictiresOrderValue(
-    type: 'increase' | 'decrease',
-    currentValue: number
-  ) {
-    const MAX_NUMBER_OF_IMAGES_IN_PACK = 19;
-    const MIN_NUMBER_OF_IMAGES_IN_PACK = 0;
-    switch (type) {
-      case 'increase':
-        const nextValue = currentValue + 1;
-        return nextValue <= MAX_NUMBER_OF_IMAGES_IN_PACK
-          ? nextValue
-          : MIN_NUMBER_OF_IMAGES_IN_PACK;
-      case 'decrease':
-        const prevValue = currentValue - 1;
-        return prevValue >= MIN_NUMBER_OF_IMAGES_IN_PACK
-          ? prevValue
-          : MAX_NUMBER_OF_IMAGES_IN_PACK;
-      default:
-        return currentValue;
-    }
-  }
-
-  readUpdateWritePictureOrder(type: 'increase' | 'decrease') {
-    const storage = window.localStorage;
-    const pictureOrder = Number(storage.getItem('pictureOrder')) || 0;
-    const updatedPictureOrder = this.updatePictiresOrderValue(
-      type,
-      pictureOrder
-    );
-    storage.setItem('pictureOrder', updatedPictureOrder.toString());
-    return { updatedPictureOrder };
   }
 
   addListener() {
+    window.addEventListener('load', () => {
+      this.changeBackground(true);
+    });
+
     document.addEventListener('click', async (event) => {
       if (event.target && event.target instanceof HTMLElement) {
         if (event.target.closest('.slider__icons_icon')) {
-          if (event.target.closest('.slider__icons_prev')) {
-            this.readUpdateWritePictureOrder('decrease');
-          } else if (event.target.closest('.slider__icons_next')) {
-            this.readUpdateWritePictureOrder('increase');
-          }
+          const sliderIcon = event.target.closest('.slider__icons_icon');
+          const operation = (sliderIcon as HTMLElement).dataset.operation as
+            | 'increase'
+            | 'decrease';
+          this.updatePictureOrder(operation);
           this.changeBackground();
         } else if (event.target.closest('.background-source__option')) {
           const inputId = event.target.id;
-          const { imageSource, imageTag } =
-            BackgroundImageCollection.readStore();
+          const { imageSource, imageTag } = ImageCollection.readStore();
           if (inputId !== imageSource) {
-            await BackgroundImageCollection.getImageListAndWriteToStore(
+            await ImageCollection.getImageListAndWriteToStore(
               inputId,
               imageTag
             );
@@ -97,30 +53,45 @@ class ChangeBackgroundButtons {
     document
       .querySelector('#search-query')
       ?.addEventListener('change', async (event: Event) => {
-        const { target } = event;
-        if (target) {
-          QueryTag.writeStore((target as HTMLInputElement).value);
-          const { imageSource, imageTag } =
-            BackgroundImageCollection.readStore();
-          if (imageSource && imageSource !== 'github') {
-            await BackgroundImageCollection.getImageListAndWriteToStore(
-              imageSource,
-              imageTag
-            );
-            this.changeBackground();
-          }
+        const query = (event.target as HTMLInputElement).value;
+        const { imageSource } = ImageCollection.readStore();
+        if (imageSource && imageSource !== 'github') {
+          await ImageCollection.getImageListAndWriteToStore(imageSource, query);
+          this.changeBackground();
         }
       });
+  }
+
+  applyNewBackground(img: HTMLImageElement, src: string) {
+    img.onload = () => {
+      const backgroundContainer = document.querySelector('.slider__background');
+      if (backgroundContainer && backgroundContainer instanceof HTMLElement) {
+        backgroundContainer.style.background = `url(${src}) center/cover, rgba(0, 0, 0, 0.5)`;
+      }
+    };
+  }
+
+  updatePictureOrder(type: 'increase' | 'decrease') {
+    const storage = window.localStorage;
+    const { pictureOrder } = ImageCollection.readStore();
+    const updatedPictureOrder = calculateNumber(
+      type,
+      pictureOrder,
+      MAX_NUMBER_OF_IMAGES_IN_PACK,
+      MIN_NUMBER_OF_IMAGES_IN_PACK
+    );
+    storage.setItem('pictureOrder', String(updatedPictureOrder));
+    return { updatedPictureOrder };
   }
 
   content() {
     return `
     <div class="slider__background"></div>
     <div class="slider__icons">
-      <button class="slider__icons_prev slider__icons_icon" title="previous image" data-i18n="[title]images.prev">
+      <button class="slider__icons_prev slider__icons_icon" data-operation='decrease' title="previous image" data-i18n="[title]images.prev">
       <i class='bx bx-chevron-left'></i>
       </button>
-      <button class="slider__icons_next slider__icons_icon" title="next image" data-i18n="[title]images.next">
+      <button class="slider__icons_next slider__icons_icon" data-operation='increase' title="next image" data-i18n="[title]images.next">
       <i class='bx bx-chevron-right' ></i>
       </button>
     </div>`;
