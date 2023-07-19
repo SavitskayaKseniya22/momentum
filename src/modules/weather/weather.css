@@ -6,12 +6,17 @@
   text-align: left;
   grid-area: 1/4/2/5;
   justify-self: right;
+  width: 50%;
 }
 
 .weather__details {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 0.5rem;
+}
+.weather__details > * {
+  display: flex;
   gap: 0.5rem;
 }
 

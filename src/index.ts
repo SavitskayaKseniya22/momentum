@@ -1,29 +1,26 @@
-import './modules/background/changeBackgroundButtons/ChangeBackgroundButtons';
 import ChangeBackgroundButtons from './modules/background/changeBackgroundButtons/ChangeBackgroundButtons';
-import ActualDate from './modules/date/actualDate/ActualDate';
-import { Greetings } from './modules/date/greetings/Greetings';
+import ActualDate from './modules/actualDate/ActualDate';
+import Greetings from './modules/greetings/Greetings';
 import Footer from './modules/footer/footer';
-import { Quote } from './modules/quote/quote';
+import Quote from './modules/quote/quote';
 import Settings from './modules/settings/Settings';
-import { TodoList } from './modules/todolist/TodoList';
-import { Weather } from './modules/weather/Weather';
+import TodoList from './modules/todolist/TodoList';
+import Weather from './modules/weather/Weather';
+import Player from './modules/player/Player';
+import playlist from './assets/json/playlist.json';
 import 'boxicons';
-
+import './i18n';
 import 'normalize.css';
 import './style.scss';
-import { Player } from './modules/player/Player';
-import playlist from './assets/json/playlist.json';
 
 class App {
   settings: Settings;
   footer: Footer;
   changeBackgroundButtons: ChangeBackgroundButtons;
-
   quote: Quote;
   weather: Weather;
   todoList: TodoList;
   player: Player;
-
   actualDate: ActualDate;
   greetings: Greetings;
 
@@ -66,7 +63,6 @@ class App {
 
   render(container: HTMLBodyElement) {
     container.insertAdjacentHTML('afterbegin', this.content());
-
     return this;
   }
 }

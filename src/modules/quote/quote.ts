@@ -1,8 +1,10 @@
+import { localize } from '../../i18n';
 import './quote.scss';
 
-export class Quote {
+class Quote {
+  randomNumber: number;
   constructor() {
-    this.updateQuote();
+    this.randomNumber = this.getRandomInt(31);
     this.addListener();
   }
 
@@ -10,39 +12,19 @@ export class Quote {
     return Math.floor(Math.random() * max);
   }
 
-  async getQuotes() {
-    const url = `assets/json/enQuotes.json`;
-    const response = await fetch(url);
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error(
-        'Please reload page or check your quotes json. No quotes found.'
-      );
-    }
-  }
-
-  async getActiveQuote() {
-    const quotes = await this.getQuotes();
-    const randomNumber = this.getRandomInt(quotes.length - 1);
-    return quotes[randomNumber];
-  }
-
-  async updateQuote() {
-    try {
-      const activeQuote = await this.getActiveQuote();
-      const { quote, author } = activeQuote;
-      const quoteContentContainer = document.querySelector('.quote__content');
-      if (quoteContentContainer && quote) {
-        (quoteContentContainer as HTMLElement).innerText = quote;
-      }
-      const quoteAuthorContainer = document.querySelector('.quote__author');
-      if (quoteAuthorContainer && author) {
-        (quoteAuthorContainer as HTMLElement).innerText = author;
-      }
-    } catch (error) {
-      console.error(error);
-    }
+  updateQuote() {
+    this.randomNumber = this.getRandomInt(31);
+    const quoteContentContainer = document.querySelector('.quote__content');
+    const quoteAuthorContainer = document.querySelector('.quote__author');
+    quoteContentContainer?.setAttribute(
+      'data-i18n',
+      `quotes.${this.randomNumber}.quote`
+    );
+    quoteAuthorContainer?.setAttribute(
+      'data-i18n',
+      `quotes.${this.randomNumber}.author`
+    );
+    localize('.quote');
   }
 
   addListener() {
@@ -59,11 +41,13 @@ export class Quote {
 
   content() {
     return `<div class="quote" data-id="quote-toggle">
-          <div class="quote__content"></div>
-          <div class="quote__author"></div>
+          <div class="quote__content" data-i18n="quotes.${this.randomNumber}.quote"></div>
+          <div class="quote__author" data-i18n="quotes.${this.randomNumber}.author"></div>
           <button class="quote__reload">
           <i class='bx bx-refresh'></i>
           </button>
         </div>`;
   }
 }
+
+export default Quote;

@@ -6,6 +6,7 @@
   text-align: left;
   grid-area: 1 / 4 / 2 / 5;
   justify-self: right;
+  width: 75%;
 }
 
 .weather__details {
@@ -13,6 +14,10 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 0.5rem;
+  & > * {
+    display: flex;
+    gap: 0.5rem;
+  }
 }
 
 .weather__details_icon {

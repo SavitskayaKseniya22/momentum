@@ -4,7 +4,7 @@ import { PlayOrder } from './PlayOrder';
 import { VolumeControl } from './VolumeControl';
 import './player.scss';
 
-export class Player {
+class Player {
   playlist: PlaylistItem[];
   volumeControl: VolumeControl;
   durationControl: DurationControl;
@@ -259,3 +259,5 @@ export class Player {
     </div>`;
   }
 }
+
+export default Player;

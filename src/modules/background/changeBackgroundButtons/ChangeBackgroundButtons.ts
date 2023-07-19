@@ -117,10 +117,10 @@ class ChangeBackgroundButtons {
     return `
     <div class="slider__background"></div>
     <div class="slider__icons">
-      <button class="slider__icons_prev slider__icons_icon" title="previous image">
+      <button class="slider__icons_prev slider__icons_icon" title="previous image" data-i18n="[title]images.prev">
       <i class='bx bx-chevron-left'></i>
       </button>
-      <button class="slider__icons_next slider__icons_icon" title="next image">
+      <button class="slider__icons_next slider__icons_icon" title="next image" data-i18n="[title]images.next">
       <i class='bx bx-chevron-right' ></i>
       </button>
     </div>`;

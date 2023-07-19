@@ -1,7 +1,7 @@
 import { TodoItem } from '../../interfaces';
 import './todoList.scss';
 
-export class TodoList {
+class TodoList {
   constructor() {}
 
   addListener() {
@@ -16,7 +16,7 @@ export class TodoList {
         }
       });
 
-    document.addEventListener('click', async (event) => {
+    document.addEventListener('click', (event) => {
       if (event.target && event.target instanceof HTMLElement) {
         if (event.target.closest('.todolist-item__delete')) {
           const parent = event.target.closest('.todolist-item');
@@ -165,25 +165,26 @@ export class TodoList {
         <input
           type="checkbox"
           class="todolist-item__toggle"
+          data-i18n="[title]todo.item.complete"
           title="complete item"
           ${checked ? 'checked' : ''}
         />
-        <span class="todolist-item__content" title="click to edit">${todoItemContent}</span>
+        <span class="todolist-item__content" title="click to edit" data-i18n="[title]todo.item.edit">${todoItemContent}</span>
         <div class="todolist-item__editor todolist-item-editor hidden">
-          <input type="text" />
+          <input type="text" placeholder="Update item" data-i18n="[placeholder]todo.item.update" />
           <div class="todolist-item-editor__controls">
-            <button class="todolist-item-editor__close" title="close editor">
+            <button class="todolist-item-editor__close" title="close editor" data-i18n="[title]todo.item.close">
               <i class='bx bx-x-circle'></i>
             </button>
             <button
               class="todolist-item-editor__confirm"
-              title="confirm changes"
+              title="confirm changes" data-i18n="[title]todo.item.confirm"
             >
               <i class='bx bx-check-circle'></i>
             </button>
           </div>
         </div>
-        <button class="todolist-item__delete" title="delete item">
+        <button class="todolist-item__delete" title="delete item" data-i18n="[title]todo.item.delete">
           <i class='bx bx-x-circle'></i>
         </button>
       </li>`;
@@ -192,8 +193,8 @@ export class TodoList {
   content() {
     return `<div class="todolist"  data-id="todolist-toggle">
         <div class="todolist__controls">
-        <input id="todoText" type="text" class="todolist__main-input" placeholder="What is your plans for today?" />
-        <button class="todolist__toggle-button" title="toggle todo list" >
+        <input id="todoText" type="text" class="todolist__main-input" placeholder="What is your plans for today?" data-i18n="[placeholder]todo.placeholder" />
+        <button class="todolist__toggle-button" title="toggle todo list" data-i18n="[title]todo.toggle" >
          <i class='bx bx-chevron-right' ></i>
         </button>
         </div>
@@ -203,3 +204,5 @@ export class TodoList {
       </div>`;
   }
 }
+
+export default TodoList;

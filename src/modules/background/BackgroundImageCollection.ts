@@ -3,7 +3,7 @@ import {
   FlickrResponceTypes,
   UnsplashItemResponceTypes,
 } from '../../interfaces';
-import ActualDate from '../date/actualDate/ActualDate';
+import ActualDate from '../actualDate/ActualDate';
 
 export class BackgroundImageCollection {
   constructor() {}

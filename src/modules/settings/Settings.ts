@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+import { translateContent } from '../../i18n';
 import './settings.scss';
 
 class Settings {
@@ -16,7 +18,7 @@ class Settings {
     ];
   }
   addListener() {
-    document.addEventListener('click', async (event) => {
+    document.addEventListener('click', (event) => {
       if (event.target && event.target instanceof HTMLElement) {
         if (event.target.closest('.settings__toggle')) {
           const popup = document.querySelector('.settings__popup');
@@ -33,6 +35,17 @@ class Settings {
 
     window.addEventListener('load', () => {
       this.restoreVisibilityCheckboxes();
+      const lang =
+        i18next.language || window.localStorage.getItem('i18nextLng') || 'en';
+      const langInputChecked = document.querySelector(`input[id="${lang}"]`);
+      langInputChecked?.setAttribute('checked', 'checked');
+    });
+
+    document.querySelectorAll("input[name='language']")?.forEach((elem) => {
+      elem.addEventListener('change', (event) => {
+        const lang = (event.target as HTMLInputElement).id;
+        i18next.changeLanguage(lang);
+      });
     });
   }
 
@@ -115,34 +128,34 @@ class Settings {
     <ul class="settings__popup-content">
       <li class="popup-content__column">
         <div class="settings__item">
-          <h4>Visibility:</h4>
+          <h4 data-i18n="settings.visibility.visibility">Visibility:</h4>
           <ul class="settings__visibility">
             <li>
-              <label for="time">Time</label>
+              <label for="time" data-i18n="settings.visibility.time">Time</label>
               <input type="checkbox" id="time-toggle" />
             </li>
             <li>
-              <label for="date">Date</label>
+              <label for="date" data-i18n="settings.visibility.date">Date</label>
               <input type="checkbox" id="date-toggle" />
             </li>
             <li>
-              <label for="greetings">Greeting</label>
+              <label for="greetings" data-i18n="settings.visibility.greetings">Greetings</label>
               <input type="checkbox" id="greetings-toggle" />
             </li>
             <li>
-              <label for="quote">Quote</label>
+              <label for="quote" data-i18n="settings.visibility.quote">Quote</label>
               <input type="checkbox" id="quote-toggle" />
             </li>
             <li>
-              <label for="weather">Weather</label>
+              <label for="weather" data-i18n="settings.visibility.weather">Weather</label>
               <input type="checkbox" id="weather-toggle" />
             </li>
             <li>
-              <label for="player">Audio</label>
+              <label for="player" data-i18n="settings.visibility.player">Player</label>
               <input type="checkbox" id="player-toggle" />
             </li>
             <li>
-              <label for="todolist">Todolist</label>
+              <label for="todolist" data-i18n="settings.visibility.todolist">Todolist</label>
               <input type="checkbox" id="todolist-toggle" />
             </li>
           </ul>
@@ -150,10 +163,10 @@ class Settings {
       </li>
       <li class="popup-content__column">
         <div class="settings__item">
-          <h4>Photo source:</h4>
+          <h4 data-i18n="settings.source.title">Photo source</h4>
           <ul class="background-source">
             <li>
-              <label for="github">Github</label>
+              <label for="github" >Github</label>
               <input type="radio" name="background-source"
               class="background-source__option" id="github"
               ${this.checkImageSourceInitialValue('github')} />
@@ -173,23 +186,24 @@ class Settings {
           </ul>
         </div>
         <div class="settings__item">
-          <h4>Query:</h4>
+          <h4 data-i18n="settings.search.title">Query:</h4>
           <input
             type="text"
             id="search-query"
+            data-i18n="[placeholder]settings.search.placeholder"
             class="background-source__query"
             value="${this.checkTagInitialValue()}"
           />
         </div>
         <div class="settings__item">
-          <h4>Language:</h4>
+          <h4 data-i18n="settings.lang.title">Language:</h4>
           <ul class="language">
             <li>
-              <label for="en">English</label>
-              <input type="radio" name="language" id="en" checked />
+              <label for="en" data-i18n="settings.lang.en">English</label>
+              <input type="radio" name="language" id="en"/>
             </li>
             <li>
-              <label for="ru">Russian</label>
+              <label for="ru" data-i18n="settings.lang.ru">Russian</label>
               <input type="radio" name="language" id="ru" />
             </li>
           </ul>
@@ -197,7 +211,7 @@ class Settings {
       </li>
     </ul>
   </div>
-  <button class="settings__toggle" title="toggle settings">
+  <button class="settings__toggle" data-i18n="[title]settings.toggle" title="toggle settings">
     <i class="bx bxs-cog"></i>
   </button>
 </div>`;
