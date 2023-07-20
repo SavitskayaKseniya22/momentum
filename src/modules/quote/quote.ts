@@ -1,37 +1,40 @@
-import { localize } from '../../i18n';
-import './quote.scss';
+import { localize } from "../../i18n";
+import "./quote.scss";
+
+const QUOTE_MAX_NUMBER = 31;
 
 class Quote {
   randomNumber: number;
+
   constructor() {
-    this.randomNumber = this.getRandomInt(31);
+    this.randomNumber = Quote.getRandomInt(QUOTE_MAX_NUMBER);
     this.addListener();
   }
 
-  getRandomInt(max: number) {
+  static getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
   }
 
   updateQuote() {
-    this.randomNumber = this.getRandomInt(31);
-    const quoteContentContainer = document.querySelector('.quote__content');
-    const quoteAuthorContainer = document.querySelector('.quote__author');
+    this.randomNumber = Quote.getRandomInt(QUOTE_MAX_NUMBER);
+    const quoteContentContainer = document.querySelector(".quote__content");
+    const quoteAuthorContainer = document.querySelector(".quote__author");
     quoteContentContainer?.setAttribute(
-      'data-i18n',
+      "data-i18n",
       `quotes.${this.randomNumber}.quote`
     );
     quoteAuthorContainer?.setAttribute(
-      'data-i18n',
+      "data-i18n",
       `quotes.${this.randomNumber}.author`
     );
-    localize('.quote');
+    localize(".quote");
   }
 
   addListener() {
-    document.addEventListener('click', (event) => {
+    document.addEventListener("click", (event) => {
       if (
         event.target instanceof HTMLElement &&
-        event.target.closest('.quote__reload')
+        event.target.closest(".quote__reload")
       ) {
         this.updateQuote();
       }

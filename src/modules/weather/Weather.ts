@@ -1,82 +1,86 @@
-import { checkLanguage, localize } from '../../i18n';
-import { WeatherTypes } from '../../interfaces';
-import './weather.scss';
+import { checkLanguage, localize } from "../../i18n";
+import { WeatherTypes } from "../../interfaces";
+import "./weather.scss";
 
-const OPENWEATHER_API_KEY = '3cfc2bf3738bb671a43ba8071181895a';
+const OPENWEATHER_API_KEY = "3cfc2bf3738bb671a43ba8071181895a";
 
 class Weather {
   initialQuery: string;
+
   constructor() {
-    this.initialQuery = this.readStore() || '';
-    this.initialQuery &&
-      this.updateWeather(this.initialQuery, OPENWEATHER_API_KEY);
+    this.initialQuery = Weather.readStore() || "";
+    if (this.initialQuery) {
+      Weather.updateWeather(this.initialQuery, OPENWEATHER_API_KEY);
+    }
   }
 
-  readStore() {
-    return window.localStorage.getItem('weatherQuery');
+  static readStore() {
+    return window.localStorage.getItem("weatherQuery");
   }
 
-  writeStore(weatherQuery: string) {
-    window.localStorage.setItem('weatherQuery', weatherQuery);
+  static writeStore(weatherQuery: string) {
+    window.localStorage.setItem("weatherQuery", weatherQuery);
   }
 
-  addListener() {
+  static addListener() {
     document
-      .querySelector('.weather__query')
-      ?.addEventListener('change', (event: Event) => {
+      .querySelector(".weather__query")
+      ?.addEventListener("change", (event: Event) => {
         const query = (event.target as HTMLInputElement).value;
-        this.writeStore(query);
-        query && this.updateWeather(query, OPENWEATHER_API_KEY);
+        Weather.writeStore(query);
+        if (query) {
+          Weather.updateWeather(query, OPENWEATHER_API_KEY);
+        }
       });
   }
 
-  async getWeather(query: string, apiKey: string) {
+  static async getWeather(query: string, apiKey: string) {
     const lang = checkLanguage();
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${apiKey}&units=metric&lang=${lang}`;
     const response = await fetch(url);
     if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error(`${response.status} - ${response.statusText}`);
+      return response.json();
     }
+    throw new Error(`${response.status} - ${response.statusText}`);
   }
 
-  async updateWeather(query: string, apiKey: string) {
+  static async updateWeather(query: string, apiKey: string) {
     try {
-      const weatherResponse: WeatherTypes = await this.getWeather(
+      const weatherResponse: WeatherTypes = await Weather.getWeather(
         query,
         apiKey
       );
-      this.updateWeatherContainer(weatherResponse);
-      this.updateErrorContainer();
+      Weather.updateWeatherContainer(weatherResponse);
+      Weather.updateErrorContainer();
     } catch (error) {
-      this.updateWeatherContainer();
-      this.updateErrorContainer(error);
+      Weather.updateWeatherContainer();
+      Weather.updateErrorContainer(error);
     }
   }
 
-  updateErrorContainer(error?: unknown) {
-    const errorContainer = document.querySelector('.weather__error');
+  static updateErrorContainer(error?: unknown) {
+    const errorContainer = document.querySelector(".weather__error");
     if (errorContainer) {
-      errorContainer.innerHTML = error ? `${error}<br>` : '';
+      errorContainer.innerHTML = error ? `${error}<br>` : "";
       if (error) {
-        errorContainer.setAttribute('data-i18n', '[append]weather.error');
-        localize('.weather__error');
+        errorContainer.setAttribute("data-i18n", "[append]weather.error");
+        localize(".weather__error");
       } else {
-        errorContainer.removeAttribute('data-i18n');
+        errorContainer.removeAttribute("data-i18n");
       }
     }
   }
 
-  updateWeatherContainer(weatherResponse?: WeatherTypes) {
-    const weatherDetails = document.querySelector('.weather__details');
-    weatherDetails &&
-      (weatherDetails.innerHTML = weatherResponse
-        ? this.createWeatherDetails(weatherResponse)
-        : '');
+  static updateWeatherContainer(weatherResponse?: WeatherTypes) {
+    const weatherDetails = document.querySelector(".weather__details");
+    if (weatherDetails) {
+      weatherDetails.innerHTML = weatherResponse
+        ? Weather.createWeatherDetails(weatherResponse)
+        : "";
+    }
   }
 
-  createWeatherDetails(weatherResponse: WeatherTypes) {
+  static createWeatherDetails(weatherResponse: WeatherTypes) {
     const { main, wind, weather } = weatherResponse;
     const { temp, humidity } = main;
     const { id, description } = weather[0];

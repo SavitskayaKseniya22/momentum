@@ -1,54 +1,56 @@
-import { PlaylistItem } from '../../interfaces';
-import { DurationControl } from './DurationControl';
-import { PlayOrder } from './PlayOrder';
-import { VolumeControl } from './VolumeControl';
-import './player.scss';
+import { PlaylistItem } from "../../interfaces";
+import DurationControl from "./DurationControl";
+import PlayOrder from "./PlayOrder";
+import VolumeControl from "./VolumeControl";
+import "./player.scss";
 
 class Player {
   playlist: PlaylistItem[];
+
   volumeControl: VolumeControl;
+
   durationControl: DurationControl;
+
   order: PlayOrder;
+
   audioElement: HTMLAudioElement;
+
   constructor(playlist: PlaylistItem[]) {
     this.playlist = playlist;
-    this.audioElement = this.createAudioElement();
-    this.setInitAudioAttributes(this.audioElement, this.playlist);
+    this.audioElement = Player.createAudioElement(this.playlist);
     this.order = new PlayOrder(playlist);
     this.volumeControl = new VolumeControl(this.audioElement);
     this.durationControl = new DurationControl(this.audioElement);
   }
 
-  createAudioElement() {
-    const element = document.createElement('audio');
+  static createAudioElement(playlist: PlaylistItem[]) {
+    const element = Object.assign(document.createElement("audio"), {
+      src: playlist[0].src,
+      volume: 0.5,
+    });
     const context = new AudioContext();
     const track = context.createMediaElementSource(element);
     track.connect(context.destination);
     return element;
   }
 
-  setInitAudioAttributes(audio: HTMLAudioElement, playlist: PlaylistItem[]) {
-    audio.volume = 0.5;
-    audio.src = playlist[0].src;
-  }
-
   addListener() {
     document
-      .querySelector('.player')
-      ?.insertAdjacentElement('afterbegin', this.audioElement);
+      .querySelector(".player")
+      ?.insertAdjacentElement("afterbegin", this.audioElement);
 
     this.volumeControl.addListener();
     this.durationControl.addListener();
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener("click", (event) => {
       if (event.target && event.target instanceof HTMLElement) {
-        if (event.target.closest('.play-toggle-main')) {
-          this.updatePlayStatus('toggle', this.audioElement);
-        } else if (event.target.closest('.playlist-item')) {
-          if (event.target.closest('label')) {
+        if (event.target.closest(".play-toggle-main")) {
+          Player.updatePlayStatus("toggle", this.audioElement);
+        } else if (event.target.closest(".playlist-item")) {
+          if (event.target.closest("label")) {
             return;
           }
-          const parent = event.target.closest('.playlist-item') as HTMLElement;
+          const parent = event.target.closest(".playlist-item") as HTMLElement;
           if (parent) {
             const index = Number(parent.dataset.index);
             if (
@@ -56,27 +58,27 @@ class Player {
               (this.order.value === index && this.audioElement.paused)
             ) {
               const prevOrderValue = this.order.value;
-              this.order.update('replace', index);
+              this.order.update("replace", index);
               this.changeActiveTrackBySelection(
                 this.audioElement,
                 prevOrderValue,
                 this.order.value
               );
             } else {
-              this.pauseAudio(this.audioElement);
+              Player.pauseAudio(this.audioElement);
             }
           }
-        } else if (event.target.closest('.play-next')) {
+        } else if (event.target.closest(".play-next")) {
           const prevOrderValue = this.order.value;
-          this.order.update('increase');
+          this.order.update("increase");
           this.changeActiveTrack(
             this.audioElement,
             prevOrderValue,
             this.order.value
           );
-        } else if (event.target.closest('.play-prev')) {
+        } else if (event.target.closest(".play-prev")) {
           const prevOrderValue = this.order.value;
-          this.order.update('decrease');
+          this.order.update("decrease");
           this.changeActiveTrack(
             this.audioElement,
             prevOrderValue,
@@ -86,19 +88,19 @@ class Player {
       }
     });
 
-    this.audioElement.addEventListener('play', () => {
-      this.toggleMainPlayButtonView('play');
-      this.toggleTrackControlView('play', this.order.value);
+    this.audioElement.addEventListener("play", () => {
+      Player.toggleMainPlayButtonView("play");
+      Player.toggleTrackControlView("play", this.order.value);
     });
 
-    this.audioElement.addEventListener('pause', () => {
-      this.toggleMainPlayButtonView('pause');
-      this.toggleTrackControlView('pause', this.order.value);
+    this.audioElement.addEventListener("pause", () => {
+      Player.toggleMainPlayButtonView("pause");
+      Player.toggleTrackControlView("pause", this.order.value);
     });
 
-    this.audioElement.addEventListener('ended', () => {
+    this.audioElement.addEventListener("ended", () => {
       const prevOrderValue = this.order.value;
-      this.order.update('increase');
+      this.order.update("increase");
       this.changeActiveTrack(
         this.audioElement,
         prevOrderValue,
@@ -112,9 +114,10 @@ class Player {
     prevOrder: number,
     nextOrder: number
   ) {
-    this.toggleTrackControlView('pause', prevOrder);
-    audio.src = this.playlist[nextOrder].src;
-    this.updatePlayStatus('continue', audio);
+    Player.toggleTrackControlView("pause", prevOrder);
+
+    audio.setAttribute("src", this.playlist[nextOrder].src);
+    Player.updatePlayStatus("continue", audio);
     this.updateActiveTrackView();
   }
 
@@ -123,24 +126,24 @@ class Player {
     prevOrder: number,
     nextOrder: number
   ) {
-    this.toggleTrackControlView('pause', prevOrder);
-    audio.src = this.playlist[nextOrder].src;
-    this.playAudio(audio);
+    Player.toggleTrackControlView("pause", prevOrder);
+    audio.setAttribute("src", this.playlist[nextOrder].src);
+    Player.playAudio(audio);
   }
 
-  toggleMainPlayButtonView(type: 'play' | 'pause') {
-    const mainButton = document.querySelector('.play-toggle-main');
+  static toggleMainPlayButtonView(type: "play" | "pause") {
+    const mainButton = document.querySelector(".play-toggle-main");
     if (mainButton) {
-      this.toggleButtonVisibility(type, mainButton);
+      Player.toggleButtonVisibility(type, mainButton);
     }
   }
 
-  toggleTrackControlView(type: 'play' | 'pause', order: number) {
+  static toggleTrackControlView(type: "play" | "pause", order: number) {
     const track = document.querySelector(
       `.playlist-item[data-index="${order}"] .play-toggle`
     );
     if (track) {
-      track && this.toggleButtonVisibility(type, track);
+      Player.toggleButtonVisibility(type, track);
     }
   }
 
@@ -153,45 +156,48 @@ class Player {
     }
   }
 
-  toggleButtonVisibility(type: 'play' | 'pause', container: Element) {
-    const playIcon = container.querySelector('.bx-play-circle');
-    const pauseIcon = container.querySelector('.bx-pause-circle');
-    if (type === 'play') {
-      playIcon?.classList.add('hidden');
-      pauseIcon?.classList.remove('hidden');
+  static toggleButtonVisibility(type: "play" | "pause", container: Element) {
+    const playIcon = container.querySelector(".bx-play-circle");
+    const pauseIcon = container.querySelector(".bx-pause-circle");
+    if (type === "play") {
+      playIcon?.classList.add("hidden");
+      pauseIcon?.classList.remove("hidden");
     } else {
-      playIcon?.classList.remove('hidden');
-      pauseIcon?.classList.add('hidden');
+      playIcon?.classList.remove("hidden");
+      pauseIcon?.classList.add("hidden");
     }
   }
 
-  playAudio(audio: HTMLAudioElement) {
+  static playAudio(audio: HTMLAudioElement) {
     audio.play();
-    audio.dataset.playing = 'true';
+    audio.setAttribute("data-playing", "true");
   }
 
-  pauseAudio(audio: HTMLAudioElement) {
+  static pauseAudio(audio: HTMLAudioElement) {
     audio.pause();
-    delete audio.dataset.playing;
+    audio.removeAttribute("data-playing");
   }
 
-  updatePlayStatus(type: 'continue' | 'toggle', audio: HTMLAudioElement) {
+  static updatePlayStatus(
+    type: "continue" | "toggle",
+    audio: HTMLAudioElement
+  ) {
     if (
-      (type === 'continue' && audio.dataset.playing === 'true') ||
-      (type === 'toggle' && audio.dataset.playing !== 'true')
+      (type === "continue" && audio.dataset.playing === "true") ||
+      (type === "toggle" && audio.dataset.playing !== "true")
     ) {
-      this.playAudio(audio);
+      Player.playAudio(audio);
     } else {
-      this.pauseAudio(audio);
+      Player.pauseAudio(audio);
     }
   }
 
-  makePlaylistItem(item: PlaylistItem, index: number) {
+  static makePlaylistItem(item: PlaylistItem, index: number) {
     return `<li class="playlist-item" data-index="${index}">
       <input 
         type="radio"
         name="playlist-item"
-        id="${item.title + index}" ${index === 0 ? 'checked' : ''}
+        id="${item.title + index}" ${index === 0 ? "checked" : ""}
       />
       <label for="${
         item.title + index
@@ -205,12 +211,12 @@ class Player {
     </li>`;
   }
 
-  makePlaylist(playlist: PlaylistItem[]) {
+  static makePlaylist(playlist: PlaylistItem[]) {
     return playlist
       .map((item, index) => {
-        return this.makePlaylistItem(item, index);
+        return Player.makePlaylistItem(item, index);
       })
-      .join('');
+      .join("");
   }
 
   content() {
@@ -254,7 +260,7 @@ class Player {
       </div>
 
       <ul class="playlist">
-      ${this.makePlaylist(this.playlist)}
+      ${Player.makePlaylist(this.playlist)}
       </ul>
     </div>`;
   }

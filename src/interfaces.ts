@@ -165,7 +165,7 @@ export interface WeatherTypes {
     gust: number;
   };
   rain: {
-    '1h': number;
+    "1h": number;
   };
   clouds: {
     all: number;

@@ -1,14 +1,12 @@
-import { calculateNumber } from '../../../utils';
-import { ImageCollection } from '../ImageCollection';
-import './ChangeBackgroundButtons.scss';
+import calculateNumber from "../../../utils";
+import ImageCollection from "../ImageCollection";
+import "./ChangeBackgroundButtons.scss";
 
 const MAX_NUMBER_OF_IMAGES_IN_PACK = 19;
 const MIN_NUMBER_OF_IMAGES_IN_PACK = 0;
 
 class ChangeBackgroundButtons {
-  constructor() {}
-
-  async changeBackground(isItFirstLoad?: boolean) {
+  static async changeBackground(isItFirstLoad?: boolean) {
     const { imageList, imageSource, pictureOrder } =
       await ImageCollection.checkImageDataExistence(isItFirstLoad);
 
@@ -19,25 +17,25 @@ class ChangeBackgroundButtons {
         imageSource
       );
       img.src = url;
-      this.applyNewBackground(img, img.src);
+      ChangeBackgroundButtons.applyNewBackground(img, img.src);
     }
   }
 
-  addListener() {
-    window.addEventListener('load', () => {
-      this.changeBackground(true);
+  static addListener() {
+    window.addEventListener("load", () => {
+      ChangeBackgroundButtons.changeBackground(true);
     });
 
-    document.addEventListener('click', async (event) => {
+    document.addEventListener("click", async (event) => {
       if (event.target && event.target instanceof HTMLElement) {
-        if (event.target.closest('.slider__icons_icon')) {
-          const sliderIcon = event.target.closest('.slider__icons_icon');
+        if (event.target.closest(".slider__icons_icon")) {
+          const sliderIcon = event.target.closest(".slider__icons_icon");
           const operation = (sliderIcon as HTMLElement).dataset.operation as
-            | 'increase'
-            | 'decrease';
-          this.updatePictureOrder(operation);
-          this.changeBackground();
-        } else if (event.target.closest('.background-source__option')) {
+            | "increase"
+            | "decrease";
+          ChangeBackgroundButtons.updatePictureOrder(operation);
+          ChangeBackgroundButtons.changeBackground();
+        } else if (event.target.closest(".background-source__option")) {
           const inputId = event.target.id;
           const { imageSource, imageTag } = ImageCollection.readStore();
           if (inputId !== imageSource) {
@@ -45,33 +43,33 @@ class ChangeBackgroundButtons {
               inputId,
               imageTag
             );
-            this.changeBackground();
+            ChangeBackgroundButtons.changeBackground();
           }
         }
       }
     });
     document
-      .querySelector('#search-query')
-      ?.addEventListener('change', async (event: Event) => {
+      .querySelector("#search-query")
+      ?.addEventListener("change", async (event: Event) => {
         const query = (event.target as HTMLInputElement).value;
         const { imageSource } = ImageCollection.readStore();
-        if (imageSource && imageSource !== 'github') {
+        if (imageSource && imageSource !== "github") {
           await ImageCollection.getImageListAndWriteToStore(imageSource, query);
-          this.changeBackground();
+          ChangeBackgroundButtons.changeBackground();
         }
       });
   }
 
-  applyNewBackground(img: HTMLImageElement, src: string) {
-    img.onload = () => {
-      const backgroundContainer = document.querySelector('.slider__background');
+  static applyNewBackground(img: HTMLImageElement, src: string) {
+    img.addEventListener("load", () => {
+      const backgroundContainer = document.querySelector(".slider__background");
       if (backgroundContainer && backgroundContainer instanceof HTMLElement) {
         backgroundContainer.style.background = `url(${src}) center/cover, rgba(0, 0, 0, 0.5)`;
       }
-    };
+    });
   }
 
-  updatePictureOrder(type: 'increase' | 'decrease') {
+  static updatePictureOrder(type: "increase" | "decrease") {
     const storage = window.localStorage;
     const { pictureOrder } = ImageCollection.readStore();
     const updatedPictureOrder = calculateNumber(
@@ -80,11 +78,11 @@ class ChangeBackgroundButtons {
       MAX_NUMBER_OF_IMAGES_IN_PACK,
       MIN_NUMBER_OF_IMAGES_IN_PACK
     );
-    storage.setItem('pictureOrder', String(updatedPictureOrder));
+    storage.setItem("pictureOrder", String(updatedPictureOrder));
     return { updatedPictureOrder };
   }
 
-  content() {
+  static content() {
     return `
     <div class="slider__background"></div>
     <div class="slider__icons">
