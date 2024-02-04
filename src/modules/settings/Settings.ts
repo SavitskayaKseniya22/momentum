@@ -1,5 +1,4 @@
 import i18next from "i18next";
-import { checkLanguage } from "../../i18n";
 import "./settings.scss";
 
 class Settings {
@@ -38,9 +37,6 @@ class Settings {
 
     window.addEventListener("load", () => {
       this.restoreVisibilityCheckboxes();
-      const lang = checkLanguage();
-      const langInputChecked = document.querySelector(`input[id="${lang}"]`);
-      langInputChecked?.setAttribute("checked", "checked");
     });
 
     document.querySelectorAll("input[name='language']")?.forEach((elem) => {

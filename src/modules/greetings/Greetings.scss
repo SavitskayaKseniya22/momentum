@@ -1,11 +1,12 @@
 .greetings {
-  font-size: 2.5rem;
+  font-size: 2rem;
   grid-area: 2 / 2 / 3 / 4;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
 }
+
 .greetings__title {
   text-align: right;
   flex-grow: 2;

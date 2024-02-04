@@ -1,9 +1,9 @@
 {
   "version": "0.1.0",
-  "description": "momentum",
+  "description": "async-race",
   "private": true,
-  "name": "momentum",
-  "homepage": "https://SavitskayaKseniya22.github.io/momentum",
+  "name": "async-race",
+  "homepage": "https://SavitskayaKseniya22.github.io/async-race",
   "scripts": {
     "start": "rss-scripts start -ts",
     "build": "rss-scripts build -ts",
