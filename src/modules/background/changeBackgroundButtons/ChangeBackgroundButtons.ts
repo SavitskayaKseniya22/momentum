@@ -33,39 +33,45 @@ class ChangeBackgroundButtons extends HTMLDivElement {
     });
 
     this.addEventListener('click', async (event) => {
-      if (event.target && event.target instanceof HTMLElement) {
-        if (event.target.closest('.slider__icons_icon')) {
-          const sliderIcon = event.target.closest('.slider__icons_icon');
-          const operation = (sliderIcon as HTMLElement).dataset.operation as
-            | 'increase'
-            | 'decrease';
-          ChangeBackgroundButtons.updatePictureOrder(operation);
+      if (
+        event.target &&
+        event.target instanceof HTMLElement &&
+        event.target.closest('.slider__icons_icon')
+      ) {
+        const sliderIcon = event.target.closest('.slider__icons_icon');
+        const operation = (sliderIcon as HTMLElement).dataset.operation as
+          | 'increase'
+          | 'decrease';
+        ChangeBackgroundButtons.updatePictureOrder(operation);
+        ChangeBackgroundButtons.changeBackground();
+      }
+    });
+
+    document.addEventListener('click', async (event) => {
+      if (
+        event.target &&
+        event.target instanceof HTMLElement &&
+        event.target.closest('.background-source__option')
+      ) {
+        const inputId = event.target.id;
+        const { imageSource, imageTag } = ImageCollection.readStore();
+        if (inputId !== imageSource) {
+          await ImageCollection.getImageListAndWriteToStore(inputId, imageTag);
           ChangeBackgroundButtons.changeBackground();
-        } else if (event.target.closest('.background-source__option')) {
-          const inputId = event.target.id;
-          const { imageSource, imageTag } = ImageCollection.readStore();
-          if (inputId !== imageSource) {
-            await ImageCollection.getImageListAndWriteToStore(
-              inputId,
-              imageTag
-            );
-            ChangeBackgroundButtons.changeBackground();
-          }
         }
       }
     });
 
-    this.querySelector('#search-query')?.addEventListener(
-      'change',
-      async (event: Event) => {
+    document
+      .querySelector('#search-query')
+      ?.addEventListener('change', async (event: Event) => {
         const query = (event.target as HTMLInputElement).value;
         const { imageSource } = ImageCollection.readStore();
         if (imageSource && imageSource !== 'github') {
           await ImageCollection.getImageListAndWriteToStore(imageSource, query);
           ChangeBackgroundButtons.changeBackground();
         }
-      }
-    );
+      });
   }
 
   static applyNewBackground(img: HTMLImageElement, src: string) {
