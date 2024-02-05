@@ -4,7 +4,7 @@
     "description": "Description",
     "wind": "Wind",
     "humidity": "Humidity",
-    "error": "Please, repeate search with different data.",
+    "error": "Please, repeate the search with different data.",
     "placeholder": "Enter city name"
   },
   "settings": {
