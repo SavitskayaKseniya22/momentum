@@ -11,7 +11,7 @@ class Greetings extends HTMLDivElement {
     this.timeOfDay = ActualDate.getTimeOfDay();
     this.name = Greetings.readStore() || '';
     this.dataset.id = 'greetings-toggle';
-    this.className = 'greetings';
+    this.className = 'greetings title_big';
   }
 
   static readStore() {

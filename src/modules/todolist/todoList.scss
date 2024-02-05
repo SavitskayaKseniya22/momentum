@@ -18,9 +18,8 @@
 
 .todolist__main-input {
   color: white;
-  background-color: rgba(255, 255, 255, 0.2);
-  font-size: 1.5rem;
-  padding: 1rem;
+  background-color: rgba(70, 70, 70, 0.3);
+
   flex-grow: 3;
 }
 
@@ -29,7 +28,7 @@
 
   i {
     font-size: 4rem;
-    color: white;
+    color: rgba(0, 0, 0, 0.5);
   }
 
   &.rotated {
@@ -48,11 +47,12 @@
 
 .todolist-item {
   padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(70, 70, 70, 0.3);
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
+  color: white;
 
   img {
     height: 1.5rem;
@@ -80,8 +80,7 @@
   flex-grow: 1;
 
   input {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    background-color: rgba(70, 70, 70, 0.3);
     flex-grow: 1;
     padding: 0.5rem;
   }

@@ -195,26 +195,12 @@ class TodoList extends HTMLDivElement {
       </li>`;
   }
 
-  static content() {
-    return `<div class="todolist"  data-id="todolist-toggle">
-        <div class="todolist__controls">
-        <input id="todoText" type="text" class="todolist__main-input" placeholder="What is your plans for today?" data-i18n="[placeholder]todo.placeholder" />
-        <button class="todolist__toggle-button" title="toggle todo list" data-i18n="[title]todo.toggle" >
-         <i class='bx bx-chevron-right' ></i>
-        </button>
-        </div>
-        <ol class="todolist__content hidden">
-
-        </ol>
-      </div>`;
-  }
-
   render() {
     this.insertAdjacentHTML(
       'afterbegin',
       `
         <div class="todolist__controls">
-        <input id="todoText" type="text" class="todolist__main-input" placeholder="What is your plans for today?" data-i18n="[placeholder]todo.placeholder" />
+        <input id="todoText" type="text" class="todolist__main-input title_big" placeholder="What is your plans for today?" data-i18n="[placeholder]todo.placeholder" />
         <button class="todolist__toggle-button" title="toggle todo list" data-i18n="[title]todo.toggle" >
          <i class='bx bx-chevron-right' ></i>
         </button>

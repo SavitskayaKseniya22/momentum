@@ -13,41 +13,61 @@
 
 .custom-player {
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(70, 70, 70, 0.3);
   display: flex;
   padding: 1rem;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  row-gap: 1rem;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (min-width: 1400px) {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 .duration {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
+  gap: 1rem;
+
+  span {
+    display: flex;
+    gap: 0.25rem;
+  }
 }
 
 .volume {
-  width: 50%;
+  max-width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+
+  gap: 1rem;
+  flex-grow: 2;
+
+  @media (min-width: 1400px) {
+    max-width: 70%;
+  }
 }
 
 input[type='range'] {
   appearance: none;
   background-color: transparent;
+  padding: 0;
 
   &.duration__range,
   &.volume__range {
-    width: 70%;
+    flex: 1;
   }
 
   &::-webkit-slider-runnable-track {
     border-radius: 0.5rem/100%;
-    height: 0.5rem;
+    height: 0.4rem;
     background-color: black;
   }
 
@@ -55,19 +75,19 @@ input[type='range'] {
   &::-moz-range-thumb {
     background: #ecf0f1;
     border-radius: 50%;
-    width: 1rem;
-    height: 1rem;
+    width: 0.5rem;
+    height: 0.5rem;
   }
 
   &::-moz-range-track {
     border-radius: 0.5rem/100%;
-    height: 0.5rem;
+    height: 0.3rem;
     background-color: black;
   }
 
   &::-moz-range-progress {
     border-radius: 0.5rem/100%;
-    height: 0.5rem;
+    height: 0.3rem;
     background-color: white;
   }
 }
@@ -75,10 +95,26 @@ input[type='range'] {
 .player-controls {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  width: 50%;
-  padding: 0 1rem;
-  gap: 1rem;
+  justify-content: space-between;
+  max-width: 100%;
+
+  flex-grow: 2;
+
+  .player-icon {
+    i {
+      font-size: 1.5rem;
+    }
+
+    &.play-toggle-main {
+      i {
+        font-size: 1.75rem;
+      }
+    }
+  }
+
+  @media (min-width: 1400px) {
+    max-width: 30%;
+  }
 }
 
 .playlist {

@@ -1,10 +1,10 @@
 .greetings {
-  font-size: 2rem;
   grid-area: 2 / 2 / 3 / 4;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  color: #fff;
 }
 
 .greetings__title {
@@ -13,10 +13,6 @@
 }
 
 .greetings__name {
-  width: 50%;
   text-align: left;
-  color: #fff;
-  background-color: transparent;
-  border: 0;
-  outline: 0;
+  width: 50%;
 }

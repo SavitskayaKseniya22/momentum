@@ -23,6 +23,12 @@ html {
 
 input {
   border: none;
+  background-color: transparent;
+  border: 0;
+  outline: 0;
+  color: inherit;
+  font-size: inherit;
+  padding: 0.5rem 1rem;
 }
 
 input[type='checkbox'],
@@ -90,7 +96,6 @@ body {
   height: 100svh;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
-
   color: #fff;
   text-align: center;
   background-blend-mode: multiply;
@@ -108,8 +113,12 @@ main {
   grid-row-gap: 1rem;
 
   & > * {
-    padding: 1rem;
+    padding: 0.5rem;
     opacity: 1;
+
+    @media (min-width: 1280px) {
+      padding: 1rem;
+    }
   }
 }
 
@@ -120,4 +129,17 @@ main {
 .invisible {
   opacity: 0;
   pointer-events: none;
+}
+
+.title_big {
+  font-size: 1.2rem;
+  font-weight: normal;
+
+  @media (min-width: 1400px) {
+    font-size: 1.35rem;
+  }
+
+  @media (min-width: 1920px) {
+    font-size: 1.5rem;
+  }
 }

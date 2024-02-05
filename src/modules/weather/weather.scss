@@ -1,19 +1,17 @@
 .weather {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1rem;
   text-align: left;
   grid-area: 1 / 4 / 2 / 5;
-  justify-self: right;
-  width: 75%;
+  width: 100%;
 }
 
 .weather__details {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 0.5rem;
+  gap: 1rem;
+
   & > * {
     display: flex;
     gap: 0.5rem;
@@ -25,11 +23,5 @@
 }
 
 .weather__query {
-  font-size: 1.5rem;
-  color: #fff;
-  border: 0;
-  outline: 0;
   border-bottom: 1px solid #fff;
-  background-color: transparent;
-  padding: 1rem 0;
 }

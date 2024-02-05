@@ -113,7 +113,7 @@ class Weather extends HTMLDivElement {
     this.insertAdjacentHTML(
       'afterbegin',
       `
-      <input type="text" class="weather__query" placeholder="Enter city name" data-i18n="[placeholder]weather.placeholder" value="${this.initialQuery}" />
+      <input type="text" class="weather__query title_big" placeholder="Enter city name" data-i18n="[placeholder]weather.placeholder" value="${this.initialQuery}" />
       <div class="weather__error"></div>
       <div class="weather__details"></div>
     `
