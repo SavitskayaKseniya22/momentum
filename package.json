@@ -1,9 +1,9 @@
 {
   "version": "0.1.0",
-  "description": "async-race",
+  "description": "momentum",
   "private": true,
-  "name": "async-race",
-  "homepage": "https://SavitskayaKseniya22.github.io/async-race",
+  "name": "momentum",
+  "homepage": "https://SavitskayaKseniya22.github.io/momentum",
   "scripts": {
     "start": "rss-scripts start -ts",
     "build": "rss-scripts build -ts",
@@ -23,7 +23,6 @@
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
-    "gh-pages": "^5.0.0",
     "prettier": "2.8.8",
     "rss-scripts": "^0.2.4",
     "typescript": "^5.1.6"
