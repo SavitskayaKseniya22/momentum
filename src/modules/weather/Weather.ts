@@ -85,9 +85,8 @@ class Weather {
     const { temp, humidity } = main;
     const { id, description } = weather[0];
     return `
-      <div class="weather__details_icon">
-        <i class="owf owf-${id}"></i>
-      </div>
+      
+      <i class="owf owf-${id} weather__details_icon"></i>
       <div class="weather__details_temperature">
         <h4 data-i18n="weather.temperature">Temperature: </h4>
         <span class="weather__detail">${temp}</span>°C

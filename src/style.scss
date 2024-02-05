@@ -3,12 +3,31 @@
   src: url('./assets/fonts/Arial-MT.woff');
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: 0.5s;
+}
+
+html {
+  font-size: 14px;
+
+  @media (min-width: 1280px) {
+    font-size: 16px;
+  }
+  @media (min-width: 1920px) {
+    font-size: 18px;
+  }
+}
+
 input {
   border: none;
 }
 
 input[type='checkbox'],
-input[type='radio'] {
+input[type='radio'],
+input[type='range'] {
   cursor: pointer;
 }
 
@@ -16,8 +35,9 @@ input[type='text'] {
   cursor: text;
 }
 
-input[type='range'] {
-  cursor: pointer;
+ul,
+ol {
+  list-style: none;
 }
 
 li {
@@ -28,34 +48,37 @@ label {
   cursor: pointer;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 a {
   text-decoration: none;
+  font-family: inherit;
+  color: inherit;
+  font-size: inherit;
+  line-height: 1;
   color: white;
-  cursor: pointer;
 }
 
 button {
   border: none;
   background-color: transparent;
-  cursor: pointer;
   opacity: 0.5;
-  transition: 0.5s;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+
   &:hover {
     opacity: 1;
     transform: scale(1.1);
   }
+
   img {
     width: 100%;
   }
+
   i {
     font-size: 2rem;
     color: #fff;
@@ -63,11 +86,11 @@ button {
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
+  width: 100svw;
+  height: 100svh;
   overflow: hidden;
   font-family: 'Arial', sans-serif;
-  font-size: 16px;
+
   color: #fff;
   text-align: center;
   background-blend-mode: multiply;
@@ -87,7 +110,6 @@ main {
   & > * {
     padding: 1rem;
     opacity: 1;
-    transition: 0.5s;
   }
 }
 

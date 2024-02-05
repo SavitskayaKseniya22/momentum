@@ -6,13 +6,18 @@ import Backend from "i18next-http-backend";
 i18next
   .use(Backend)
   .use(LanguageDetector)
-  .init({
-    fallbackLng: "en",
-    debug: true,
-    backend: {
-      loadPath: "/assets/json/locales/{{lng}}/{{ns}}.json",
+  .init(
+    {
+      fallbackLng: "en",
+      debug: true,
+      backend: {
+        loadPath: "/assets/json/locales/{{lng}}/{{ns}}.json",
+      },
     },
-  });
+    () => {
+      document.getElementById(`${i18next.language}`).checked = true;
+    }
+  );
 
 export const localize = locI18next.init(i18next);
 
@@ -27,3 +32,5 @@ export function checkLanguage() {
 i18next.on("languageChanged", () => {
   translateContent();
 });
+
+

@@ -57,6 +57,7 @@ class ActualDate {
   }
 
   static renderTime() {
+    console.log(1);
     setInterval(() => {
       ActualDate.updateDateContainer();
     }, 1000);

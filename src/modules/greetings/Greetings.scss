@@ -11,15 +11,11 @@
   text-align: right;
   flex-grow: 2;
 }
+
 .greetings__name {
   text-align: left;
   color: #fff;
   background-color: transparent;
   border: 0;
   outline: 0;
-}
-
-.greetings__name::placeholder {
-  color: #fff;
-  opacity: 0.6;
 }

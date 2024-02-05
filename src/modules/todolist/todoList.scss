@@ -26,10 +26,12 @@
 
 .todolist__toggle-button {
   flex-grow: 0;
+
   i {
     font-size: 4rem;
     color: white;
   }
+
   &.rotated {
     transform: rotate(90deg);
   }
@@ -51,6 +53,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 2rem;
+
   img {
     height: 1.5rem;
     width: 1.5rem;
@@ -64,6 +67,7 @@
 .todolist-item__toggle {
   height: 1.5rem;
   width: 1.5rem;
+
   &:checked ~ .todolist-item__content {
     text-decoration: line-through;
   }
@@ -78,9 +82,10 @@
   input {
     background-color: rgba(255, 255, 255, 0.2);
     color: white;
-    font-size: 1.2rem;
     flex-grow: 1;
+    padding: 0.5rem;
   }
+
   .todolist-item-editor__controls {
     display: flex;
     gap: 0.5rem;

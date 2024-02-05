@@ -15,7 +15,6 @@ input.background-source__query {
   border: none;
   color: white;
   padding: 1rem;
-  font-weight: bolder;
   width: 100%;
 }
 
@@ -53,6 +52,7 @@ input.background-source__query {
     flex-direction: column;
     width: 60%;
     gap: 0.5rem;
+
     li {
       display: flex;
       justify-content: space-between;
