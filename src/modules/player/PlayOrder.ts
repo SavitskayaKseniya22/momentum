@@ -1,5 +1,5 @@
-import { PlaylistItem } from "../../interfaces";
-import calculateNumber from "../../utils";
+import { PlaylistItem } from '../../interfaces';
+import calculateNumber from '../../utils';
 
 class PlayOrder {
   value: number;
@@ -14,8 +14,8 @@ class PlayOrder {
     this.minValue = 0;
   }
 
-  update(type: "increase" | "decrease" | "replace", orderForReplace?: number) {
-    if (type === "replace" && orderForReplace !== undefined) {
+  update(type: 'increase' | 'decrease' | 'replace', orderForReplace?: number) {
+    if (type === 'replace' && orderForReplace !== undefined) {
       this.value = orderForReplace;
     } else {
       this.value = calculateNumber(

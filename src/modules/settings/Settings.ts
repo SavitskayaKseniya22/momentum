@@ -1,127 +1,131 @@
-import i18next from "i18next";
-import "./settings.scss";
+import i18next from 'i18next';
+import './settings.scss';
 
-class Settings {
+class Settings extends HTMLDivElement {
   storage: Storage;
 
   inputs: string[];
 
   constructor() {
+    super();
+    this.className = 'settings';
     this.storage = window.localStorage;
     this.inputs = [
-      "time-toggle",
-      "date-toggle",
-      "greetings-toggle",
-      "quote-toggle",
-      "weather-toggle",
-      "player-toggle",
-      "todolist-toggle",
+      'time-toggle',
+      'date-toggle',
+      'greetings-toggle',
+      'quote-toggle',
+      'weather-toggle',
+      'player-toggle',
+      'todolist-toggle',
     ];
   }
 
   addListener() {
-    document.addEventListener("click", (event) => {
+    this.addEventListener('click', (event) => {
       if (event.target && event.target instanceof HTMLElement) {
-        if (event.target.closest(".settings__toggle")) {
-          const popup = document.querySelector(".settings__popup");
-          popup?.classList.toggle("hidden");
+        if (event.target.closest('.settings__toggle')) {
+          const popup = this.querySelector('.settings__popup');
+          popup?.classList.toggle('hidden');
         }
       }
     });
 
     Settings.addLIstenerForVisibilityCheckboxes(this.inputs);
 
-    window.addEventListener("beforeunload", () => {
-      Settings.storeVisibilityCheckboxes();
+    window.addEventListener('beforeunload', () => {
+      this.storeVisibilityCheckboxes();
     });
 
-    window.addEventListener("load", () => {
+    window.addEventListener('load', () => {
       this.restoreVisibilityCheckboxes();
     });
 
-    document.querySelectorAll("input[name='language']")?.forEach((elem) => {
-      elem.addEventListener("change", (event) => {
+    this.querySelectorAll("input[name='language']")?.forEach((elem) => {
+      elem.addEventListener('change', (event) => {
         const lang = (event.target as HTMLInputElement).id;
         i18next.changeLanguage(lang);
       });
     });
   }
 
-  static setCheckedInput(inputList: string[]) {
+  setCheckedInput(inputList: string[]) {
     inputList.forEach((elem: string) => {
-      const input = document.querySelector(`#${elem}`);
+      const input = this.querySelector(`#${elem}`);
       if (input) {
-        input.setAttribute("checked", "checked");
+        input.setAttribute('checked', 'checked');
       }
     });
   }
 
-  static setCheckedBlock(inputList: string[]) {
-    const elementsWithId = document.querySelectorAll(`[data-id]`);
+  setCheckedBlock(inputList: string[]) {
+    const elementsWithId = this.querySelectorAll(`[data-id]`);
     elementsWithId.forEach((elem) => {
       const { id } = (elem as HTMLElement).dataset;
       if (id && !inputList.includes(id)) {
-        elem.classList.add("invisible");
+        elem.classList.add('invisible');
       }
     });
   }
 
   restoreVisibilityCheckboxes() {
     const storage = window.localStorage;
-    const checkedInputs = storage.getItem("checkedInputs");
+    const checkedInputs = storage.getItem('checkedInputs');
     if (checkedInputs) {
       const arrayOfInputs = JSON.parse(checkedInputs);
-      Settings.setCheckedInput(arrayOfInputs);
-      Settings.setCheckedBlock(arrayOfInputs);
+      this.setCheckedInput(arrayOfInputs);
+      this.setCheckedBlock(arrayOfInputs);
     } else {
-      Settings.setCheckedInput(this.inputs);
-      Settings.setCheckedBlock(this.inputs);
+      this.setCheckedInput(this.inputs);
+      this.setCheckedBlock(this.inputs);
     }
   }
 
-  static storeVisibilityCheckboxes() {
+  storeVisibilityCheckboxes() {
     const storage = window.localStorage;
     const checkedInputs: string[] = [];
-    document
-      .querySelectorAll(".settings__visibility input:checked")
-      .forEach((elem) => {
+    this.querySelectorAll('.settings__visibility input:checked').forEach(
+      (elem) => {
         checkedInputs.push(elem.id);
-      });
-    storage.setItem("checkedInputs", JSON.stringify(checkedInputs));
+      }
+    );
+    storage.setItem('checkedInputs', JSON.stringify(checkedInputs));
   }
 
   checkTagInitialValue() {
-    return this.storage.getItem("imageTag") || "";
+    return this.storage.getItem('imageTag') || '';
   }
 
   checkImageSourceInitialValue(inputSource: string) {
-    const source = this.storage.getItem("imageSource") || "github";
-    return source === inputSource ? "checked" : "";
+    const source = this.storage.getItem('imageSource') || 'github';
+    return source === inputSource ? 'checked' : '';
   }
 
   checkImageSourceForDisabledTag() {
-    const source = this.storage.getItem("imageSource");
-    return source === "github" ? "disabled" : "";
+    const source = this.storage.getItem('imageSource');
+    return source === 'github' ? 'disabled' : '';
   }
 
   static addLIstenerForVisibilityCheckboxes(inputs: string[]) {
     inputs.forEach((id) => {
       const checkbox = document.querySelector(`input[id='${id}']`);
-      checkbox?.addEventListener("change", () => {
+      checkbox?.addEventListener('change', () => {
         const assotiatedBlock = document.querySelector(`[data-id='${id}']`);
         const { checked } = checkbox as HTMLInputElement;
         if (checked) {
-          assotiatedBlock?.classList.remove("invisible");
+          assotiatedBlock?.classList.remove('invisible');
         } else {
-          assotiatedBlock?.classList.add("invisible");
+          assotiatedBlock?.classList.add('invisible');
         }
       });
     });
   }
 
-  content() {
-    return `<div class="settings">
-  <div class="settings__popup hidden">
+  render() {
+    this.insertAdjacentHTML(
+      'afterbegin',
+      `
+      <div class="settings__popup hidden">
     <h3>Settings</h3>
     <ul class="settings__popup-content">
       <li class="popup-content__column">
@@ -167,19 +171,19 @@ class Settings {
               <label for="github" >Github</label>
               <input type="radio" name="background-source"
               class="background-source__option" id="github"
-              ${this.checkImageSourceInitialValue("github")} />
+              ${this.checkImageSourceInitialValue('github')} />
             </li>
             <li>
               <label for="unsplash">Unsplash</label>
               <input type="radio" name="background-source"
               class="background-source__option" id="unsplash"
-              ${this.checkImageSourceInitialValue("unsplash")} />
+              ${this.checkImageSourceInitialValue('unsplash')} />
             </li>
             <li>
               <label for="flickr">Flickr</label>
               <input type="radio" name="background-source"
               class="background-source__option" id="flickr"
-              ${this.checkImageSourceInitialValue("flickr")} />
+              ${this.checkImageSourceInitialValue('flickr')} />
             </li>
           </ul>
         </div>
@@ -212,7 +216,13 @@ class Settings {
   <button class="settings__toggle" data-i18n="[title]settings.toggle" title="toggle settings">
     <i class="bx bxs-cog"></i>
   </button>
-</div>`;
+    `
+    );
+  }
+
+  connectedCallback() {
+    this.render();
+    this.addListener();
   }
 }
 

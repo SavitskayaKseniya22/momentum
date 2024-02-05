@@ -9,10 +9,11 @@
 
 .greetings__title {
   text-align: right;
-  flex-grow: 2;
+  width: 50%;
 }
 
 .greetings__name {
+  width: 50%;
   text-align: left;
   color: #fff;
   background-color: transparent;

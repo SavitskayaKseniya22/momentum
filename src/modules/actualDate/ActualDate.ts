@@ -1,10 +1,11 @@
-import { ActualDateType } from "../../interfaces";
-import "./ActualDate.scss";
-import { checkLanguage } from "../../i18n";
+import { ActualDateType } from '../../interfaces';
+import './ActualDate.scss';
+import { checkLanguage } from '../../i18n';
 
-class ActualDate {
+class ActualDate extends HTMLDivElement {
   constructor() {
-    ActualDate.renderTime();
+    super();
+    this.className = 'date';
   }
 
   static getActualDate() {
@@ -12,42 +13,34 @@ class ActualDate {
     const date: ActualDateType = {} as ActualDateType;
     date.now = new Date();
     date.dateString = date.now.toLocaleDateString(lang, {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
     });
-    date.timeString = date.now.toLocaleTimeString("ru-RU");
+    date.timeString = date.now.toLocaleTimeString('ru-RU');
+
     return date;
   }
 
   static getTimeOfDay() {
     const hours = this.getActualDate().now.getHours();
     if (hours >= 6 && hours < 12) {
-      return "morning";
+      return 'morning';
     }
     if (hours >= 12 && hours < 18) {
-      return "afternoon";
+      return 'afternoon';
     }
     if (hours >= 18 && hours < 24) {
-      return "evening";
+      return 'evening';
     }
-    return "night";
+    return 'night';
   }
 
-  static content() {
+  updateDateContainer() {
     const { timeString, dateString } = ActualDate.getActualDate();
-    return `<div class="date">
-    <time class="date__time" data-id="time-toggle">${timeString}</time>
-    <br>
-    <date class="date__date" data-id="date-toggle">${dateString}</date>
-    </div>`;
-  }
-
-  static updateDateContainer() {
-    const { timeString, dateString } = ActualDate.getActualDate();
-    const timeContainer = document.querySelector(".date__time");
-    const dateContainer = document.querySelector(".date__date");
+    const timeContainer = this.querySelector('.date__time');
+    const dateContainer = this.querySelector('.date__date');
     if (timeContainer) {
       timeContainer.textContent = timeString;
     }
@@ -56,11 +49,27 @@ class ActualDate {
     }
   }
 
-  static renderTime() {
-    console.log(1);
+  updater() {
     setInterval(() => {
-      ActualDate.updateDateContainer();
+      this.updateDateContainer();
     }, 1000);
+  }
+
+  render() {
+    const { timeString, dateString } = ActualDate.getActualDate();
+    this.insertAdjacentHTML(
+      'afterbegin',
+      `
+    <time class="date__time" data-id="time-toggle">${timeString}</time>
+    <br>
+    <date class="date__date" data-id="date-toggle">${dateString}</date>
+    `
+    );
+  }
+
+  connectedCallback() {
+    this.render();
+    this.updater();
   }
 }
 

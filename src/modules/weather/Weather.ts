@@ -1,37 +1,41 @@
-import { checkLanguage, localize } from "../../i18n";
-import { WeatherTypes } from "../../interfaces";
-import "./weather.scss";
+import { checkLanguage, localize } from '../../i18n';
+import { WeatherTypes } from '../../interfaces';
+import './weather.scss';
 
-const OPENWEATHER_API_KEY = "3cfc2bf3738bb671a43ba8071181895a";
+const OPENWEATHER_API_KEY = '3cfc2bf3738bb671a43ba8071181895a';
 
-class Weather {
+class Weather extends HTMLDivElement {
   initialQuery: string;
 
   constructor() {
-    this.initialQuery = Weather.readStore() || "";
+    super();
+    this.className = 'weather';
+    this.dataset.id = 'weather-toggle';
+    this.initialQuery = Weather.readStore() || '';
     if (this.initialQuery) {
-      Weather.updateWeather(this.initialQuery, OPENWEATHER_API_KEY);
+      this.updateWeather(this.initialQuery, OPENWEATHER_API_KEY);
     }
   }
 
   static readStore() {
-    return window.localStorage.getItem("weatherQuery");
+    return window.localStorage.getItem('weatherQuery');
   }
 
   static writeStore(weatherQuery: string) {
-    window.localStorage.setItem("weatherQuery", weatherQuery);
+    window.localStorage.setItem('weatherQuery', weatherQuery);
   }
 
-  static addListener() {
-    document
-      .querySelector(".weather__query")
-      ?.addEventListener("change", (event: Event) => {
+  addListener() {
+    this.querySelector('.weather__query')?.addEventListener(
+      'change',
+      (event: Event) => {
         const query = (event.target as HTMLInputElement).value;
         Weather.writeStore(query);
         if (query) {
-          Weather.updateWeather(query, OPENWEATHER_API_KEY);
+          this.updateWeather(query, OPENWEATHER_API_KEY);
         }
-      });
+      }
+    );
   }
 
   static async getWeather(query: string, apiKey: string) {
@@ -44,39 +48,39 @@ class Weather {
     throw new Error(`${response.status} - ${response.statusText}`);
   }
 
-  static async updateWeather(query: string, apiKey: string) {
+  async updateWeather(query: string, apiKey: string) {
     try {
       const weatherResponse: WeatherTypes = await Weather.getWeather(
         query,
         apiKey
       );
-      Weather.updateWeatherContainer(weatherResponse);
-      Weather.updateErrorContainer();
+      this.updateWeatherContainer(weatherResponse);
+      this.updateErrorContainer();
     } catch (error) {
-      Weather.updateWeatherContainer();
-      Weather.updateErrorContainer(error);
+      this.updateWeatherContainer();
+      this.updateErrorContainer(error);
     }
   }
 
-  static updateErrorContainer(error?: unknown) {
-    const errorContainer = document.querySelector(".weather__error");
+  updateErrorContainer(error?: unknown) {
+    const errorContainer = this.querySelector('.weather__error');
     if (errorContainer) {
-      errorContainer.innerHTML = error ? `${error}<br>` : "";
+      errorContainer.innerHTML = error ? `${error}<br>` : '';
       if (error) {
-        errorContainer.setAttribute("data-i18n", "[append]weather.error");
-        localize(".weather__error");
+        errorContainer.setAttribute('data-i18n', '[append]weather.error');
+        localize('.weather__error');
       } else {
-        errorContainer.removeAttribute("data-i18n");
+        errorContainer.removeAttribute('data-i18n');
       }
     }
   }
 
-  static updateWeatherContainer(weatherResponse?: WeatherTypes) {
-    const weatherDetails = document.querySelector(".weather__details");
+  updateWeatherContainer(weatherResponse?: WeatherTypes) {
+    const weatherDetails = this.querySelector('.weather__details');
     if (weatherDetails) {
       weatherDetails.innerHTML = weatherResponse
         ? Weather.createWeatherDetails(weatherResponse)
-        : "";
+        : '';
     }
   }
 
@@ -85,7 +89,6 @@ class Weather {
     const { temp, humidity } = main;
     const { id, description } = weather[0];
     return `
-      
       <i class="owf owf-${id} weather__details_icon"></i>
       <div class="weather__details_temperature">
         <h4 data-i18n="weather.temperature">Temperature: </h4>
@@ -106,12 +109,20 @@ class Weather {
     `;
   }
 
-  content() {
-    return `<div class="weather"  data-id="weather-toggle">
+  render() {
+    this.insertAdjacentHTML(
+      'afterbegin',
+      `
       <input type="text" class="weather__query" placeholder="Enter city name" data-i18n="[placeholder]weather.placeholder" value="${this.initialQuery}" />
       <div class="weather__error"></div>
       <div class="weather__details"></div>
-    </div>`;
+    `
+    );
+  }
+
+  connectedCallback() {
+    this.render();
+    this.addListener();
   }
 }
 

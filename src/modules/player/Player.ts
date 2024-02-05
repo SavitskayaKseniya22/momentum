@@ -1,10 +1,11 @@
-import { PlaylistItem } from "../../interfaces";
-import DurationControl from "./DurationControl";
-import PlayOrder from "./PlayOrder";
-import VolumeControl from "./VolumeControl";
-import "./player.scss";
+import { PlaylistItem } from '../../interfaces';
+import DurationControl from './DurationControl';
+import PlayOrder from './PlayOrder';
+import VolumeControl from './VolumeControl';
+import playlist from '../../assets/json/playlist.json';
+import './player.scss';
 
-class Player {
+class Player extends HTMLDivElement {
   playlist: PlaylistItem[];
 
   volumeControl: VolumeControl;
@@ -15,17 +16,20 @@ class Player {
 
   audioElement: HTMLAudioElement;
 
-  constructor(playlist: PlaylistItem[]) {
+  constructor() {
+    super();
+    this.className = 'player';
+    this.dataset.id = 'player-toggle';
     this.playlist = playlist;
-    this.audioElement = Player.createAudioElement(this.playlist);
+    this.audioElement = this.createAudioElement();
     this.order = new PlayOrder(playlist);
     this.volumeControl = new VolumeControl(this.audioElement);
     this.durationControl = new DurationControl(this.audioElement);
   }
 
-  static createAudioElement(playlist: PlaylistItem[]) {
-    const element = Object.assign(document.createElement("audio"), {
-      src: playlist[0].src,
+  createAudioElement() {
+    const element = Object.assign(document.createElement('audio'), {
+      src: this.playlist[0].src,
       volume: 0.5,
     });
     const context = new AudioContext();
@@ -35,22 +39,20 @@ class Player {
   }
 
   addListener() {
-    document
-      .querySelector(".player")
-      ?.insertAdjacentElement("afterbegin", this.audioElement);
+    this.insertAdjacentElement('afterbegin', this.audioElement);
 
     this.volumeControl.addListener();
     this.durationControl.addListener();
 
-    document.addEventListener("click", (event) => {
+    this.addEventListener('click', (event) => {
       if (event.target && event.target instanceof HTMLElement) {
-        if (event.target.closest(".play-toggle-main")) {
-          Player.updatePlayStatus("toggle", this.audioElement);
-        } else if (event.target.closest(".playlist-item")) {
-          if (event.target.closest("label")) {
+        if (event.target.closest('.play-toggle-main')) {
+          this.updatePlayStatus('toggle');
+        } else if (event.target.closest('.playlist-item')) {
+          if (event.target.closest('label')) {
             return;
           }
-          const parent = event.target.closest(".playlist-item") as HTMLElement;
+          const parent = event.target.closest('.playlist-item') as HTMLElement;
           if (parent) {
             const index = Number(parent.dataset.index);
             if (
@@ -58,27 +60,27 @@ class Player {
               (this.order.value === index && this.audioElement.paused)
             ) {
               const prevOrderValue = this.order.value;
-              this.order.update("replace", index);
+              this.order.update('replace', index);
               this.changeActiveTrackBySelection(
                 this.audioElement,
                 prevOrderValue,
                 this.order.value
               );
             } else {
-              Player.pauseAudio(this.audioElement);
+              this.pauseAudio();
             }
           }
-        } else if (event.target.closest(".play-next")) {
+        } else if (event.target.closest('.play-next')) {
           const prevOrderValue = this.order.value;
-          this.order.update("increase");
+          this.order.update('increase');
           this.changeActiveTrack(
             this.audioElement,
             prevOrderValue,
             this.order.value
           );
-        } else if (event.target.closest(".play-prev")) {
+        } else if (event.target.closest('.play-prev')) {
           const prevOrderValue = this.order.value;
-          this.order.update("decrease");
+          this.order.update('decrease');
           this.changeActiveTrack(
             this.audioElement,
             prevOrderValue,
@@ -88,19 +90,19 @@ class Player {
       }
     });
 
-    this.audioElement.addEventListener("play", () => {
-      Player.toggleMainPlayButtonView("play");
-      Player.toggleTrackControlView("play", this.order.value);
+    this.audioElement.addEventListener('play', () => {
+      this.toggleMainPlayButtonView('play');
+      this.toggleTrackControlView('play', this.order.value);
     });
 
-    this.audioElement.addEventListener("pause", () => {
-      Player.toggleMainPlayButtonView("pause");
-      Player.toggleTrackControlView("pause", this.order.value);
+    this.audioElement.addEventListener('pause', () => {
+      this.toggleMainPlayButtonView('pause');
+      this.toggleTrackControlView('pause', this.order.value);
     });
 
-    this.audioElement.addEventListener("ended", () => {
+    this.audioElement.addEventListener('ended', () => {
       const prevOrderValue = this.order.value;
-      this.order.update("increase");
+      this.order.update('increase');
       this.changeActiveTrack(
         this.audioElement,
         prevOrderValue,
@@ -114,10 +116,10 @@ class Player {
     prevOrder: number,
     nextOrder: number
   ) {
-    Player.toggleTrackControlView("pause", prevOrder);
+    this.toggleTrackControlView('pause', prevOrder);
 
-    audio.setAttribute("src", this.playlist[nextOrder].src);
-    Player.updatePlayStatus("continue", audio);
+    audio.setAttribute('src', this.playlist[nextOrder].src);
+    this.updatePlayStatus('continue');
     this.updateActiveTrackView();
   }
 
@@ -126,20 +128,20 @@ class Player {
     prevOrder: number,
     nextOrder: number
   ) {
-    Player.toggleTrackControlView("pause", prevOrder);
-    audio.setAttribute("src", this.playlist[nextOrder].src);
-    Player.playAudio(audio);
+    this.toggleTrackControlView('pause', prevOrder);
+    audio.setAttribute('src', this.playlist[nextOrder].src);
+    this.playAudio();
   }
 
-  static toggleMainPlayButtonView(type: "play" | "pause") {
-    const mainButton = document.querySelector(".play-toggle-main");
+  toggleMainPlayButtonView(type: 'play' | 'pause') {
+    const mainButton = this.querySelector('.play-toggle-main');
     if (mainButton) {
       Player.toggleButtonVisibility(type, mainButton);
     }
   }
 
-  static toggleTrackControlView(type: "play" | "pause", order: number) {
-    const track = document.querySelector(
+  toggleTrackControlView(type: 'play' | 'pause', order: number) {
+    const track = this.querySelector(
       `.playlist-item[data-index="${order}"] .play-toggle`
     );
     if (track) {
@@ -148,7 +150,7 @@ class Player {
   }
 
   updateActiveTrackView() {
-    const track = document.querySelector(
+    const track = this.querySelector(
       `.playlist-item[data-index="${this.order.value}"] input[name="playlist-item"]`
     );
     if (track) {
@@ -156,39 +158,36 @@ class Player {
     }
   }
 
-  static toggleButtonVisibility(type: "play" | "pause", container: Element) {
-    const playIcon = container.querySelector(".bx-play-circle");
-    const pauseIcon = container.querySelector(".bx-pause-circle");
-    if (type === "play") {
-      playIcon?.classList.add("hidden");
-      pauseIcon?.classList.remove("hidden");
+  static toggleButtonVisibility(type: 'play' | 'pause', container: Element) {
+    const playIcon = container.querySelector('.bx-play-circle');
+    const pauseIcon = container.querySelector('.bx-pause-circle');
+    if (type === 'play') {
+      playIcon?.classList.add('hidden');
+      pauseIcon?.classList.remove('hidden');
     } else {
-      playIcon?.classList.remove("hidden");
-      pauseIcon?.classList.add("hidden");
+      playIcon?.classList.remove('hidden');
+      pauseIcon?.classList.add('hidden');
     }
   }
 
-  static playAudio(audio: HTMLAudioElement) {
-    audio.play();
-    audio.setAttribute("data-playing", "true");
+  playAudio() {
+    this.audioElement.play();
+    this.audioElement.setAttribute('data-playing', 'true');
   }
 
-  static pauseAudio(audio: HTMLAudioElement) {
-    audio.pause();
-    audio.removeAttribute("data-playing");
+  pauseAudio() {
+    this.audioElement.pause();
+    this.audioElement.removeAttribute('data-playing');
   }
 
-  static updatePlayStatus(
-    type: "continue" | "toggle",
-    audio: HTMLAudioElement
-  ) {
+  updatePlayStatus(type: 'continue' | 'toggle') {
     if (
-      (type === "continue" && audio.dataset.playing === "true") ||
-      (type === "toggle" && audio.dataset.playing !== "true")
+      (type === 'continue' && this.audioElement.dataset.playing === 'true') ||
+      (type === 'toggle' && this.audioElement.dataset.playing !== 'true')
     ) {
-      Player.playAudio(audio);
+      this.playAudio();
     } else {
-      Player.pauseAudio(audio);
+      this.pauseAudio();
     }
   }
 
@@ -197,7 +196,7 @@ class Player {
       <input 
         type="radio"
         name="playlist-item"
-        id="${item.title + index}" ${index === 0 ? "checked" : ""}
+        id="${item.title + index}" ${index === 0 ? 'checked' : ''}
       />
       <label for="${
         item.title + index
@@ -211,58 +210,66 @@ class Player {
     </li>`;
   }
 
-  static makePlaylist(playlist: PlaylistItem[]) {
-    return playlist
+  makePlaylist() {
+    return this.playlist
       .map((item, index) => {
         return Player.makePlaylistItem(item, index);
       })
-      .join("");
+      .join('');
   }
 
-  content() {
-    return `<div class="player"  data-id="player-toggle">
+  render() {
+    this.insertAdjacentHTML(
+      'afterbegin',
+      `
       <div class="custom-player">
-        <div class="duration">
-          <input
-            type="range"
-            class="duration__range"
-            value="0"
-            min="0"
-            max="100"
-            step="1"
-          />
-          <span>
-            <span class="duration__progress">00:00</span>
-            /
-            <span class="duration__total">00:00</span>
-          </span>
-        </div>
+  <div class="duration">
+    <input
+      type="range"
+      class="duration__range"
+      value="0"
+      min="0"
+      max="100"
+      step="1"
+    />
+    <span>
+      <span class="duration__progress">00:00</span>
+      /
+      <span class="duration__total">00:00</span>
+    </span>
+  </div>
 
-        <div class="volume">
-  <button class="volume__control">
-    <i class="bx bx-volume-full"></i>
-  </button>
-  <input type="range" class="volume__range" min="0" max="1" step="0.1" />
+  <div class="volume">
+    <button class="volume__control">
+      <i class="bx bx-volume-full"></i>
+    </button>
+    <input type="range" class="volume__range" min="0" max="1" step="0.1" />
+  </div>
+
+  <div class="player-controls">
+    <button class="play-prev player-icon">
+      <i class="bx bx-skip-previous-circle"></i>
+    </button>
+    <button class="play-toggle-main play-toggle player-icon">
+      <i class="bx bx-play-circle"></i>
+      <i class="bx bx-pause-circle hidden"></i>
+    </button>
+    <button class="play-next player-icon">
+      <i class="bx bx-skip-next-circle"></i>
+    </button>
+  </div>
 </div>
 
-        <div class="player-controls">
-          <button class="play-prev player-icon">
-          <i class='bx bx-skip-previous-circle' ></i>
-          </button>
-          <button class="play-toggle-main play-toggle player-icon">
-          <i class='bx bx-play-circle'></i>
-          <i class='bx bx-pause-circle hidden'></i>
-          </button>
-          <button class="play-next player-icon">
-          <i class='bx bx-skip-next-circle' ></i>
-          </button>
-        </div>
-      </div>
+<ul class="playlist">
+  ${this.makePlaylist()}
+</ul>
+    `
+    );
+  }
 
-      <ul class="playlist">
-      ${Player.makePlaylist(this.playlist)}
-      </ul>
-    </div>`;
+  connectedCallback() {
+    this.render();
+    this.addListener();
   }
 }
 

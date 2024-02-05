@@ -2,17 +2,17 @@ import {
   FlickrItemResponceTypes,
   FlickrResponceTypes,
   UnsplashItemResponceTypes,
-} from "../../interfaces";
-import ActualDate from "../actualDate/ActualDate";
+} from '../../interfaces';
+import ActualDate from '../actualDate/ActualDate';
 
 class ImageCollection {
   static readStore() {
     const storage = window.localStorage;
-    const imageSource = storage.getItem("imageSource") || "github";
-    const imageTag = storage.getItem("imageTag") || "";
-    const storedOrder = storage.getItem("pictureOrder");
+    const imageSource = storage.getItem('imageSource') || 'github';
+    const imageTag = storage.getItem('imageTag') || '';
+    const storedOrder = storage.getItem('pictureOrder');
     const pictureOrder = storedOrder ? Number(storedOrder) : 0;
-    const storedList = storage.getItem("imageList") as string;
+    const storedList = storage.getItem('imageList') as string;
     const imageList = storedList ? JSON.parse(storedList) : storedList;
     return { imageSource, imageList, imageTag, pictureOrder };
   }
@@ -26,9 +26,9 @@ class ImageCollection {
     imageTag: string
   ) {
     const storage = window.localStorage;
-    storage.setItem("imageSource", source);
-    storage.setItem("imageList", JSON.stringify(imageList));
-    storage.setItem("imageTag", imageTag);
+    storage.setItem('imageSource', source);
+    storage.setItem('imageList', JSON.stringify(imageList));
+    storage.setItem('imageTag', imageTag);
   }
 
   static async getUnsplashImages(query: string) {
@@ -41,7 +41,7 @@ class ImageCollection {
   }
 
   static async getFlickrImages(query: string) {
-    const formatedQuery = query?.split(" ").join(", ");
+    const formatedQuery = query?.split(' ').join(', ');
     const path = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=067d2cd731eb9c311ce2550fd0764aa8&tags=${formatedQuery}&tag_mode=all&extras=url_l&content_type=1&per_page=20&format=json&nojsoncallback=1`;
     const response = await fetch(path);
     if (response.ok) {
@@ -68,11 +68,11 @@ class ImageCollection {
     const timeOfDay = ActualDate.getTimeOfDay();
     const overridingQuery = query || timeOfDay;
     switch (source) {
-      case "github":
+      case 'github':
         return ImageCollection.getGithubImages(timeOfDay);
-      case "unsplash":
+      case 'unsplash':
         return ImageCollection.getUnsplashImages(overridingQuery);
-      case "flickr":
+      case 'flickr':
         return ImageCollection.getFlickrImages(overridingQuery);
       default:
         return ImageCollection.getGithubImages(timeOfDay);
@@ -125,13 +125,13 @@ class ImageCollection {
     imageSource: string
   ) {
     if (
-      imageSource === "flickr" &&
+      imageSource === 'flickr' &&
       ImageCollection.isItFlickrImage(responseItem)
     ) {
       return ImageCollection.getFlickrImageUrl(responseItem);
     }
     if (
-      imageSource === "unsplash" &&
+      imageSource === 'unsplash' &&
       ImageCollection.isItUnsplashImage(responseItem)
     ) {
       return ImageCollection.getUnsplashImageUrl(responseItem);
